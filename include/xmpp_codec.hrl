@@ -111,6 +111,9 @@
 -record(avatar_data, {data = <<>> :: binary()}).
 -type avatar_data() :: #avatar_data{}.
 
+-record(teknorota_push_unregister, {token = <<>> :: binary()}).
+-type teknorota_push_unregister() :: #teknorota_push_unregister{}.
+
 -record(feature_register, {}).
 -type feature_register() :: #feature_register{}.
 
@@ -123,6 +126,9 @@
 
 -record(sasl_success, {text = <<>> :: binary()}).
 -type sasl_success() :: #sasl_success{}.
+
+-record(teknorota_subscription_get_invoices, {}).
+-type teknorota_subscription_get_invoices() :: #teknorota_subscription_get_invoices{}.
 
 -record(adhoc_note, {type = info :: 'error' | 'info' | 'warn',
                      data = <<>> :: binary()}).
@@ -138,6 +144,12 @@
                     data = <<>> :: binary()}).
 -type rsm_first() :: #rsm_first{}.
 
+-record(teknorota_register_verify_init, {id = <<>> :: binary(),
+                                         phone = <<>> :: binary(),
+                                         country = <<>> :: binary(),
+                                         type = <<>> :: binary()}).
+-type teknorota_register_verify_init() :: #teknorota_register_verify_init{}.
+
 -record(streamhost, {jid :: jid:jid(),
                      host = <<>> :: binary(),
                      port = 1080 :: non_neg_integer()}).
@@ -146,14 +158,18 @@
 -record(x509_challenge_failed, {}).
 -type x509_challenge_failed() :: #x509_challenge_failed{}.
 
+-record(teknorota_fileshare_download, {id = <<>> :: binary(),
+                                       data = <<>> :: binary()}).
+-type teknorota_fileshare_download() :: #teknorota_fileshare_download{}.
+
 -record(carbons_enable, {}).
 -type carbons_enable() :: #carbons_enable{}.
 
 -record(mix_create, {channel = <<>> :: binary()}).
 -type mix_create() :: #mix_create{}.
 
--record(carbons_private, {}).
--type carbons_private() :: #carbons_private{}.
+-record(teknorota_profile_name, {cdata = <<>> :: binary()}).
+-type teknorota_profile_name() :: #teknorota_profile_name{}.
 
 -record(receipt_response, {id = <<>> :: binary()}).
 -type receipt_response() :: #receipt_response{}.
@@ -165,6 +181,11 @@
 -record(mix_leave, {}).
 -type mix_leave() :: #mix_leave{}.
 
+-record(teknorota_register_create_invoice, {'package-id' = <<>> :: binary(),
+                                            'payment-type' = <<>> :: binary(),
+                                            'user-id' = <<>> :: binary()}).
+-type teknorota_register_create_invoice() :: #teknorota_register_create_invoice{}.
+
 -record(muc_unsubscribe, {nick = <<>> :: binary(),
                           jid :: undefined | jid:jid()}).
 -type muc_unsubscribe() :: #muc_unsubscribe{}.
@@ -174,10 +195,21 @@
                          subid = <<>> :: binary()}).
 -type ps_unsubscribe() :: #ps_unsubscribe{}.
 
+-record(teknorota_register_virtual_complete, {'user-id' = <<>> :: binary(),
+                                              jid = <<>> :: binary(),
+                                              password = <<>> :: binary()}).
+-type teknorota_register_virtual_complete() :: #teknorota_register_virtual_complete{}.
+
 -record(sm_resume, {h :: non_neg_integer(),
                     previd = <<>> :: binary(),
                     xmlns = <<>> :: binary()}).
 -type sm_resume() :: #sm_resume{}.
+
+-record(teknorota_subscription_check_invoice, {id = <<>> :: binary()}).
+-type teknorota_subscription_check_invoice() :: #teknorota_subscription_check_invoice{}.
+
+-record(carbons_private, {}).
+-type carbons_private() :: #carbons_private{}.
 
 -record(ping, {}).
 -type ping() :: #ping{}.
@@ -198,6 +230,10 @@
                     width :: 'undefined' | non_neg_integer(),
                     height :: 'undefined' | non_neg_integer()}).
 -type thumbnail() :: #thumbnail{}.
+
+-record(teknorota_fileshare_upconfirm, {id = <<>> :: binary(),
+                                        data = <<>> :: binary()}).
+-type teknorota_fileshare_upconfirm() :: #teknorota_fileshare_upconfirm{}.
 
 -record(privilege_perm, {access :: 'message' | 'presence' | 'roster',
                          type :: 'both' | 'get' | 'managed_entity' | 'none' | 'outgoing' | 'roster' | 'set'}).
@@ -237,6 +273,9 @@
                    der = <<>> :: binary()}).
 -type x509_csr() :: #x509_csr{}.
 
+-record(teknorota_profile_set_success, {}).
+-type teknorota_profile_set_success() :: #teknorota_profile_set_success{}.
+
 -record(jingle_ft_received, {creator :: 'initiator' | 'responder' | 'undefined',
                              name = <<>> :: binary()}).
 -type jingle_ft_received() :: #jingle_ft_received{}.
@@ -244,10 +283,16 @@
 -record(starttls_proceed, {}).
 -type starttls_proceed() :: #starttls_proceed{}.
 
+-record(teknorota_push_unregistered, {}).
+-type teknorota_push_unregistered() :: #teknorota_push_unregistered{}.
+
 -record(sm_resumed, {h :: non_neg_integer(),
                      previd = <<>> :: binary(),
                      xmlns = <<>> :: binary()}).
 -type sm_resumed() :: #sm_resumed{}.
+
+-record(teknorota_profile_lastupdated, {cdata = <<>> :: binary()}).
+-type teknorota_profile_lastupdated() :: #teknorota_profile_lastupdated{}.
 
 -record(x509_request, {transaction = <<>> :: binary(),
                        csr :: #x509_csr{},
@@ -280,6 +325,9 @@
                     id = <<>> :: binary()}).
 -type stanza_id() :: #stanza_id{}.
 
+-record(teknorota_push_registered, {}).
+-type teknorota_push_registered() :: #teknorota_push_registered{}.
+
 -record(forwarded, {delay :: 'undefined' | #delay{},
                     sub_els = [] :: [xmpp_element() | fxml:xmlel()]}).
 -type forwarded() :: #forwarded{}.
@@ -302,6 +350,17 @@
 -record(sasl_challenge, {text = <<>> :: binary()}).
 -type sasl_challenge() :: #sasl_challenge{}.
 
+-record(teknorota_register_package, {id = <<>> :: binary(),
+                                     name = <<>> :: binary(),
+                                     price = <<>> :: binary(),
+                                     'price-virtual' = <<>> :: binary(),
+                                     currency = <<>> :: binary(),
+                                     duration = <<>> :: binary()}).
+-type teknorota_register_package() :: #teknorota_register_package{}.
+
+-record(teknorota_register_packages, {packages = [] :: [#teknorota_register_package{}]}).
+-type teknorota_register_packages() :: #teknorota_register_packages{}.
+
 -record(handshake, {data = <<>> :: binary()}).
 -type handshake() :: #handshake{}.
 
@@ -317,6 +376,30 @@
 
 -record(private, {sub_els = [] :: [xmpp_element() | fxml:xmlel()]}).
 -type private() :: #private{}.
+
+-record(teknorota_subscription_invoice, {id = <<>> :: binary(),
+                                         token = <<>> :: binary(),
+                                         success = <<>> :: binary(),
+                                         'package-id' = <<>> :: binary(),
+                                         'package-price' = <<>> :: binary(),
+                                         currency = <<>> :: binary(),
+                                         charge = <<>> :: binary(),
+                                         duration = <<>> :: binary(),
+                                         'is-paid' = <<>> :: binary(),
+                                         'created-at' = <<>> :: binary(),
+                                         type = <<>> :: binary()}).
+-type teknorota_subscription_invoice() :: #teknorota_subscription_invoice{}.
+
+-record(teknorota_subscription_invoices, {invoices = [] :: [#teknorota_subscription_invoice{}]}).
+-type teknorota_subscription_invoices() :: #teknorota_subscription_invoices{}.
+
+-record(teknorota_register_verify_complete, {id = <<>> :: binary(),
+                                             phone = <<>> :: binary(),
+                                             country = <<>> :: binary(),
+                                             code = <<>> :: binary(),
+                                             jid = <<>> :: binary(),
+                                             password = <<>> :: binary()}).
+-type teknorota_register_verify_complete() :: #teknorota_register_verify_complete{}.
 
 -record(ibb_close, {sid = <<>> :: binary()}).
 -type ibb_close() :: #ibb_close{}.
@@ -381,6 +464,9 @@
                      items = [] :: [#ps_item{}]}).
 -type ps_publish() :: #ps_publish{}.
 
+-record(teknorota_subscription_info, {}).
+-type teknorota_subscription_info() :: #teknorota_subscription_info{}.
+
 -record(avatar_pointer, {bytes :: 'undefined' | non_neg_integer(),
                          id = <<>> :: binary(),
                          type = <<>> :: binary(),
@@ -409,12 +495,32 @@
 -record(addresses, {list = [] :: [#address{}]}).
 -type addresses() :: #addresses{}.
 
+-record(teknorota_subscription_get_packages, {}).
+-type teknorota_subscription_get_packages() :: #teknorota_subscription_get_packages{}.
+
+-record(teknorota_profile_get, {jid = <<>> :: binary()}).
+-type teknorota_profile_get() :: #teknorota_profile_get{}.
+
 -record(starttls, {required = false :: boolean()}).
 -type starttls() :: #starttls{}.
 
 -record(last, {seconds :: 'undefined' | non_neg_integer(),
                status = <<>> :: binary()}).
 -type last() :: #last{}.
+
+-record(teknorota_fileshare_upload, {id = <<>> :: binary(),
+                                     type = <<>> :: binary(),
+                                     size = <<>> :: binary(),
+                                     data = <<>> :: binary()}).
+-type teknorota_fileshare_upload() :: #teknorota_fileshare_upload{}.
+
+-record(teknorota_fileshare_query, {upload = [] :: [#teknorota_fileshare_upload{}],
+                                    download = [] :: [#teknorota_fileshare_download{}],
+                                    upconfirm = [] :: [#teknorota_fileshare_upconfirm{}]}).
+-type teknorota_fileshare_query() :: #teknorota_fileshare_query{}.
+
+-record(teknorota_register_virtual_init, {'user-id' = <<>> :: binary()}).
+-type teknorota_register_virtual_init() :: #teknorota_register_virtual_init{}.
 
 -record('see-other-host', {host :: binary() | inet:ip_address() | {binary() | inet:ip_address(),inet:port_number()}}).
 -type 'see-other-host'() :: #'see-other-host'{}.
@@ -442,15 +548,35 @@
                       resource :: 'undefined' | binary()}).
 -type legacy_auth() :: #legacy_auth{}.
 
+-record(teknorota_subscription_create_invoice, {'package-id' = <<>> :: binary(),
+                                                'payment-type' = <<>> :: binary()}).
+-type teknorota_subscription_create_invoice() :: #teknorota_subscription_create_invoice{}.
+
 -record(ps_subscribe, {node = <<>> :: binary(),
                        jid :: jid:jid()}).
 -type ps_subscribe() :: #ps_subscribe{}.
+
+-record(teknorota_register_invoice, {id = <<>> :: binary(),
+                                     token = <<>> :: binary(),
+                                     success = <<>> :: binary()}).
+-type teknorota_register_invoice() :: #teknorota_register_invoice{}.
 
 -record(idle, {since :: erlang:timestamp()}).
 -type idle() :: #idle{}.
 
 -record(muc_unique, {name = <<>> :: binary()}).
 -type muc_unique() :: #muc_unique{}.
+
+-record(teknorota_subscription_package, {id = <<>> :: binary(),
+                                         name = <<>> :: binary(),
+                                         price = <<>> :: binary(),
+                                         'price-virtual' = <<>> :: binary(),
+                                         currency = <<>> :: binary(),
+                                         duration = <<>> :: binary()}).
+-type teknorota_subscription_package() :: #teknorota_subscription_package{}.
+
+-record(teknorota_subscription_packages, {packages = [] :: [#teknorota_subscription_package{}]}).
+-type teknorota_subscription_packages() :: #teknorota_subscription_packages{}.
 
 -record(sasl_response, {text = <<>> :: binary()}).
 -type sasl_response() :: #sasl_response{}.
@@ -463,16 +589,21 @@
                     text = <<>> :: binary()}).
 -type sasl_auth() :: #sasl_auth{}.
 
--record(feature_csi, {}).
--type feature_csi() :: #feature_csi{}.
+-record(teknorota_profile_hash, {cdata = <<>> :: binary()}).
+-type teknorota_profile_hash() :: #teknorota_profile_hash{}.
+
+-record(teknorota_profile_key, {cdata = <<>> :: binary()}).
+-type teknorota_profile_key() :: #teknorota_profile_key{}.
 
 -record(upload_retry, {stamp :: undefined | erlang:timestamp()}).
 -type upload_retry() :: #upload_retry{}.
 
--record(disco_item, {jid :: jid:jid(),
-                     name = <<>> :: binary(),
-                     node = <<>> :: binary()}).
--type disco_item() :: #disco_item{}.
+-record(feature_csi, {}).
+-type feature_csi() :: #feature_csi{}.
+
+-record(teknorota_profile_last_seen_el, {jid = <<>> :: binary(),
+                                         cdata = <<>> :: binary()}).
+-type teknorota_profile_last_seen_el() :: #teknorota_profile_last_seen_el{}.
 
 -record(report, {reason :: 'abuse' | 'spam' | 'undefined',
                  text = [] :: [#text{}]}).
@@ -487,6 +618,11 @@
 
 -record(block, {items = [] :: [#block_item{}]}).
 -type block() :: #block{}.
+
+-record(disco_item, {jid :: jid:jid(),
+                     name = <<>> :: binary(),
+                     node = <<>> :: binary()}).
+-type disco_item() :: #disco_item{}.
 
 -record(compression, {methods = [] :: [binary()]}).
 -type compression() :: #compression{}.
@@ -511,6 +647,10 @@
                           expiry :: undefined | erlang:timestamp()}).
 -type ps_subscription() :: #ps_subscription{}.
 
+-record(teknorota_subscription, {'end' = <<>> :: binary(),
+                                 remaining = <<>> :: binary()}).
+-type teknorota_subscription() :: #teknorota_subscription{}.
+
 -record(avatar_info, {bytes :: non_neg_integer(),
                       id = <<>> :: binary(),
                       type = <<>> :: binary(),
@@ -532,6 +672,27 @@
 -record(x509_register, {}).
 -type x509_register() :: #x509_register{}.
 
+-record(shim, {headers = [] :: [{binary(),binary()}]}).
+-type shim() :: #shim{}.
+
+-record(teknorota_profile_avatar, {cdata = <<>> :: binary()}).
+-type teknorota_profile_avatar() :: #teknorota_profile_avatar{}.
+
+-record(teknorota_profile_user, {jid = <<>> :: binary(),
+                                 lastupdated = <<>> :: binary()}).
+-type teknorota_profile_user() :: #teknorota_profile_user{}.
+
+-record(teknorota_profile_get_updated, {users = [] :: [#teknorota_profile_user{}]}).
+-type teknorota_profile_get_updated() :: #teknorota_profile_get_updated{}.
+
+-record(teknorota_push_register, {token = <<>> :: binary(),
+                                  type = <<>> :: binary()}).
+-type teknorota_push_register() :: #teknorota_push_register{}.
+
+-record(teknorota_push_query, {register = [] :: [#teknorota_push_register{}],
+                               unregister = [] :: [#teknorota_push_unregister{}]}).
+-type teknorota_push_query() :: #teknorota_push_query{}.
+
 -record(muc_item, {actor :: 'undefined' | #muc_actor{},
                    continue :: 'undefined' | binary(),
                    reason = <<>> :: binary(),
@@ -544,8 +705,27 @@
 -record(muc_admin, {items = [] :: [#muc_item{}]}).
 -type muc_admin() :: #muc_admin{}.
 
--record(shim, {headers = [] :: [{binary(),binary()}]}).
--type shim() :: #shim{}.
+-record(teknorota_profile_status, {cdata = <<>> :: binary()}).
+-type teknorota_profile_status() :: #teknorota_profile_status{}.
+
+-record(teknorota_profile_el, {jid = <<>> :: binary(),
+                               name = [] :: [#teknorota_profile_name{}],
+                               avatar = [] :: [#teknorota_profile_avatar{}],
+                               key = [] :: [#teknorota_profile_key{}],
+                               hash = [] :: [#teknorota_profile_hash{}],
+                               status = [] :: [#teknorota_profile_status{}],
+                               lastupdated = [] :: [#teknorota_profile_lastupdated{}]}).
+-type teknorota_profile_el() :: #teknorota_profile_el{}.
+
+-record(teknorota_profile_set, {name = [] :: [#teknorota_profile_name{}],
+                                avatar = [] :: [#teknorota_profile_avatar{}],
+                                key = [] :: [#teknorota_profile_key{}],
+                                hash = [] :: [#teknorota_profile_hash{}],
+                                status = [] :: [#teknorota_profile_status{}]}).
+-type teknorota_profile_set() :: #teknorota_profile_set{}.
+
+-record(teknorota_register_get_packages, {}).
+-type teknorota_register_get_packages() :: #teknorota_register_get_packages{}.
 
 -record(caps, {node = <<>> :: binary(),
                version = <<>> :: binary(),
@@ -583,9 +763,6 @@
               xmlns = <<>> :: binary()}).
 -type sic() :: #sic{}.
 
--record(sasl_abort, {}).
--type sasl_abort() :: #sasl_abort{}.
-
 -record(receipt_request, {}).
 -type receipt_request() :: #receipt_request{}.
 
@@ -612,11 +789,6 @@
                      items = [] :: [#ps_item{}]}).
 -type ps_retract() :: #ps_retract{}.
 
--record(upload_slot, {get :: 'undefined' | binary(),
-                      put :: 'undefined' | binary(),
-                      xmlns = <<>> :: binary()}).
--type upload_slot() :: #upload_slot{}.
-
 -record(vcard_geo, {lat :: 'undefined' | binary(),
                     lon :: 'undefined' | binary()}).
 -type vcard_geo() :: #vcard_geo{}.
@@ -627,13 +799,6 @@
 
 -record(hash_used, {algo = <<>> :: binary()}).
 -type hash_used() :: #hash_used{}.
-
--record(xevent, {offline = false :: boolean(),
-                 delivered = false :: boolean(),
-                 displayed = false :: boolean(),
-                 composing = false :: boolean(),
-                 id :: 'undefined' | binary()}).
--type xevent() :: #xevent{}.
 
 -record(mix, {submission_id = <<>> :: binary(),
               jid :: undefined | jid:jid(),
@@ -666,10 +831,20 @@
 -record(block_list, {items = [] :: [#block_item{}]}).
 -type block_list() :: #block_list{}.
 
--record(version, {name :: 'undefined' | binary(),
-                  ver :: 'undefined' | binary(),
-                  os :: 'undefined' | binary()}).
--type version() :: #version{}.
+-record(upload_slot, {get :: 'undefined' | binary(),
+                      put :: 'undefined' | binary(),
+                      xmlns = <<>> :: binary()}).
+-type upload_slot() :: #upload_slot{}.
+
+-record(xevent, {offline = false :: boolean(),
+                 delivered = false :: boolean(),
+                 displayed = false :: boolean(),
+                 composing = false :: boolean(),
+                 id :: 'undefined' | binary()}).
+-type xevent() :: #xevent{}.
+
+-record(sasl_abort, {}).
+-type sasl_abort() :: #sasl_abort{}.
 
 -record(jingle_ft_file, {date :: undefined | erlang:timestamp(),
                          desc = [] :: [#text{}],
@@ -725,6 +900,19 @@
                       sid = <<>> :: binary()}).
 -type bytestreams() :: #bytestreams{}.
 
+-record(teknorota_subscription_pay_invoice, {id = <<>> :: binary(),
+                                             token = <<>> :: binary(),
+                                             email = <<>> :: binary()}).
+-type teknorota_subscription_pay_invoice() :: #teknorota_subscription_pay_invoice{}.
+
+-record(teknorota_subscription_query, {subscription_info = [] :: [#teknorota_subscription_info{}],
+                                       get_packages = [] :: [#teknorota_subscription_get_packages{}],
+                                       create_invoice = [] :: [#teknorota_subscription_create_invoice{}],
+                                       pay_invoice = [] :: [#teknorota_subscription_pay_invoice{}],
+                                       check_invoice = [] :: [#teknorota_subscription_check_invoice{}],
+                                       get_invoices = [] :: [#teknorota_subscription_get_invoices{}]}).
+-type teknorota_subscription_query() :: #teknorota_subscription_query{}.
+
 -record(upload_request, {filename :: binary(),
                          size :: non_neg_integer(),
                          'content-type' = <<>> :: binary(),
@@ -749,6 +937,10 @@
                        node = <<>> :: binary()}).
 -type push_disable() :: #push_disable{}.
 
+-record(teknorota_register_check_invoice, {id = <<>> :: binary(),
+                                           'user-id' = <<>> :: binary()}).
+-type teknorota_register_check_invoice() :: #teknorota_register_check_invoice{}.
+
 -record(jingle_s5b_candidate, {cid = <<>> :: binary(),
                                host :: inet:ip_address(),
                                port :: 'undefined' | non_neg_integer(),
@@ -766,6 +958,22 @@
                                error :: 'candidate-error' | 'proxy-error' | 'undefined'}).
 -type jingle_s5b_transport() :: #jingle_s5b_transport{}.
 
+-record(teknorota_register_pay_invoice, {id = <<>> :: binary(),
+                                         token = <<>> :: binary(),
+                                         email = <<>> :: binary(),
+                                         'user-id' = <<>> :: binary()}).
+-type teknorota_register_pay_invoice() :: #teknorota_register_pay_invoice{}.
+
+-record(teknorota_register_query, {verify_init = [] :: [#teknorota_register_verify_init{}],
+                                   verify_complete = [] :: [#teknorota_register_verify_complete{}],
+                                   get_packages = [] :: [#teknorota_register_get_packages{}],
+                                   create_invoice = [] :: [#teknorota_register_create_invoice{}],
+                                   pay_invoice = [] :: [#teknorota_register_pay_invoice{}],
+                                   check_invoice = [] :: [#teknorota_register_check_invoice{}],
+                                   virtual_init = [] :: [#teknorota_register_virtual_init{}],
+                                   virtual_complete = [] :: [#teknorota_register_virtual_complete{}]}).
+-type teknorota_register_query() :: #teknorota_register_query{}.
+
 -record(delegated, {ns = <<>> :: binary(),
                     attrs = [] :: [binary()]}).
 -type delegated() :: #delegated{}.
@@ -773,11 +981,19 @@
 -record(carbons_disable, {}).
 -type carbons_disable() :: #carbons_disable{}.
 
+-record(version, {name :: 'undefined' | binary(),
+                  ver :: 'undefined' | binary(),
+                  os :: 'undefined' | binary()}).
+-type version() :: #version{}.
+
 -record(adhoc_actions, {execute :: 'complete' | 'next' | 'prev' | 'undefined',
                         prev = false :: boolean(),
                         next = false :: boolean(),
                         complete = false :: boolean()}).
 -type adhoc_actions() :: #adhoc_actions{}.
+
+-record(teknorota_profile_get_existing, {users = [] :: [#teknorota_profile_user{}]}).
+-type teknorota_profile_get_existing() :: #teknorota_profile_get_existing{}.
 
 -record(vcard_org, {name :: 'undefined' | binary(),
                     units = [] :: [binary()]}).
@@ -820,20 +1036,6 @@
                       rsm :: 'undefined' | #rsm_set{}}).
 -type disco_items() :: #disco_items{}.
 
--record(muc_destroy, {xmlns = <<>> :: binary(),
-                      jid :: undefined | jid:jid(),
-                      reason = <<>> :: binary(),
-                      password :: 'undefined' | binary()}).
--type muc_destroy() :: #muc_destroy{}.
-
--record(muc_user, {decline :: 'undefined' | #muc_decline{},
-                   destroy :: 'undefined' | #muc_destroy{},
-                   invites = [] :: [#muc_invite{}],
-                   items = [] :: [#muc_item{}],
-                   status_codes = [] :: [pos_integer()],
-                   password :: 'undefined' | binary()}).
--type muc_user() :: #muc_user{}.
-
 -record(vcard_name, {family :: 'undefined' | binary(),
                      given :: 'undefined' | binary(),
                      middle :: 'undefined' | binary(),
@@ -862,6 +1064,20 @@
                    lang = <<>> :: binary(),
                    name = <<>> :: binary()}).
 -type identity() :: #identity{}.
+
+-record(muc_destroy, {xmlns = <<>> :: binary(),
+                      jid :: undefined | jid:jid(),
+                      reason = <<>> :: binary(),
+                      password :: 'undefined' | binary()}).
+-type muc_destroy() :: #muc_destroy{}.
+
+-record(muc_user, {decline :: 'undefined' | #muc_decline{},
+                   destroy :: 'undefined' | #muc_destroy{},
+                   invites = [] :: [#muc_invite{}],
+                   items = [] :: [#muc_item{}],
+                   status_codes = [] :: [pos_integer()],
+                   password :: 'undefined' | binary()}).
+-type muc_user() :: #muc_user{}.
 
 -record(bookmark_conference, {name = <<>> :: binary(),
                               jid :: jid:jid(),
@@ -925,13 +1141,6 @@
                     ctry :: 'undefined' | binary()}).
 -type vcard_adr() :: #vcard_adr{}.
 
--record(search_item, {jid :: jid:jid(),
-                      first :: 'undefined' | binary(),
-                      last :: 'undefined' | binary(),
-                      nick :: 'undefined' | binary(),
-                      email :: 'undefined' | binary()}).
--type search_item() :: #search_item{}.
-
 -record(xdata, {type :: 'cancel' | 'form' | 'result' | 'submit',
                 instructions = [] :: [binary()],
                 title :: 'undefined' | binary(),
@@ -957,15 +1166,6 @@
                         notes = [] :: [#adhoc_note{}],
                         xdata :: 'undefined' | #xdata{}}).
 -type adhoc_command() :: #adhoc_command{}.
-
--record(search, {instructions :: 'undefined' | binary(),
-                 first :: 'undefined' | binary(),
-                 last :: 'undefined' | binary(),
-                 nick :: 'undefined' | binary(),
-                 email :: 'undefined' | binary(),
-                 items = [] :: [#search_item{}],
-                 xdata :: 'undefined' | #xdata{}}).
--type search() :: #search{}.
 
 -record(mam_query, {xmlns = <<>> :: binary(),
                     id = <<>> :: binary(),
@@ -1064,6 +1264,22 @@
                     items = [] :: [#muc_item{}]}).
 -type muc_owner() :: #muc_owner{}.
 
+-record(search_item, {jid :: jid:jid(),
+                      first :: 'undefined' | binary(),
+                      last :: 'undefined' | binary(),
+                      nick :: 'undefined' | binary(),
+                      email :: 'undefined' | binary()}).
+-type search_item() :: #search_item{}.
+
+-record(search, {instructions :: 'undefined' | binary(),
+                 first :: 'undefined' | binary(),
+                 last :: 'undefined' | binary(),
+                 nick :: 'undefined' | binary(),
+                 email :: 'undefined' | binary(),
+                 items = [] :: [#search_item{}],
+                 xdata :: 'undefined' | #xdata{}}).
+-type search() :: #search{}.
+
 -record(delegation, {delegated = [] :: [#delegated{}],
                      forwarded :: 'undefined' | #forwarded{}}).
 -type delegation() :: #delegation{}.
@@ -1091,10 +1307,6 @@
                    subscribe = [] :: [binary()]}).
 -type mix_join() :: #mix_join{}.
 
--record(mix_client_join, {channel :: undefined | jid:jid(),
-                          join :: #mix_join{}}).
--type mix_client_join() :: #mix_client_join{}.
-
 -record(privacy_item, {order :: non_neg_integer(),
                        action :: 'allow' | 'deny',
                        type :: 'group' | 'jid' | 'subscription' | 'undefined',
@@ -1114,6 +1326,16 @@
                         active :: 'none' | 'undefined' | binary()}).
 -type privacy_query() :: #privacy_query{}.
 
+-record(teknorota_profile_get_last_seen, {jid = <<>> :: binary()}).
+-type teknorota_profile_get_last_seen() :: #teknorota_profile_get_last_seen{}.
+
+-record(teknorota_profile_query, {set = [] :: [#teknorota_profile_set{}],
+                                  get = [] :: [#teknorota_profile_get{}],
+                                  last_seen = [] :: [#teknorota_profile_get_last_seen{}],
+                                  existing = [] :: [#teknorota_profile_get_existing{}],
+                                  updated = [] :: [#teknorota_profile_get_updated{}]}).
+-type teknorota_profile_query() :: #teknorota_profile_query{}.
+
 -record(sm_failed, {reason :: atom() | #gone{} | #redirect{},
                     text = [] :: [#text{}],
                     h :: 'undefined' | non_neg_integer(),
@@ -1131,6 +1353,14 @@
 -record(stream_error, {reason :: atom() | #'see-other-host'{},
                        text = [] :: [#text{}]}).
 -type stream_error() :: #stream_error{}.
+
+-record(mix_client_join, {channel :: undefined | jid:jid(),
+                          join :: #mix_join{}}).
+-type mix_client_join() :: #mix_client_join{}.
+
+-record(time, {tzo :: 'undefined' | {integer(),integer()},
+               utc :: undefined | erlang:timestamp()}).
+-type time() :: #time{}.
 
 -record(vcard_logo, {type :: 'undefined' | binary(),
                      binval :: 'undefined' | binary(),
@@ -1168,221 +1398,266 @@
                      desc :: 'undefined' | binary()}).
 -type vcard_temp() :: #vcard_temp{}.
 
--record(time, {tzo :: 'undefined' | {integer(),integer()},
-               utc :: undefined | erlang:timestamp()}).
--type time() :: #time{}.
-
--type xmpp_element() :: mam_archived() |
-                        roster_item() |
-                        x_conference() |
-                        bob_data() |
-                        jingle_content() |
-                        chatstate() |
-                        block() |
-                        jingle_ft_checksum() |
-                        vcard_label() |
-                        avatar_meta() |
-                        vcard_temp() |
-                        pubsub() |
-                        privilege_perm() |
-                        pubsub_owner() |
-                        idle() |
-                        gone() |
-                        push_disable() |
-                        rosterver_feature() |
-                        time() |
-                        xcaptcha() |
-                        report() |
-                        sasl_abort() |
-                        redirect() |
-                        ps_subscribe() |
-                        db_verify() |
-                        avatar_pointer() |
-                        csi() |
-                        sasl_challenge() |
-                        bookmark_storage() |
+-type xmpp_element() :: teknorota_push_unregister() |
                         vcard_geo() |
-                        muc_unique() |
-                        privilege() |
-                        sasl_success() |
-                        mix_leave() |
-                        delay() |
-                        block_list() |
-                        x509_register() |
-                        carbons_enable() |
-                        starttls() |
-                        sasl_auth() |
-                        compression() |
-                        muc_subscriptions() |
-                        upload_slot() |
-                        jingle_ft_file() |
-                        x509_challenge_failed() |
-                        delegation() |
-                        sm_failed() |
-                        mam_result() |
-                        sm_a() |
-                        jingle_ft_error() |
-                        mix_participant() |
-                        muc_history() |
-                        identity() |
-                        muc_subscription() |
-                        muc_owner() |
-                        handshake() |
-                        push_enable() |
-                        jingle() |
-                        jingle_ft_received() |
-                        mam_prefs() |
-                        mix_client_join() |
-                        jingle_error() |
-                        search() |
-                        streamhost() |
-                        vcard_sound() |
-                        vcard_org() |
-                        vcard_key() |
                         sasl_mechanisms() |
-                        sm_enable() |
-                        sasl_response() |
-                        hint() |
-                        bookmark_conference() |
-                        stanza_id() |
-                        vcard_logo() |
-                        hash_used() |
-                        compress() |
-                        bookmark_url() |
-                        ps_retract() |
-                        adhoc_actions() |
-                        disco_info() |
-                        vcard_email() |
-                        jingle_s5b_transport() |
-                        forwarded() |
-                        mix_setnick() |
-                        addresses() |
-                        delegated() |
-                        privacy_list() |
-                        ps_item() |
-                        sm_resume() |
-                        upload_retry() |
-                        avatar_data() |
-                        push_notification() |
-                        carbons_private() |
-                        muc_destroy() |
-                        mix_create() |
-                        mix_destroy() |
-                        register() |
-                        nick() |
-                        address() |
-                        stat() |
-                        jingle_reason() |
-                        ping() |
-                        compressed() |
-                        carbons_received() |
-                        rsm_set() |
-                        unblock() |
-                        muc_admin() |
-                        ps_error() |
-                        disco_items() |
-                        caps() |
-                        presence() |
-                        ps_publish() |
-                        xevent() |
-                        vcard_adr() |
-                        sm_resumed() |
-                        muc_item() |
-                        x509_cert_chain() |
-                        bytestreams() |
-                        media() |
-                        stream_features() |
-                        jingle_ft_description() |
-                        'see-other-host'() |
-                        upload_request() |
-                        mix() |
-                        message() |
-                        jingle_s5b_candidate() |
-                        offline_item() |
-                        mix_client_leave() |
-                        avatar_info() |
-                        ibb_close() |
-                        vcard_photo() |
-                        upload_slot_0() |
-                        jingle_ibb_transport() |
-                        xdata_option() |
-                        legacy_auth() |
-                        x509_request() |
-                        carbons_sent() |
-                        muc_actor() |
-                        jingle_ft_range() |
-                        xmpp_session() |
-                        starttls_failure() |
-                        ps_event() |
-                        feature_register() |
-                        x509_revoke() |
-                        stream_start() |
-                        ps_affiliation() |
-                        ibb_data() |
-                        block_item() |
-                        sm_enabled() |
-                        iq() |
-                        shim() |
-                        search_item() |
-                        media_uri() |
-                        ps_unsubscribe() |
-                        last() |
-                        disco_item() |
-                        bind() |
-                        upload_file_too_large() |
-                        sasl_failure() |
-                        private() |
-                        offline() |
-                        message_thread() |
                         privacy_query() |
-                        delegation_query() |
-                        muc_subscribe() |
-                        receipt_request() |
-                        muc_user() |
-                        compress_failure() |
-                        muc_invite() |
+                        jingle_ft_checksum() |
+                        avatar_meta() |
                         legacy_auth_feature() |
-                        expire() |
-                        starttls_proceed() |
-                        stanza_error() |
-                        sm_r() |
-                        db_result() |
-                        stream_error() |
-                        ps_subscription() |
-                        ps_items() |
-                        ps_options() |
-                        vcard_xupdate() |
-                        version() |
-                        xdata_field() |
-                        x509_challenge() |
-                        adhoc_command() |
-                        db_feature() |
-                        feature_sm() |
-                        oob_x() |
-                        x509_csr() |
-                        roster_query() |
-                        adhoc_note() |
-                        muc() |
-                        hash() |
-                        xdata() |
-                        receipt_response() |
-                        stat_error() |
-                        carbons_disable() |
-                        ibb_open() |
-                        privacy_item() |
-                        muc_unsubscribe() |
+                        ibb_close() |
+                        disco_item() |
+                        rsm_set() |
+                        teknorota_register_get_packages() |
+                        sm_enable() |
+                        idle() |
+                        compress_failure() |
+                        mix_leave() |
                         vcard_name() |
-                        x509_ca_list() |
-                        rsm_first() |
-                        muc_decline() |
-                        mam_fin() |
-                        mix_join() |
-                        mam_query() |
-                        sic() |
-                        origin_id() |
-                        vcard_tel() |
+                        teknorota_subscription_info() |
+                        message_thread() |
+                        mix_client_join() |
+                        ps_subscription() |
+                        teknorota_profile_user() |
                         feature_csi() |
-                        upload_request_0() |
-                        stats() |
+                        search_item() |
+                        csi() |
+                        teknorota_fileshare_upload() |
+                        stream_features() |
+                        stanza_id() |
+                        stat() |
+                        presence() |
+                        disco_info() |
+                        receipt_request() |
+                        block_item() |
+                        muc_destroy() |
+                        offline_item() |
+                        media() |
+                        mix_participant() |
+                        teknorota_subscription_pay_invoice() |
+                        adhoc_actions() |
+                        push_disable() |
+                        stanza_error() |
+                        muc_item() |
+                        sm_r() |
+                        rsm_first() |
+                        carbons_disable() |
+                        x509_request() |
+                        teknorota_profile_avatar() |
+                        jingle_ibb_transport() |
+                        ps_event() |
+                        jingle_s5b_candidate() |
+                        xdata_option() |
+                        vcard_label() |
+                        stat_error() |
+                        vcard_tel() |
+                        teknorota_subscription_get_packages() |
+                        muc_owner() |
+                        muc_user() |
+                        upload_file_too_large() |
+                        jingle_error() |
+                        avatar_pointer() |
+                        teknorota_profile_name() |
+                        mam_query() |
+                        db_verify() |
+                        ps_affiliation() |
+                        sasl_success() |
+                        receipt_response() |
+                        identity() |
+                        sasl_abort() |
+                        sm_resume() |
+                        teknorota_register_packages() |
+                        compressed() |
+                        starttls_failure() |
+                        jingle_ft_file() |
+                        vcard_sound() |
+                        teknorota_register_verify_init() |
+                        teknorota_subscription_invoices() |
+                        vcard_xupdate() |
+                        push_notification() |
+                        sic() |
                         thumbnail() |
-                        text().
+                        chatstate() |
+                        teknorota_profile_set_success() |
+                        teknorota_register_query() |
+                        ping() |
+                        media_uri() |
+                        mam_archived() |
+                        sasl_challenge() |
+                        jingle_ft_received() |
+                        search() |
+                        teknorota_register_virtual_complete() |
+                        carbons_sent() |
+                        mam_result() |
+                        muc() |
+                        upload_request_0() |
+                        teknorota_profile_get() |
+                        teknorota_profile_status() |
+                        avatar_info() |
+                        push_enable() |
+                        ps_subscribe() |
+                        version() |
+                        roster_query() |
+                        bytestreams() |
+                        teknorota_subscription_packages() |
+                        muc_subscribe() |
+                        starttls_proceed() |
+                        x509_register() |
+                        teknorota_register_package() |
+                        vcard_org() |
+                        forwarded() |
+                        bookmark_url() |
+                        jingle_reason() |
+                        delegation_query() |
+                        time() |
+                        vcard_temp() |
+                        sasl_auth() |
+                        stats() |
+                        db_result() |
+                        teknorota_profile_set() |
+                        bookmark_storage() |
+                        teknorota_fileshare_upconfirm() |
+                        teknorota_register_virtual_init() |
+                        jingle_content() |
+                        jingle_ft_description() |
+                        x509_challenge_failed() |
+                        mam_fin() |
+                        teknorota_profile_get_last_seen() |
+                        x509_ca_list() |
+                        starttls() |
+                        handshake() |
+                        ps_items() |
+                        vcard_photo() |
+                        muc_subscriptions() |
+                        upload_retry() |
+                        caps() |
+                        vcard_adr() |
+                        teknorota_register_verify_complete() |
+                        gone() |
+                        block_list() |
+                        privacy_list() |
+                        pubsub() |
+                        muc_subscription() |
+                        teknorota_register_invoice() |
+                        teknorota_subscription_invoice() |
+                        bind() |
+                        sm_resumed() |
+                        offline() |
+                        carbons_private() |
+                        'see-other-host'() |
+                        bookmark_conference() |
+                        teknorota_push_registered() |
+                        teknorota_subscription_create_invoice() |
+                        ibb_data() |
+                        mix_client_leave() |
+                        xmpp_session() |
+                        adhoc_note() |
+                        oob_x() |
+                        mix_destroy() |
+                        mix_setnick() |
+                        sm_enabled() |
+                        db_feature() |
+                        teknorota_fileshare_download() |
+                        teknorota_fileshare_query() |
+                        hash_used() |
+                        streamhost() |
+                        mam_prefs() |
+                        teknorota_subscription_query() |
+                        adhoc_command() |
+                        teknorota_push_unregistered() |
+                        teknorota_subscription_get_invoices() |
+                        rosterver_feature() |
+                        vcard_email() |
+                        bob_data() |
+                        teknorota_register_check_invoice() |
+                        mix_join() |
+                        report() |
+                        mix() |
+                        roster_item() |
+                        teknorota_profile_lastupdated() |
+                        legacy_auth() |
+                        last() |
+                        disco_items() |
+                        block() |
+                        unblock() |
+                        muc_actor() |
+                        teknorota_profile_el() |
+                        privilege() |
+                        jingle_ft_error() |
+                        xdata_field() |
+                        ps_unsubscribe() |
+                        feature_register() |
+                        xcaptcha() |
+                        sasl_response() |
+                        privilege_perm() |
+                        hash() |
+                        x509_csr() |
+                        x509_revoke() |
+                        message() |
+                        private() |
+                        teknorota_register_create_invoice() |
+                        feature_sm() |
+                        text() |
+                        stream_error() |
+                        avatar_data() |
+                        ibb_open() |
+                        upload_slot() |
+                        sm_failed() |
+                        teknorota_subscription() |
+                        teknorota_profile_query() |
+                        expire() |
+                        ps_options() |
+                        teknorota_subscription_package() |
+                        privacy_item() |
+                        mix_create() |
+                        register() |
+                        x509_cert_chain() |
+                        address() |
+                        teknorota_subscription_check_invoice() |
+                        delegated() |
+                        muc_decline() |
+                        pubsub_owner() |
+                        teknorota_profile_hash() |
+                        delay() |
+                        origin_id() |
+                        compress() |
+                        xdata() |
+                        teknorota_push_register() |
+                        jingle_s5b_transport() |
+                        sasl_failure() |
+                        teknorota_profile_key() |
+                        hint() |
+                        muc_admin() |
+                        upload_request() |
+                        addresses() |
+                        carbons_received() |
+                        ps_error() |
+                        carbons_enable() |
+                        sm_a() |
+                        vcard_key() |
+                        x_conference() |
+                        ps_item() |
+                        muc_unsubscribe() |
+                        redirect() |
+                        teknorota_profile_last_seen_el() |
+                        upload_slot_0() |
+                        nick() |
+                        delegation() |
+                        muc_invite() |
+                        jingle() |
+                        ps_publish() |
+                        ps_retract() |
+                        jingle_ft_range() |
+                        xevent() |
+                        x509_challenge() |
+                        iq() |
+                        muc_history() |
+                        stream_start() |
+                        vcard_logo() |
+                        shim() |
+                        teknorota_push_query() |
+                        muc_unique() |
+                        teknorota_profile_get_updated() |
+                        teknorota_register_pay_invoice() |
+                        teknorota_profile_get_existing() |
+                        compression().

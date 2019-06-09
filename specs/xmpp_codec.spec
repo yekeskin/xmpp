@@ -4878,6 +4878,543 @@
 	   module = 'xep0417',
 	   result = {x509_register}}).
 
+-xml(teknorota_register_verify_init,
+     #elem{
+          name = <<"verify-init">>,
+          xmlns = <<"teknorota:xmpp:register">>,
+	     module = teknorota_register,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"phone">>}, #attr{name = <<"country">>}, #attr{name = <<"type">>}],
+          result = {teknorota_register_verify_init, '$id', '$phone', '$country', '$type'}
+     }
+).
+
+-xml(teknorota_register_verify_complete,
+     #elem{
+          name = <<"verify-complete">>,
+          xmlns = <<"teknorota:xmpp:register">>,
+	     module = teknorota_register,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"phone">>}, #attr{name = <<"country">>}, #attr{name = <<"code">>}, #attr{name = <<"jid">>}, #attr{name = <<"password">>}],
+          result = {teknorota_register_verify_complete, '$id', '$phone', '$country', '$code', '$jid', '$password'}
+     }
+).
+
+-xml(teknorota_register_get_packages,
+     #elem{
+          name = <<"get-packages">>,
+          xmlns = <<"teknorota:xmpp:register">>,
+	     module = teknorota_register,
+          result = {teknorota_register_get_packages}
+     }
+).
+
+-xml(teknorota_register_package,
+     #elem{
+          name = <<"package">>,
+          xmlns = <<"teknorota:xmpp:register">>,
+	     module = teknorota_register,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"name">>}, #attr{name = <<"price">>}, #attr{name = <<"price-virtual">>}, #attr{name = <<"currency">>}, #attr{name = <<"duration">>}],
+          result = {teknorota_register_package, '$id', '$name', '$price', '$price-virtual', '$currency', '$duration'}
+     }
+).
+
+-xml(teknorota_register_packages,
+     #elem{
+          name = <<"packages">>,
+          xmlns = <<"teknorota:xmpp:register">>,
+	     module = teknorota_register,
+          result = {teknorota_register_packages, '$packages'},
+          refs = [
+               #ref{name = teknorota_register_package, label = '$packages'}
+          ]
+     }
+).
+
+-xml(teknorota_register_create_invoice,
+     #elem{
+          name = <<"create-invoice">>,
+          xmlns = <<"teknorota:xmpp:register">>,
+	     module = teknorota_register,
+          attrs = [#attr{name = <<"package-id">>}, #attr{name = <<"payment-type">>}, #attr{name = <<"user-id">>}],
+          result = {teknorota_register_create_invoice, '$package-id', '$payment-type', '$user-id'}
+     }
+).
+
+-xml(teknorota_register_pay_invoice,
+     #elem{
+          name = <<"pay-invoice">>,
+          xmlns = <<"teknorota:xmpp:register">>,
+	     module = teknorota_register,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"token">>}, #attr{name = <<"email">>}, #attr{name = <<"user-id">>}],
+          result = {teknorota_register_pay_invoice, '$id', '$token', '$email', '$user-id'}
+     }
+).
+
+-xml(teknorota_register_check_invoice,
+     #elem{
+          name = <<"check-invoice">>,
+          xmlns = <<"teknorota:xmpp:register">>,
+	     module = teknorota_register,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"user-id">>}],
+          result = {teknorota_register_check_invoice, '$id', '$user-id'}
+     }
+).
+
+-xml(teknorota_register_virtual_init,
+     #elem{
+          name = <<"virtual-init">>,
+          xmlns = <<"teknorota:xmpp:register">>,
+	     module = teknorota_register,
+          attrs = [#attr{name = <<"user-id">>}],
+          result = {teknorota_register_virtual_init, '$user-id'}
+     }
+).
+
+-xml(teknorota_register_virtual_complete,
+     #elem{
+          name = <<"virtual-complete">>,
+          xmlns = <<"teknorota:xmpp:register">>,
+	     module = teknorota_register,
+          attrs = [#attr{name = <<"user-id">>}, #attr{name = <<"jid">>}, #attr{name = <<"password">>}],
+          result = {teknorota_register_virtual_complete, '$user-id', '$jid', '$password'}
+     }
+).
+
+-xml(teknorota_register_invoice,
+     #elem{
+          name = <<"invoice">>,
+          xmlns = <<"teknorota:xmpp:register">>,
+	     module = teknorota_register,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"token">>}, #attr{name = <<"success">>}],
+          result = {teknorota_register_invoice, '$id', '$token', '$success'}
+     }
+).
+
+-xml(teknorota_register_query,
+     #elem{
+          name = <<"query">>,
+          xmlns = <<"teknorota:xmpp:register">>,
+	     module = teknorota_register,
+          result = {teknorota_register_query, '$verify_init', '$verify_complete', '$get_packages', '$create_invoice', '$pay_invoice', '$check_invoice', '$virtual_init', '$virtual_complete'},
+          refs = [
+               #ref{name = teknorota_register_verify_init, label = '$verify_init'},
+               #ref{name = teknorota_register_verify_complete, label = '$verify_complete'},
+               #ref{name = teknorota_register_get_packages, label = '$get_packages'},
+               #ref{name = teknorota_register_create_invoice, label = '$create_invoice'},
+               #ref{name = teknorota_register_pay_invoice, label = '$pay_invoice'},
+               #ref{name = teknorota_register_check_invoice, label = '$check_invoice'},
+               #ref{name = teknorota_register_virtual_init, label = '$virtual_init'},
+               #ref{name = teknorota_register_virtual_complete, label = '$virtual_complete'}
+          ]
+     }
+).
+
+-xml(teknorota_subscription_info,
+     #elem{
+          name = <<"get-subscription-info">>,
+          xmlns = <<"teknorota:xmpp:subscription">>,
+	     module = teknorota_subscription,
+          result = {teknorota_subscription_info}
+     }
+).
+
+-xml(teknorota_subscription,
+     #elem{
+          name = <<"subscription">>,
+          xmlns = <<"teknorota:xmpp:subscription">>,
+	     module = teknorota_subscription,
+          attrs = [#attr{name = <<"end">>}, #attr{name = <<"remaining">>}],
+          result = {teknorota_subscription, '$end', '$remaining'}
+     }
+).
+
+-xml(teknorota_subscription_get_packages,
+     #elem{
+          name = <<"get-packages">>,
+          xmlns = <<"teknorota:xmpp:subscription">>,
+	     module = teknorota_subscription,
+          result = {teknorota_subscription_get_packages}
+     }
+).
+
+-xml(teknorota_subscription_package,
+     #elem{
+          name = <<"package">>,
+          xmlns = <<"teknorota:xmpp:subscription">>,
+	     module = teknorota_subscription,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"name">>}, #attr{name = <<"price">>}, #attr{name = <<"price-virtual">>}, #attr{name = <<"currency">>}, #attr{name = <<"duration">>}],
+          result = {teknorota_subscription_package, '$id', '$name', '$price', '$price-virtual', '$currency', '$duration'}
+     }
+).
+
+-xml(teknorota_subscription_packages,
+     #elem{
+          name = <<"packages">>,
+          xmlns = <<"teknorota:xmpp:subscription">>,
+	     module = teknorota_subscription,
+          result = {teknorota_subscription_packages, '$packages'},
+          refs = [
+               #ref{name = teknorota_subscription_package, label = '$packages'}
+          ]
+     }
+).
+
+-xml(teknorota_subscription_create_invoice,
+     #elem{
+          name = <<"create-invoice">>,
+          xmlns = <<"teknorota:xmpp:subscription">>,
+	     module = teknorota_subscription,
+          attrs = [#attr{name = <<"package-id">>}, #attr{name = <<"payment-type">>}],
+          result = {teknorota_subscription_create_invoice, '$package-id', '$payment-type'}
+     }
+).
+
+-xml(teknorota_subscription_invoice,
+     #elem{
+          name = <<"invoice">>,
+          xmlns = <<"teknorota:xmpp:subscription">>,
+	     module = teknorota_subscription,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"token">>}, #attr{name = <<"success">>}, #attr{name = <<"package-id">>}, #attr{name = <<"package-price">>}, #attr{name = <<"currency">>}, #attr{name = <<"charge">>}, #attr{name = <<"duration">>}, #attr{name = <<"is-paid">>}, #attr{name = <<"created-at">>}, #attr{name = <<"type">>}],
+          result = {teknorota_subscription_invoice, '$id', '$token', '$success', '$package-id', '$package-price', '$currency', '$charge', '$duration', '$is-paid', '$created-at', '$type'}
+     }
+).
+
+-xml(teknorota_subscription_invoices,
+     #elem{
+          name = <<"invoices">>,
+          xmlns = <<"teknorota:xmpp:subscription">>,
+	     module = teknorota_subscription,
+          result = {teknorota_subscription_invoices, '$invoices'},
+          refs = [
+               #ref{name = teknorota_subscription_invoice, label = '$invoices'}
+          ]
+     }
+).
+
+-xml(teknorota_subscription_pay_invoice,
+     #elem{
+          name = <<"pay-invoice">>,
+          xmlns = <<"teknorota:xmpp:subscription">>,
+	     module = teknorota_subscription,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"token">>}, #attr{name = <<"email">>}],
+          result = {teknorota_subscription_pay_invoice, '$id', '$token', '$email'}
+     }
+).
+
+-xml(teknorota_subscription_get_invoices,
+     #elem{
+          name = <<"get-invoices">>,
+          xmlns = <<"teknorota:xmpp:subscription">>,
+	     module = teknorota_subscription,
+          result = {teknorota_subscription_get_invoices}
+     }
+).
+
+-xml(teknorota_subscription_check_invoice,
+     #elem{
+          name = <<"check-invoice">>,
+          xmlns = <<"teknorota:xmpp:subscription">>,
+	     module = teknorota_subscription,
+          attrs = [#attr{name = <<"id">>}],
+          result = {teknorota_subscription_check_invoice, '$id'}
+     }
+).
+
+-xml(teknorota_subscription_query,
+     #elem{
+          name = <<"query">>,
+          xmlns = <<"teknorota:xmpp:subscription">>,
+	     module = teknorota_subscription,
+          result = {teknorota_subscription_query, '$subscription_info', '$get_packages', '$create_invoice', '$pay_invoice', '$check_invoice', '$get_invoices'},
+          refs = [
+               #ref{name = teknorota_subscription_info, label = '$subscription_info'},
+               #ref{name = teknorota_subscription_get_packages, label = '$get_packages'},
+               #ref{name = teknorota_subscription_create_invoice, label = '$create_invoice'},
+               #ref{name = teknorota_subscription_pay_invoice, label = '$pay_invoice'},
+               #ref{name = teknorota_subscription_check_invoice, label = '$check_invoice'},
+               #ref{name = teknorota_subscription_get_invoices, label = '$get_invoices'}
+          ]
+     }
+).
+
+-xml(teknorota_push_register,
+     #elem{
+          name = <<"register">>,
+          xmlns = <<"teknorota:xmpp:pushnotifications">>,
+	     module = teknorota_push,
+          attrs = [#attr{name = <<"token">>}, #attr{name = <<"type">>}],
+          result = {teknorota_push_register, '$token', '$type'}
+     }
+).
+
+-xml(teknorota_push_unregister,
+     #elem{
+          name = <<"unregister">>,
+          xmlns = <<"teknorota:xmpp:pushnotifications">>,
+	     module = teknorota_push,
+          attrs = [#attr{name = <<"token">>}],
+          result = {teknorota_push_unregister, '$token'}
+     }
+).
+
+-xml(teknorota_push_registered,
+     #elem{
+          name = <<"registered">>,
+          xmlns = <<"teknorota:xmpp:pushnotifications">>,
+	     module = teknorota_push,
+          result = {teknorota_push_registered}
+     }
+).
+
+-xml(teknorota_push_unregistered,
+     #elem{
+          name = <<"unregistered">>,
+          xmlns = <<"teknorota:xmpp:pushnotifications">>,
+	     module = teknorota_push,
+          result = {teknorota_push_unregistered}
+     }
+).
+
+-xml(teknorota_push_query,
+     #elem{
+          name = <<"query">>,
+          xmlns = <<"teknorota:xmpp:pushnotifications">>,
+	     module = teknorota_push,
+          result = {teknorota_push_query, '$register', '$unregister'},
+          refs = [
+               #ref{name = teknorota_push_register, label = '$register'},
+               #ref{name = teknorota_push_unregister, label = '$unregister'}
+          ]
+     }
+).
+
+-xml(teknorota_fileshare_upload,
+     #elem{
+          name = <<"upload">>,
+          xmlns = <<"teknorota:xmpp:filesharing">>,
+	     module = teknorota_fileshare,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"type">>}, #attr{name = <<"size">>}, #attr{name = <<"data">>}],
+          result = {teknorota_fileshare_upload, '$id', '$type', '$size', '$data'}
+     }
+).
+
+-xml(teknorota_fileshare_download,
+     #elem{
+          name = <<"download">>,
+          xmlns = <<"teknorota:xmpp:filesharing">>,
+	     module = teknorota_fileshare,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"data">>}],
+          result = {teknorota_fileshare_download, '$id', '$data'}
+     }
+).
+
+-xml(teknorota_fileshare_upconfirm,
+     #elem{
+          name = <<"upconfirm">>,
+          xmlns = <<"teknorota:xmpp:filesharing">>,
+	     module = teknorota_fileshare,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"data">>}],
+          result = {teknorota_fileshare_upconfirm, '$id', '$data'}
+     }
+).
+
+-xml(teknorota_fileshare_query,
+     #elem{
+          name = <<"query">>,
+          xmlns = <<"teknorota:xmpp:filesharing">>,
+	     module = teknorota_fileshare,
+          result = {teknorota_fileshare_query, '$upload', '$download', '$upconfirm'},
+          refs = [
+               #ref{name = teknorota_fileshare_upload, label = '$upload'},
+               #ref{name = teknorota_fileshare_download, label = '$download'},
+               #ref{name = teknorota_fileshare_upconfirm, label = '$upconfirm'}
+          ]
+     }
+).
+
+-xml(teknorota_profile_name,
+     #elem{
+          name = <<"name">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          result = {teknorota_profile_name, '$cdata'},
+          cdata = #cdata{label = '$cdata', required = true}
+     }
+).
+
+-xml(teknorota_profile_avatar,
+     #elem{
+          name = <<"avatar">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          result = {teknorota_profile_avatar, '$cdata'},
+          cdata = #cdata{label = '$cdata', required = true}
+     }
+).
+
+-xml(teknorota_profile_key,
+     #elem{
+          name = <<"key">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          result = {teknorota_profile_key, '$cdata'},
+          cdata = #cdata{label = '$cdata', required = true}
+     }
+).
+
+-xml(teknorota_profile_hash,
+     #elem{
+          name = <<"hash">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          result = {teknorota_profile_hash, '$cdata'},
+          cdata = #cdata{label = '$cdata', required = true}
+     }
+).
+
+-xml(teknorota_profile_status,
+     #elem{
+          name = <<"status">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          result = {teknorota_profile_status, '$cdata'},
+          cdata = #cdata{label = '$cdata', required = true}
+     }
+).
+
+-xml(teknorota_profile_lastupdated,
+     #elem{
+          name = <<"lastupdated">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          result = {teknorota_profile_lastupdated, '$cdata'},
+          cdata = #cdata{label = '$cdata', required = true}
+     }
+).
+
+-xml(teknorota_profile_set,
+     #elem{
+          name = <<"set-profile">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          result = {teknorota_profile_set, '$name', '$avatar', '$key', '$hash', '$status'},
+          refs = [
+               #ref{name = teknorota_profile_name, label = '$name'},
+               #ref{name = teknorota_profile_avatar, label = '$avatar'},
+               #ref{name = teknorota_profile_key, label = '$key'},
+               #ref{name = teknorota_profile_hash, label = '$hash'},
+               #ref{name = teknorota_profile_status, label = '$status'}
+          ]
+     }
+).
+
+-xml(teknorota_profile_set_success,
+     #elem{
+          name = <<"set-profile-success">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          result = {teknorota_profile_set_success}
+     }
+).
+
+-xml(teknorota_profile_get,
+     #elem{
+          name = <<"get-profile">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          attrs = [#attr{name = <<"jid">>}],
+          result = {teknorota_profile_get, '$jid'}
+     }
+).
+
+-xml(teknorota_profile_el,
+     #elem{
+          name = <<"profile">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          attrs = [#attr{name = <<"jid">>}],
+          result = {teknorota_profile_el, '$jid', '$name', '$avatar', '$key', '$hash', '$status', '$lastupdated'},
+          refs = [
+               #ref{name = teknorota_profile_name, label = '$name'},
+               #ref{name = teknorota_profile_avatar, label = '$avatar'},
+               #ref{name = teknorota_profile_key, label = '$key'},
+               #ref{name = teknorota_profile_hash, label = '$hash'},
+               #ref{name = teknorota_profile_status, label = '$status'},
+               #ref{name = teknorota_profile_lastupdated, label = '$lastupdated'}
+          ]
+     }
+).
+
+-xml(teknorota_profile_get_last_seen,
+     #elem{
+          name = <<"get-last-seen">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          attrs = [#attr{name = <<"jid">>}],
+          result = {teknorota_profile_get_last_seen, '$jid'}
+     }
+).
+
+-xml(teknorota_profile_last_seen_el,
+     #elem{
+          name = <<"last-seen">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          attrs = [#attr{name = <<"jid">>}],
+          result = {teknorota_profile_last_seen_el, '$jid', '$cdata'},
+          cdata = #cdata{label = '$cdata', required = true}
+     }
+).
+
+-xml(teknorota_profile_get_existing,
+     #elem{
+          name = <<"get-existing-users">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          result = {teknorota_profile_get_existing, '$users'},
+          refs = [
+               #ref{name = teknorota_profile_user, label = '$users'}
+          ]
+     }
+).
+
+-xml(teknorota_profile_user,
+     #elem{
+          name = <<"user">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          attrs = [#attr{name = <<"jid">>}, #attr{name = <<"lastupdated">>}],
+          result = {teknorota_profile_user, '$jid', '$lastupdated'}
+     }
+).
+
+-xml(teknorota_profile_get_updated,
+     #elem{
+          name = <<"get-updated-users">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          result = {teknorota_profile_get_updated, '$users'},
+          refs = [
+               #ref{name = teknorota_profile_user, label = '$users'}
+          ]
+     }
+).
+
+-xml(teknorota_profile_query,
+     #elem{
+          name = <<"query">>,
+          xmlns = <<"teknorota:xmpp:profile">>,
+	     module = teknorota_profile,
+          result = {teknorota_profile_query, '$set', '$get', '$last_seen', '$existing', '$updated'},
+          refs = [
+               #ref{name = teknorota_profile_set, label = '$set'},
+               #ref{name = teknorota_profile_get, label = '$get'},
+               #ref{name = teknorota_profile_get_last_seen, label = '$last_seen'},
+               #ref{name = teknorota_profile_get_existing, label = '$existing'},
+               #ref{name = teknorota_profile_get_updated, label = '$updated'}
+          ]
+     }
+).
+
 -spec dec_tzo(_) -> {integer(), integer()}.
 dec_tzo(Val) ->
     [H1, M1] = binary:split(Val, <<":">>),
