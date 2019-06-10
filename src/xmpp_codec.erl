@@ -1361,6 +1361,8 @@ get_mod(<<"download">>,
     teknorota_fileshare;
 get_mod(<<"user">>, <<"teknorota:xmpp:profile">>) ->
     teknorota_profile;
+get_mod(<<"update">>, <<"teknorota:xmpp:groupchat">>) ->
+    teknorota_groupchat;
 get_mod(<<"conference">>, <<"storage:bookmarks">>) ->
     xep0048;
 get_mod(<<"registered">>, <<"jabber:iq:register">>) ->
@@ -1980,6 +1982,8 @@ get_mod({muc_unsubscribe, _, _}) -> p1_mucsub;
 get_mod({search, _, _, _, _, _, _, _}) -> xep0055;
 get_mod({expire, _, _}) -> xep0023;
 get_mod({privilege, _, _}) -> xep0356;
+get_mod({teknorota_groupchat_group_update, _, _}) ->
+    teknorota_groupchat;
 get_mod({stanza_error, _, _, _, _, _, _}) -> rfc6120;
 get_mod({avatar_pointer, _, _, _, _, _, _}) -> xep0084;
 get_mod({muc_invite, _, _, _, _}) -> xep0045;
@@ -2034,9 +2038,6 @@ get_mod({bookmark_conference, _, _, _, _, _}) ->
 get_mod({vcard_name, _, _, _, _, _}) -> xep0054;
 get_mod({csi, _}) -> xep0352;
 get_mod({mix_join, _, _, _, _}) -> xep0369;
-get_mod({message, _, _, _, _, _, _, _, _, _, _, _, _, _,
-	 _}) ->
-    rfc6120;
 get_mod({sm_a, _, _}) -> xep0198;
 get_mod({mix, _, _, _}) -> xep0369;
 get_mod({jingle_s5b_transport, _, _, _, _, _, _, _}) ->
@@ -2097,6 +2098,9 @@ get_mod({teknorota_profile_el, _, _, _, _, _, _, _}) ->
     teknorota_profile;
 get_mod({teknorota_groupchat_new_group, _, _, _}) ->
     teknorota_groupchat;
+get_mod({message, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	 _, _}) ->
+    rfc6120;
 get_mod({muc_subscriptions, _}) -> p1_mucsub;
 get_mod({addresses, _}) -> xep0033;
 get_mod({ibb_data, _, _, _}) -> xep0047;

@@ -479,6 +479,7 @@
                   ctype = <<>> :: binary(),
                   thumbnail = <<>> :: binary(),
                   direct = <<>> :: binary(),
+                  sender = <<>> :: binary(),
                   subject = [] :: [#text{}],
                   body = [] :: [#text{}],
                   thread :: undefined | message_thread(),
@@ -492,7 +493,7 @@
 		    <<"jabber:component:accept">>],
 	   module = rfc6120,
            result = {message, '$id', '$type', '$lang', '$from', '$to',
-                    '$mtype', '$ctype', '$thumbnail', '$direct',
+                    '$mtype', '$ctype', '$thumbnail', '$direct', '$sender',
                      '$subject', '$body', '$thread', '$_els', '$_'},
            attrs = [#attr{name = <<"id">>},
                     #attr{name = <<"type">>,
@@ -511,7 +512,8 @@
                     #attr{name = <<"mtype">>},
                     #attr{name = <<"ctype">>},
                     #attr{name = <<"thumbnail">>},
-                    #attr{name = <<"direct">>}],
+                    #attr{name = <<"direct">>},
+                    #attr{name = <<"sender">>}],
            refs = [#ref{name = message_subject, label = '$subject'},
                    #ref{name = message_thread, min = 0, max = 1, label = '$thread'},
                    #ref{name = message_body, label = '$body'}]}).
@@ -5603,6 +5605,16 @@
                #ref{name = teknorota_groupchat_group_key_el, label = '$group_key'},
                #ref{name = teknorota_groupchat_get_groups_list, label = '$groups_list'}
           ]
+     }
+).
+
+-xml(teknorota_groupchat_group_update,
+     #elem{
+          name = <<"update">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"type">>}, #attr{name = <<"data">>}],
+          result = {teknorota_groupchat_group_update, '$type', '$data'}
      }
 ).
 

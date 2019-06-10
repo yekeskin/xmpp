@@ -5,6 +5,10 @@
 
 -compile(export_all).
 
+do_decode(<<"update">>, <<"teknorota:xmpp:groupchat">>,
+	  El, Opts) ->
+    decode_teknorota_groupchat_group_update(<<"teknorota:xmpp:groupchat">>,
+					    Opts, El);
 do_decode(<<"query">>, <<"teknorota:xmpp:groupchat">>,
 	  El, Opts) ->
     decode_teknorota_groupchat_query(<<"teknorota:xmpp:groupchat">>,
@@ -75,7 +79,8 @@ do_decode(Name, XMLNS, _, _) ->
     erlang:error({xmpp_codec, {unknown_tag, Name, XMLNS}}).
 
 tags() ->
-    [{<<"query">>, <<"teknorota:xmpp:groupchat">>},
+    [{<<"update">>, <<"teknorota:xmpp:groupchat">>},
+     {<<"query">>, <<"teknorota:xmpp:groupchat">>},
      {<<"groups-list">>, <<"teknorota:xmpp:groupchat">>},
      {<<"group">>, <<"teknorota:xmpp:groupchat">>},
      {<<"get-groups-list">>, <<"teknorota:xmpp:groupchat">>},
@@ -172,7 +177,12 @@ do_encode({teknorota_groupchat_query, _, _, _, _, _, _,
 	   _} =
 	      Query,
 	  TopXMLNS) ->
-    encode_teknorota_groupchat_query(Query, TopXMLNS).
+    encode_teknorota_groupchat_query(Query, TopXMLNS);
+do_encode({teknorota_groupchat_group_update, _, _} =
+	      Update,
+	  TopXMLNS) ->
+    encode_teknorota_groupchat_group_update(Update,
+					    TopXMLNS).
 
 do_get_name({teknorota_groupchat_get_groups_list}) ->
     <<"get-groups-list">>;
@@ -190,6 +200,8 @@ do_get_name({teknorota_groupchat_group_key_el, _, _}) ->
 do_get_name({teknorota_groupchat_group_keys_updated,
 	     _}) ->
     <<"group-keys-updated">>;
+do_get_name({teknorota_groupchat_group_update, _, _}) ->
+    <<"update">>;
 do_get_name({teknorota_groupchat_group_updated, _}) ->
     <<"group-updated">>;
 do_get_name({teknorota_groupchat_groups_list, _}) ->
@@ -228,6 +240,8 @@ do_get_ns({teknorota_groupchat_group_key_el, _, _}) ->
     <<"teknorota:xmpp:groupchat">>;
 do_get_ns({teknorota_groupchat_group_keys_updated,
 	   _}) ->
+    <<"teknorota:xmpp:groupchat">>;
+do_get_ns({teknorota_groupchat_group_update, _, _}) ->
     <<"teknorota:xmpp:groupchat">>;
 do_get_ns({teknorota_groupchat_group_updated, _}) ->
     <<"teknorota:xmpp:groupchat">>;
@@ -275,6 +289,7 @@ pp(teknorota_groupchat_groups_list, 1) -> [groups];
 pp(teknorota_groupchat_query, 7) ->
     [new_group, update_group, update_keys, leave_group,
      group_info, group_key, groups_list];
+pp(teknorota_groupchat_group_update, 2) -> [type, data];
 pp(_, _) -> no.
 
 records() ->
@@ -293,7 +308,80 @@ records() ->
      {teknorota_groupchat_get_groups_list, 0},
      {teknorota_groupchat_group_el, 2},
      {teknorota_groupchat_groups_list, 1},
-     {teknorota_groupchat_query, 7}].
+     {teknorota_groupchat_query, 7},
+     {teknorota_groupchat_group_update, 2}].
+
+decode_teknorota_groupchat_group_update(__TopXMLNS,
+					__Opts,
+					{xmlel, <<"update">>, _attrs, _els}) ->
+    {Type, Data} =
+	decode_teknorota_groupchat_group_update_attrs(__TopXMLNS,
+						      _attrs, undefined,
+						      undefined),
+    {teknorota_groupchat_group_update, Type, Data}.
+
+decode_teknorota_groupchat_group_update_attrs(__TopXMLNS,
+					      [{<<"type">>, _val} | _attrs],
+					      _Type, Data) ->
+    decode_teknorota_groupchat_group_update_attrs(__TopXMLNS,
+						  _attrs, _val, Data);
+decode_teknorota_groupchat_group_update_attrs(__TopXMLNS,
+					      [{<<"data">>, _val} | _attrs],
+					      Type, _Data) ->
+    decode_teknorota_groupchat_group_update_attrs(__TopXMLNS,
+						  _attrs, Type, _val);
+decode_teknorota_groupchat_group_update_attrs(__TopXMLNS,
+					      [_ | _attrs], Type, Data) ->
+    decode_teknorota_groupchat_group_update_attrs(__TopXMLNS,
+						  _attrs, Type, Data);
+decode_teknorota_groupchat_group_update_attrs(__TopXMLNS,
+					      [], Type, Data) ->
+    {decode_teknorota_groupchat_group_update_attr_type(__TopXMLNS,
+						       Type),
+     decode_teknorota_groupchat_group_update_attr_data(__TopXMLNS,
+						       Data)}.
+
+encode_teknorota_groupchat_group_update({teknorota_groupchat_group_update,
+					 Type, Data},
+					__TopXMLNS) ->
+    __NewTopXMLNS =
+	xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:groupchat">>,
+				    [], __TopXMLNS),
+    _els = [],
+    _attrs =
+	encode_teknorota_groupchat_group_update_attr_data(Data,
+							  encode_teknorota_groupchat_group_update_attr_type(Type,
+													    xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+																       __TopXMLNS))),
+    {xmlel, <<"update">>, _attrs, _els}.
+
+decode_teknorota_groupchat_group_update_attr_type(__TopXMLNS,
+						  undefined) ->
+    <<>>;
+decode_teknorota_groupchat_group_update_attr_type(__TopXMLNS,
+						  _val) ->
+    _val.
+
+encode_teknorota_groupchat_group_update_attr_type(<<>>,
+						  _acc) ->
+    _acc;
+encode_teknorota_groupchat_group_update_attr_type(_val,
+						  _acc) ->
+    [{<<"type">>, _val} | _acc].
+
+decode_teknorota_groupchat_group_update_attr_data(__TopXMLNS,
+						  undefined) ->
+    <<>>;
+decode_teknorota_groupchat_group_update_attr_data(__TopXMLNS,
+						  _val) ->
+    _val.
+
+encode_teknorota_groupchat_group_update_attr_data(<<>>,
+						  _acc) ->
+    _acc;
+encode_teknorota_groupchat_group_update_attr_data(_val,
+						  _acc) ->
+    [{<<"data">>, _val} | _acc].
 
 decode_teknorota_groupchat_query(__TopXMLNS, __Opts,
 				 {xmlel, <<"query">>, _attrs, _els}) ->
