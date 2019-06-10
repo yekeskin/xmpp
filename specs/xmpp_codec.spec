@@ -5487,7 +5487,7 @@
 	     module = teknorota_groupchat,
           attrs = [#attr{name = <<"jid">>}],
           cdata = #cdata{label = '$cdata', required = true},
-          result = {teknorota_groupchat_update_group_key, '$jid', '$cdata'}
+          result = {teknorota_groupchat_group_key, '$jid', '$cdata'}
      }
 ).
 

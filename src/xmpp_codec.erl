@@ -1751,7 +1751,7 @@ get_mod({mam_fin, _, _, _, _, _}) -> xep0313;
 get_mod({jingle_ft_error, _}) -> xep0234;
 get_mod({teknorota_profile_avatar, _}) ->
     teknorota_profile;
-get_mod({teknorota_groupchat_update_group_key, _, _}) ->
+get_mod({teknorota_groupchat_group_key, _, _}) ->
     teknorota_groupchat;
 get_mod({legacy_auth, _, _, _, _}) -> xep0078;
 get_mod({stream_features, _}) -> rfc6120;

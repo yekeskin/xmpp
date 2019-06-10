@@ -120,8 +120,7 @@ do_encode({teknorota_groupchat_group_updated, _} =
 	  TopXMLNS) ->
     encode_teknorota_groupchat_group_updated(Group_updated,
 					     TopXMLNS);
-do_encode({teknorota_groupchat_update_group_key, _, _} =
-	      Key,
+do_encode({teknorota_groupchat_group_key, _, _} = Key,
 	  TopXMLNS) ->
     encode_teknorota_groupchat_group_key(Key, TopXMLNS);
 do_encode({teknorota_groupchat_update_group_keys, _,
@@ -184,6 +183,8 @@ do_get_name({teknorota_groupchat_group_el, _, _}) ->
 do_get_name({teknorota_groupchat_group_info, _, _, _, _,
 	     _}) ->
     <<"group-info">>;
+do_get_name({teknorota_groupchat_group_key, _, _}) ->
+    <<"key">>;
 do_get_name({teknorota_groupchat_group_key_el, _, _}) ->
     <<"group-key">>;
 do_get_name({teknorota_groupchat_group_keys_updated,
@@ -208,9 +209,6 @@ do_get_name({teknorota_groupchat_query, _, _, _, _, _,
 do_get_name({teknorota_groupchat_update_group, _, _, _,
 	     _}) ->
     <<"update-group">>;
-do_get_name({teknorota_groupchat_update_group_key, _,
-	     _}) ->
-    <<"key">>;
 do_get_name({teknorota_groupchat_update_group_keys, _,
 	     _}) ->
     <<"update-group-keys">>.
@@ -223,6 +221,8 @@ do_get_ns({teknorota_groupchat_group_el, _, _}) ->
     <<"teknorota:xmpp:groupchat">>;
 do_get_ns({teknorota_groupchat_group_info, _, _, _, _,
 	   _}) ->
+    <<"teknorota:xmpp:groupchat">>;
+do_get_ns({teknorota_groupchat_group_key, _, _}) ->
     <<"teknorota:xmpp:groupchat">>;
 do_get_ns({teknorota_groupchat_group_key_el, _, _}) ->
     <<"teknorota:xmpp:groupchat">>;
@@ -247,9 +247,6 @@ do_get_ns({teknorota_groupchat_query, _, _, _, _, _, _,
 do_get_ns({teknorota_groupchat_update_group, _, _, _,
 	   _}) ->
     <<"teknorota:xmpp:groupchat">>;
-do_get_ns({teknorota_groupchat_update_group_key, _,
-	   _}) ->
-    <<"teknorota:xmpp:groupchat">>;
 do_get_ns({teknorota_groupchat_update_group_keys, _,
 	   _}) ->
     <<"teknorota:xmpp:groupchat">>.
@@ -262,8 +259,7 @@ pp(teknorota_groupchat_group_created, 1) -> [id];
 pp(teknorota_groupchat_update_group, 4) ->
     [id, name, avatar, participants];
 pp(teknorota_groupchat_group_updated, 1) -> [id];
-pp(teknorota_groupchat_update_group_key, 2) ->
-    [jid, cdata];
+pp(teknorota_groupchat_group_key, 2) -> [jid, cdata];
 pp(teknorota_groupchat_update_group_keys, 2) ->
     [id, keys];
 pp(teknorota_groupchat_group_keys_updated, 1) -> [id];
@@ -287,7 +283,7 @@ records() ->
      {teknorota_groupchat_group_created, 1},
      {teknorota_groupchat_update_group, 4},
      {teknorota_groupchat_group_updated, 1},
-     {teknorota_groupchat_update_group_key, 2},
+     {teknorota_groupchat_group_key, 2},
      {teknorota_groupchat_update_group_keys, 2},
      {teknorota_groupchat_group_keys_updated, 1},
      {teknorota_groupchat_leave_group, 1},
@@ -1273,7 +1269,7 @@ decode_teknorota_groupchat_group_key(__TopXMLNS, __Opts,
     Jid =
 	decode_teknorota_groupchat_group_key_attrs(__TopXMLNS,
 						   _attrs, undefined),
-    {teknorota_groupchat_update_group_key, Jid, Cdata}.
+    {teknorota_groupchat_group_key, Jid, Cdata}.
 
 decode_teknorota_groupchat_group_key_els(__TopXMLNS,
 					 __Opts, [], Cdata) ->
@@ -1304,7 +1300,7 @@ decode_teknorota_groupchat_group_key_attrs(__TopXMLNS,
     decode_teknorota_groupchat_group_key_attr_jid(__TopXMLNS,
 						  Jid).
 
-encode_teknorota_groupchat_group_key({teknorota_groupchat_update_group_key,
+encode_teknorota_groupchat_group_key({teknorota_groupchat_group_key,
 				      Jid, Cdata},
 				     __TopXMLNS) ->
     __NewTopXMLNS =

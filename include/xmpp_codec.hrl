@@ -638,9 +638,9 @@
 -record(teknorota_profile_key, {cdata = <<>> :: binary()}).
 -type teknorota_profile_key() :: #teknorota_profile_key{}.
 
--record(teknorota_groupchat_update_group_key, {jid = <<>> :: binary(),
-                                               cdata = <<>> :: binary()}).
--type teknorota_groupchat_update_group_key() :: #teknorota_groupchat_update_group_key{}.
+-record(teknorota_groupchat_group_key, {jid = <<>> :: binary(),
+                                        cdata = <<>> :: binary()}).
+-type teknorota_groupchat_group_key() :: #teknorota_groupchat_group_key{}.
 
 -record(upload_retry, {stamp :: undefined | erlang:timestamp()}).
 -type upload_retry() :: #upload_retry{}.
@@ -810,7 +810,7 @@
 -type stream_features() :: #stream_features{}.
 
 -record(teknorota_groupchat_update_group_keys, {id = <<>> :: binary(),
-                                                keys = [] :: [#teknorota_groupchat_update_group_key{}]}).
+                                                keys = [] :: [#teknorota_groupchat_group_key{}]}).
 -type teknorota_groupchat_update_group_keys() :: #teknorota_groupchat_update_group_keys{}.
 
 -record(sic, {ip :: undefined | inet:ip_address(),
@@ -1480,7 +1480,7 @@
                         hash_used() |
                         avatar_info() |
                         mam_archived() |
-                        teknorota_groupchat_group_keys_updated() |
+                        teknorota_groupchat_leave_group() |
                         disco_item() |
                         rsm_set() |
                         x509_challenge_failed() |
@@ -1502,7 +1502,6 @@
                         disco_info() |
                         media() |
                         pubsub_owner() |
-                        teknorota_groupchat_query() |
                         block_item() |
                         teknorota_profile_lastupdated() |
                         muc_history() |
@@ -1531,6 +1530,7 @@
                         teknorota_register_check_invoice() |
                         push_enable() |
                         teknorota_fileshare_download() |
+                        teknorota_groupchat_group_key() |
                         feature_sm() |
                         teknorota_fileshare_upconfirm() |
                         identity() |
@@ -1548,7 +1548,7 @@
                         ibb_open() |
                         avatar_data() |
                         teknorota_subscription_create_invoice() |
-                        teknorota_groupchat_groups_list() |
+                        teknorota_groupchat_query() |
                         avatar_meta() |
                         search_item() |
                         upload_slot_0() |
@@ -1565,11 +1565,10 @@
                         legacy_auth() |
                         vcard_photo() |
                         teknorota_register_virtual_complete() |
-                        teknorota_groupchat_left_group() |
+                        teknorota_groupchat_group_info() |
                         offline_item() |
                         jingle_ft_range() |
                         gone() |
-                        search() |
                         carbons_enable() |
                         csi() |
                         push_notification() |
@@ -1601,6 +1600,7 @@
                         delegated() |
                         time() |
                         stats() |
+                        teknorota_groupchat_group_keys_updated() |
                         adhoc_note() |
                         shim() |
                         origin_id() |
@@ -1612,7 +1612,7 @@
                         muc_invite() |
                         x509_ca_list() |
                         delegation() |
-                        teknorota_groupchat_group_info() |
+                        teknorota_groupchat_group_key_el() |
                         teknorota_profile_set() |
                         privilege_perm() |
                         presence() |
@@ -1633,6 +1633,7 @@
                         teknorota_subscription() |
                         x509_revoke() |
                         bind() |
+                        search() |
                         sm_r() |
                         bookmark_conference() |
                         teknorota_subscription_query() |
@@ -1641,7 +1642,7 @@
                         jingle_error() |
                         ps_affiliation() |
                         vcard_temp() |
-                        teknorota_groupchat_get_groups_list() |
+                        teknorota_groupchat_group_el() |
                         sm_resume() |
                         mix_leave() |
                         muc_owner() |
@@ -1649,7 +1650,7 @@
                         teknorota_push_unregistered() |
                         starttls() |
                         feature_csi() |
-                        teknorota_groupchat_group_key_el() |
+                        teknorota_groupchat_get_groups_list() |
                         adhoc_command() |
                         compress_failure() |
                         jingle_ft_received() |
@@ -1680,14 +1681,13 @@
                         teknorota_profile_status() |
                         jingle_ft_file() |
                         teknorota_groupchat_update_group_keys() |
-                        teknorota_groupchat_update_group_key() |
                         upload_retry() |
                         teknorota_profile_get_existing() |
                         rsm_first() |
                         hash() |
                         teknorota_profile_query() |
                         message() |
-                        teknorota_groupchat_group_el() |
+                        teknorota_groupchat_groups_list() |
                         private() |
                         carbons_received() |
                         muc_subscription() |
@@ -1749,4 +1749,4 @@
                         teknorota_groupchat_update_group() |
                         teknorota_profile_set_success() |
                         teknorota_profile_last_seen_el() |
-                        teknorota_groupchat_leave_group().
+                        teknorota_groupchat_left_group().
