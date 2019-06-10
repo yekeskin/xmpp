@@ -628,7 +628,8 @@ do_encode({iq, _, _, _, _, _, _, _} = Iq, TopXMLNS) ->
     encode_iq(Iq, TopXMLNS);
 do_encode({message_thread, _, _} = Thread, TopXMLNS) ->
     encode_message_thread(Thread, TopXMLNS);
-do_encode({message, _, _, _, _, _, _, _, _, _, _} =
+do_encode({message, _, _, _, _, _, _, _, _, _, _, _, _,
+	   _, _} =
 	      Message,
 	  TopXMLNS) ->
     encode_message(Message, TopXMLNS);
@@ -686,7 +687,8 @@ do_encode({stream_start, _, _, _, _, _, _, _, _} =
 do_get_name({bind, _, _}) -> <<"bind">>;
 do_get_name({gone, _}) -> <<"gone">>;
 do_get_name({iq, _, _, _, _, _, _, _}) -> <<"iq">>;
-do_get_name({message, _, _, _, _, _, _, _, _, _, _}) ->
+do_get_name({message, _, _, _, _, _, _, _, _, _, _, _,
+	     _, _, _}) ->
     <<"message">>;
 do_get_name({message_thread, _, _}) -> <<"thread">>;
 do_get_name({presence, _, _, _, _, _, _, _, _, _, _}) ->
@@ -719,7 +721,8 @@ do_get_ns({gone, _}) ->
     <<"urn:ietf:params:xml:ns:xmpp-stanzas">>;
 do_get_ns({iq, _, _, _, _, _, _, _}) ->
     <<"jabber:client">>;
-do_get_ns({message, _, _, _, _, _, _, _, _, _, _}) ->
+do_get_ns({message, _, _, _, _, _, _, _, _, _, _, _, _,
+	   _, _}) ->
     <<"jabber:client">>;
 do_get_ns({message_thread, _, _}) ->
     <<"jabber:client">>;
@@ -759,8 +762,9 @@ do_get_ns({stream_start, _, _, _, _, Xmlns, _, _, _}) ->
 get_els({iq, _id, _type, _lang, _from, _to, _sub_els,
 	 _meta}) ->
     _sub_els;
-get_els({message, _id, _type, _lang, _from, _to,
-	 _subject, _body, _thread, _sub_els, _meta}) ->
+get_els({message, _id, _type, _lang, _from, _to, _mtype,
+	 _ctype, _thumbnail, _direct, _subject, _body, _thread,
+	 _sub_els, _meta}) ->
     _sub_els;
 get_els({presence, _id, _type, _lang, _from, _to, _show,
 	 _status, _priority, _sub_els, _meta}) ->
@@ -773,11 +777,13 @@ get_els({stream_features, _sub_els}) -> _sub_els.
 set_els({iq, _id, _type, _lang, _from, _to, _, _meta},
 	_sub_els) ->
     {iq, _id, _type, _lang, _from, _to, _sub_els, _meta};
-set_els({message, _id, _type, _lang, _from, _to,
-	 _subject, _body, _thread, _, _meta},
+set_els({message, _id, _type, _lang, _from, _to, _mtype,
+	 _ctype, _thumbnail, _direct, _subject, _body, _thread,
+	 _, _meta},
 	_sub_els) ->
-    {message, _id, _type, _lang, _from, _to, _subject,
-     _body, _thread, _sub_els, _meta};
+    {message, _id, _type, _lang, _from, _to, _mtype, _ctype,
+     _thumbnail, _direct, _subject, _body, _thread, _sub_els,
+     _meta};
 set_els({presence, _id, _type, _lang, _from, _to, _show,
 	 _status, _priority, _, _meta},
 	_sub_els) ->
@@ -793,9 +799,9 @@ set_els({stream_features, _}, _sub_els) ->
 
 pp(iq, 7) -> [id, type, lang, from, to, sub_els, meta];
 pp(message_thread, 2) -> [parent, data];
-pp(message, 10) ->
-    [id, type, lang, from, to, subject, body, thread,
-     sub_els, meta];
+pp(message, 14) ->
+    [id, type, lang, from, to, mtype, ctype, thumbnail,
+     direct, subject, body, thread, sub_els, meta];
 pp(presence, 10) ->
     [id, type, lang, from, to, show, status, priority,
      sub_els, meta];
@@ -824,7 +830,7 @@ pp(stream_start, 8) ->
 pp(_, _) -> no.
 
 records() ->
-    [{iq, 7}, {message_thread, 2}, {message, 10},
+    [{iq, 7}, {message_thread, 2}, {message, 14},
      {presence, 10}, {gone, 1}, {redirect, 1},
      {stanza_error, 6}, {bind, 2}, {sasl_auth, 2},
      {sasl_abort, 0}, {sasl_challenge, 1},
@@ -4746,11 +4752,13 @@ decode_message(__TopXMLNS, __Opts,
     {Thread, Subject, Body, __Els} =
 	decode_message_els(__TopXMLNS, __Opts, _els, undefined,
 			   [], [], []),
-    {Id, Type, From, To, Lang} =
+    {Id, Type, From, To, Lang, Mtype, Ctype, Thumbnail,
+     Direct} =
 	decode_message_attrs(__TopXMLNS, _attrs, undefined,
+			     undefined, undefined, undefined, undefined,
 			     undefined, undefined, undefined, undefined),
-    {message, Id, Type, Lang, From, To, Subject, Body,
-     Thread, __Els, #{}}.
+    {message, Id, Type, Lang, From, To, Mtype, Ctype,
+     Thumbnail, Direct, Subject, Body, Thread, __Els, #{}}.
 
 decode_message_els(__TopXMLNS, __Opts, [], Thread,
 		   Subject, Body, __Els) ->
@@ -4867,44 +4875,69 @@ decode_message_els(__TopXMLNS, __Opts, [_ | _els],
 		       Subject, Body, __Els).
 
 decode_message_attrs(__TopXMLNS,
-		     [{<<"id">>, _val} | _attrs], _Id, Type, From, To,
-		     Lang) ->
+		     [{<<"id">>, _val} | _attrs], _Id, Type, From, To, Lang,
+		     Mtype, Ctype, Thumbnail, Direct) ->
     decode_message_attrs(__TopXMLNS, _attrs, _val, Type,
-			 From, To, Lang);
+			 From, To, Lang, Mtype, Ctype, Thumbnail, Direct);
 decode_message_attrs(__TopXMLNS,
 		     [{<<"type">>, _val} | _attrs], Id, _Type, From, To,
-		     Lang) ->
+		     Lang, Mtype, Ctype, Thumbnail, Direct) ->
     decode_message_attrs(__TopXMLNS, _attrs, Id, _val, From,
-			 To, Lang);
+			 To, Lang, Mtype, Ctype, Thumbnail, Direct);
 decode_message_attrs(__TopXMLNS,
 		     [{<<"from">>, _val} | _attrs], Id, Type, _From, To,
-		     Lang) ->
+		     Lang, Mtype, Ctype, Thumbnail, Direct) ->
     decode_message_attrs(__TopXMLNS, _attrs, Id, Type, _val,
-			 To, Lang);
+			 To, Lang, Mtype, Ctype, Thumbnail, Direct);
 decode_message_attrs(__TopXMLNS,
-		     [{<<"to">>, _val} | _attrs], Id, Type, From, _To,
-		     Lang) ->
+		     [{<<"to">>, _val} | _attrs], Id, Type, From, _To, Lang,
+		     Mtype, Ctype, Thumbnail, Direct) ->
     decode_message_attrs(__TopXMLNS, _attrs, Id, Type, From,
-			 _val, Lang);
+			 _val, Lang, Mtype, Ctype, Thumbnail, Direct);
 decode_message_attrs(__TopXMLNS,
 		     [{<<"xml:lang">>, _val} | _attrs], Id, Type, From, To,
-		     _Lang) ->
+		     _Lang, Mtype, Ctype, Thumbnail, Direct) ->
     decode_message_attrs(__TopXMLNS, _attrs, Id, Type, From,
-			 To, _val);
+			 To, _val, Mtype, Ctype, Thumbnail, Direct);
+decode_message_attrs(__TopXMLNS,
+		     [{<<"mtype">>, _val} | _attrs], Id, Type, From, To,
+		     Lang, _Mtype, Ctype, Thumbnail, Direct) ->
+    decode_message_attrs(__TopXMLNS, _attrs, Id, Type, From,
+			 To, Lang, _val, Ctype, Thumbnail, Direct);
+decode_message_attrs(__TopXMLNS,
+		     [{<<"ctype">>, _val} | _attrs], Id, Type, From, To,
+		     Lang, Mtype, _Ctype, Thumbnail, Direct) ->
+    decode_message_attrs(__TopXMLNS, _attrs, Id, Type, From,
+			 To, Lang, Mtype, _val, Thumbnail, Direct);
+decode_message_attrs(__TopXMLNS,
+		     [{<<"thumbnail">>, _val} | _attrs], Id, Type, From, To,
+		     Lang, Mtype, Ctype, _Thumbnail, Direct) ->
+    decode_message_attrs(__TopXMLNS, _attrs, Id, Type, From,
+			 To, Lang, Mtype, Ctype, _val, Direct);
+decode_message_attrs(__TopXMLNS,
+		     [{<<"direct">>, _val} | _attrs], Id, Type, From, To,
+		     Lang, Mtype, Ctype, Thumbnail, _Direct) ->
+    decode_message_attrs(__TopXMLNS, _attrs, Id, Type, From,
+			 To, Lang, Mtype, Ctype, Thumbnail, _val);
 decode_message_attrs(__TopXMLNS, [_ | _attrs], Id, Type,
-		     From, To, Lang) ->
+		     From, To, Lang, Mtype, Ctype, Thumbnail, Direct) ->
     decode_message_attrs(__TopXMLNS, _attrs, Id, Type, From,
-			 To, Lang);
+			 To, Lang, Mtype, Ctype, Thumbnail, Direct);
 decode_message_attrs(__TopXMLNS, [], Id, Type, From, To,
-		     Lang) ->
+		     Lang, Mtype, Ctype, Thumbnail, Direct) ->
     {decode_message_attr_id(__TopXMLNS, Id),
      decode_message_attr_type(__TopXMLNS, Type),
      decode_message_attr_from(__TopXMLNS, From),
      decode_message_attr_to(__TopXMLNS, To),
-     'decode_message_attr_xml:lang'(__TopXMLNS, Lang)}.
+     'decode_message_attr_xml:lang'(__TopXMLNS, Lang),
+     decode_message_attr_mtype(__TopXMLNS, Mtype),
+     decode_message_attr_ctype(__TopXMLNS, Ctype),
+     decode_message_attr_thumbnail(__TopXMLNS, Thumbnail),
+     decode_message_attr_direct(__TopXMLNS, Direct)}.
 
 encode_message({message, Id, Type, Lang, From, To,
-		Subject, Body, Thread, __Els, _},
+		Mtype, Ctype, Thumbnail, Direct, Subject, Body, Thread,
+		__Els, _},
 	       __TopXMLNS) ->
     __NewTopXMLNS = xmpp_codec:choose_top_xmlns(<<>>,
 						[<<"jabber:client">>,
@@ -4921,13 +4954,17 @@ encode_message({message, Id, Type, Lang, From, To,
 									      'encode_message_$body'(Body,
 												     __NewTopXMLNS,
 												     [])))),
-    _attrs = 'encode_message_attr_xml:lang'(Lang,
-					    encode_message_attr_to(To,
-								   encode_message_attr_from(From,
-											    encode_message_attr_type(Type,
-														     encode_message_attr_id(Id,
-																	    xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-																				       __TopXMLNS)))))),
+    _attrs = encode_message_attr_direct(Direct,
+					encode_message_attr_thumbnail(Thumbnail,
+								      encode_message_attr_ctype(Ctype,
+												encode_message_attr_mtype(Mtype,
+															  'encode_message_attr_xml:lang'(Lang,
+																			 encode_message_attr_to(To,
+																						encode_message_attr_from(From,
+																									 encode_message_attr_type(Type,
+																												  encode_message_attr_id(Id,
+																															 xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+																																		    __TopXMLNS)))))))))),
     {xmlel, <<"message">>, _attrs, _els}.
 
 'encode_message_$thread'(undefined, __TopXMLNS, _acc) ->
@@ -5013,6 +5050,38 @@ encode_message_attr_to(_val, _acc) ->
 'encode_message_attr_xml:lang'(<<>>, _acc) -> _acc;
 'encode_message_attr_xml:lang'(_val, _acc) ->
     [{<<"xml:lang">>, _val} | _acc].
+
+decode_message_attr_mtype(__TopXMLNS, undefined) ->
+    <<>>;
+decode_message_attr_mtype(__TopXMLNS, _val) -> _val.
+
+encode_message_attr_mtype(<<>>, _acc) -> _acc;
+encode_message_attr_mtype(_val, _acc) ->
+    [{<<"mtype">>, _val} | _acc].
+
+decode_message_attr_ctype(__TopXMLNS, undefined) ->
+    <<>>;
+decode_message_attr_ctype(__TopXMLNS, _val) -> _val.
+
+encode_message_attr_ctype(<<>>, _acc) -> _acc;
+encode_message_attr_ctype(_val, _acc) ->
+    [{<<"ctype">>, _val} | _acc].
+
+decode_message_attr_thumbnail(__TopXMLNS, undefined) ->
+    <<>>;
+decode_message_attr_thumbnail(__TopXMLNS, _val) -> _val.
+
+encode_message_attr_thumbnail(<<>>, _acc) -> _acc;
+encode_message_attr_thumbnail(_val, _acc) ->
+    [{<<"thumbnail">>, _val} | _acc].
+
+decode_message_attr_direct(__TopXMLNS, undefined) ->
+    <<>>;
+decode_message_attr_direct(__TopXMLNS, _val) -> _val.
+
+encode_message_attr_direct(<<>>, _acc) -> _acc;
+encode_message_attr_direct(_val, _acc) ->
+    [{<<"direct">>, _val} | _acc].
 
 decode_message_thread(__TopXMLNS, __Opts,
 		      {xmlel, <<"thread">>, _attrs, _els}) ->

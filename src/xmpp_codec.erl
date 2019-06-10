@@ -1722,8 +1722,6 @@ get_mod({vcard_xupdate, _}) -> xep0153;
 get_mod({teknorota_profile_last_seen_el, _, _}) ->
     teknorota_profile;
 get_mod({block_item, _, _}) -> xep0191;
-get_mod({message, _, _, _, _, _, _, _, _, _, _}) ->
-    rfc6120;
 get_mod({presence, _, _, _, _, _, _, _, _, _, _}) ->
     rfc6120;
 get_mod({streamhost, _, _, _}) -> xep0065;
@@ -1980,6 +1978,9 @@ get_mod({bookmark_conference, _, _, _, _, _}) ->
 get_mod({vcard_name, _, _, _, _, _}) -> xep0054;
 get_mod({csi, _}) -> xep0352;
 get_mod({mix_join, _, _, _, _}) -> xep0369;
+get_mod({message, _, _, _, _, _, _, _, _, _, _, _, _, _,
+	 _}) ->
+    rfc6120;
 get_mod({sm_a, _, _}) -> xep0198;
 get_mod({mix, _, _, _}) -> xep0369;
 get_mod({jingle_s5b_transport, _, _, _, _, _, _, _}) ->
