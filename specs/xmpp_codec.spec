@@ -5424,6 +5424,188 @@
      }
 ).
 
+-xml(teknorota_groupchat_participant,
+     #elem{
+          name = <<"participant">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"jid">>}, #attr{name = <<"type">>}, #attr{name = <<"action">>}],
+          result = {teknorota_groupchat_participant, '$jid', '$type', '$action'}
+     }
+).
+
+-xml(teknorota_groupchat_new_group,
+     #elem{
+          name = <<"new-group">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"name">>}, #attr{name = <<"avatar">>}],
+          refs = [
+               #ref{name = teknorota_groupchat_participant, label = '$participants'}
+          ],
+          result = {teknorota_groupchat_new_group, '$name', '$avatar', '$participants'}
+     }
+).
+
+-xml(teknorota_groupchat_group_created,
+     #elem{
+          name = <<"group-created">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"id">>}],
+          result = {teknorota_groupchat_group_created, '$id'}
+     }
+).
+
+-xml(teknorota_groupchat_update_group,
+     #elem{
+          name = <<"update-group">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"name">>}, #attr{name = <<"avatar">>}],
+          refs = [
+               #ref{name = teknorota_groupchat_participant, label = '$participants'}
+          ],
+          result = {teknorota_groupchat_update_group, '$id', '$name', '$avatar', '$participants'}
+     }
+).
+
+-xml(teknorota_groupchat_group_updated,
+     #elem{
+          name = <<"group-updated">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"id">>}],
+          result = {teknorota_groupchat_group_updated, '$id'}
+     }
+).
+
+-xml(teknorota_groupchat_group_key,
+     #elem{
+          name = <<"key">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"jid">>}],
+          cdata = #cdata{label = '$cdata', required = true},
+          result = {teknorota_groupchat_update_group_key, '$jid', '$cdata'}
+     }
+).
+
+-xml(teknorota_groupchat_update_group_keys,
+     #elem{
+          name = <<"update-group-keys">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"id">>}],
+          refs = [
+               #ref{name = teknorota_groupchat_group_key, label = '$keys'}
+          ],
+          result = {teknorota_groupchat_update_group_keys, '$id', '$keys'}
+     }
+).
+
+-xml(teknorota_groupchat_group_keys_updated,
+     #elem{
+          name = <<"group-keys-updated">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"id">>}],
+          result = {teknorota_groupchat_group_keys_updated, '$id'}
+     }
+).
+
+-xml(teknorota_groupchat_leave_group,
+     #elem{
+          name = <<"leave-group">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"id">>}],
+          result = {teknorota_groupchat_leave_group, '$id'}
+     }
+).
+
+-xml(teknorota_groupchat_left_group,
+     #elem{
+          name = <<"left-group">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"id">>}],
+          result = {teknorota_groupchat_left_group, '$id'}
+     }
+).
+
+-xml(teknorota_groupchat_group_info,
+     #elem{
+          name = <<"group-info">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"name">>}, #attr{name = <<"avatar">>}, #attr{name = <<"lastupdated">>}],
+          refs = [
+               #ref{name = teknorota_groupchat_participant, label = '$participants'}
+          ],
+          result = {teknorota_groupchat_group_info, '$id', '$name', '$avatar', '$lastupdated', '$participants'}
+     }
+).
+
+-xml(teknorota_groupchat_group_key_el,
+     #elem{
+          name = <<"group-key">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"key">>}],
+          result = {teknorota_groupchat_group_key_el, '$id', '$key'}
+     }
+).
+
+-xml(teknorota_groupchat_get_groups_list,
+     #elem{
+          name = <<"get-groups-list">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          result = {teknorota_groupchat_get_groups_list}
+     }
+).
+
+-xml(teknorota_groupchat_group_el,
+     #elem{
+          name = <<"group">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          attrs = [#attr{name = <<"id">>}, #attr{name = <<"lastupdated">>}],
+          result = {teknorota_groupchat_group_el, '$id', '$lastupdated'}
+     }
+).
+
+-xml(teknorota_groupchat_groups_list,
+     #elem{
+          name = <<"groups-list">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          refs = [
+               #ref{name = teknorota_groupchat_group_el, label = '$groups'}
+          ],
+          result = {teknorota_groupchat_groups_list, '$groups'}
+     }
+).
+
+-xml(teknorota_groupchat_query,
+     #elem{
+          name = <<"query">>,
+          xmlns = <<"teknorota:xmpp:groupchat">>,
+	     module = teknorota_groupchat,
+          result = {teknorota_groupchat_query, '$new_group', '$update_group', '$update_keys', '$leave_group', '$group_info', '$group_key', '$groups_list'},
+          refs = [
+               #ref{name = teknorota_groupchat_new_group, label = '$new_group'},
+               #ref{name = teknorota_groupchat_update_group, label = '$update_group'},
+               #ref{name = teknorota_groupchat_update_group_keys, label = '$update_keys'},
+               #ref{name = teknorota_groupchat_leave_group, label = '$leave_group'},
+               #ref{name = teknorota_groupchat_group_info, label = '$group_info'},
+               #ref{name = teknorota_groupchat_group_key_el, label = '$group_key'},
+               #ref{name = teknorota_groupchat_get_groups_list, label = '$groups_list'}
+          ]
+     }
+).
+
 -spec dec_tzo(_) -> {integer(), integer()}.
 dec_tzo(Val) ->
     [H1, M1] = binary:split(Val, <<":">>),

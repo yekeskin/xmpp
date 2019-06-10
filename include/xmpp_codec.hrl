@@ -264,14 +264,14 @@
                            xmlns = <<>> :: binary()}).
 -type upload_request_0() :: #upload_request_0{}.
 
+-record(sm_a, {h :: non_neg_integer(),
+               xmlns = <<>> :: binary()}).
+-type sm_a() :: #sm_a{}.
+
 -record(ibb_data, {sid = <<>> :: binary(),
                    seq :: non_neg_integer(),
                    data = <<>> :: binary()}).
 -type ibb_data() :: #ibb_data{}.
-
--record(sm_a, {h :: non_neg_integer(),
-               xmlns = <<>> :: binary()}).
--type sm_a() :: #sm_a{}.
 
 -record(x509_csr, {name = <<>> :: binary(),
                    der = <<>> :: binary()}).
@@ -279,6 +279,9 @@
 
 -record(teknorota_profile_set_success, {}).
 -type teknorota_profile_set_success() :: #teknorota_profile_set_success{}.
+
+-record(teknorota_groupchat_group_created, {id = <<>> :: binary()}).
+-type teknorota_groupchat_group_created() :: #teknorota_groupchat_group_created{}.
 
 -record(jingle_ft_received, {creator :: 'initiator' | 'responder' | 'undefined',
                              name = <<>> :: binary()}).
@@ -351,9 +354,6 @@
                          sub_els = [] :: [xmpp_element() | fxml:xmlel()]}).
 -type jingle_content() :: #jingle_content{}.
 
--record(sasl_challenge, {text = <<>> :: binary()}).
--type sasl_challenge() :: #sasl_challenge{}.
-
 -record(teknorota_register_package, {id = <<>> :: binary(),
                                      name = <<>> :: binary(),
                                      price = <<>> :: binary(),
@@ -419,6 +419,9 @@
 -record(gone, {uri = <<>> :: binary()}).
 -type gone() :: #gone{}.
 
+-record(sasl_challenge, {text = <<>> :: binary()}).
+-type sasl_challenge() :: #sasl_challenge{}.
+
 -record(hash, {algo = <<>> :: binary(),
                data = <<>> :: binary()}).
 -type hash() :: #hash{}.
@@ -442,6 +445,10 @@
 
 -record(nick, {name = <<>> :: binary()}).
 -type nick() :: #nick{}.
+
+-record(teknorota_groupchat_group_key_el, {id = <<>> :: binary(),
+                                           key = <<>> :: binary()}).
+-type teknorota_groupchat_group_key_el() :: #teknorota_groupchat_group_key_el{}.
 
 -record(roster_item, {jid :: jid:jid(),
                       name = <<>> :: binary(),
@@ -470,6 +477,12 @@
 
 -record(teknorota_subscription_info, {}).
 -type teknorota_subscription_info() :: #teknorota_subscription_info{}.
+
+-record(teknorota_groupchat_left_group, {id = <<>> :: binary()}).
+-type teknorota_groupchat_left_group() :: #teknorota_groupchat_left_group{}.
+
+-record(teknorota_groupchat_leave_group, {id = <<>> :: binary()}).
+-type teknorota_groupchat_leave_group() :: #teknorota_groupchat_leave_group{}.
 
 -record(avatar_pointer, {bytes :: 'undefined' | non_neg_integer(),
                          id = <<>> :: binary(),
@@ -502,6 +515,9 @@
 -record(teknorota_subscription_get_packages, {}).
 -type teknorota_subscription_get_packages() :: #teknorota_subscription_get_packages{}.
 
+-record(teknorota_groupchat_group_updated, {id = <<>> :: binary()}).
+-type teknorota_groupchat_group_updated() :: #teknorota_groupchat_group_updated{}.
+
 -record(teknorota_profile_get, {jid = <<>> :: binary()}).
 -type teknorota_profile_get() :: #teknorota_profile_get{}.
 
@@ -511,6 +527,29 @@
 -record(last, {seconds :: 'undefined' | non_neg_integer(),
                status = <<>> :: binary()}).
 -type last() :: #last{}.
+
+-record(teknorota_groupchat_participant, {jid = <<>> :: binary(),
+                                          type = <<>> :: binary(),
+                                          action = <<>> :: binary()}).
+-type teknorota_groupchat_participant() :: #teknorota_groupchat_participant{}.
+
+-record(teknorota_groupchat_group_info, {id = <<>> :: binary(),
+                                         name = <<>> :: binary(),
+                                         avatar = <<>> :: binary(),
+                                         lastupdated = <<>> :: binary(),
+                                         participants = [] :: [#teknorota_groupchat_participant{}]}).
+-type teknorota_groupchat_group_info() :: #teknorota_groupchat_group_info{}.
+
+-record(teknorota_groupchat_update_group, {id = <<>> :: binary(),
+                                           name = <<>> :: binary(),
+                                           avatar = <<>> :: binary(),
+                                           participants = [] :: [#teknorota_groupchat_participant{}]}).
+-type teknorota_groupchat_update_group() :: #teknorota_groupchat_update_group{}.
+
+-record(teknorota_groupchat_new_group, {name = <<>> :: binary(),
+                                        avatar = <<>> :: binary(),
+                                        participants = [] :: [#teknorota_groupchat_participant{}]}).
+-type teknorota_groupchat_new_group() :: #teknorota_groupchat_new_group{}.
 
 -record(teknorota_fileshare_upload, {id = <<>> :: binary(),
                                      type = <<>> :: binary(),
@@ -599,11 +638,19 @@
 -record(teknorota_profile_key, {cdata = <<>> :: binary()}).
 -type teknorota_profile_key() :: #teknorota_profile_key{}.
 
+-record(teknorota_groupchat_update_group_key, {jid = <<>> :: binary(),
+                                               cdata = <<>> :: binary()}).
+-type teknorota_groupchat_update_group_key() :: #teknorota_groupchat_update_group_key{}.
+
 -record(upload_retry, {stamp :: undefined | erlang:timestamp()}).
 -type upload_retry() :: #upload_retry{}.
 
 -record(feature_csi, {}).
 -type feature_csi() :: #feature_csi{}.
+
+-record(teknorota_groupchat_group_el, {id = <<>> :: binary(),
+                                       lastupdated = <<>> :: binary()}).
+-type teknorota_groupchat_group_el() :: #teknorota_groupchat_group_el{}.
 
 -record(teknorota_profile_last_seen_el, {jid = <<>> :: binary(),
                                          cdata = <<>> :: binary()}).
@@ -762,10 +809,26 @@
 -record(stream_features, {sub_els = [] :: [xmpp_element() | fxml:xmlel()]}).
 -type stream_features() :: #stream_features{}.
 
+-record(teknorota_groupchat_update_group_keys, {id = <<>> :: binary(),
+                                                keys = [] :: [#teknorota_groupchat_update_group_key{}]}).
+-type teknorota_groupchat_update_group_keys() :: #teknorota_groupchat_update_group_keys{}.
+
 -record(sic, {ip :: undefined | inet:ip_address(),
               port :: 'undefined' | non_neg_integer(),
               xmlns = <<>> :: binary()}).
 -type sic() :: #sic{}.
+
+-record(teknorota_groupchat_get_groups_list, {}).
+-type teknorota_groupchat_get_groups_list() :: #teknorota_groupchat_get_groups_list{}.
+
+-record(teknorota_groupchat_query, {new_group = [] :: [#teknorota_groupchat_new_group{}],
+                                    update_group = [] :: [#teknorota_groupchat_update_group{}],
+                                    update_keys = [] :: [#teknorota_groupchat_update_group_keys{}],
+                                    leave_group = [] :: [#teknorota_groupchat_leave_group{}],
+                                    group_info = [] :: [#teknorota_groupchat_group_info{}],
+                                    group_key = [] :: [#teknorota_groupchat_group_key_el{}],
+                                    groups_list = [] :: [#teknorota_groupchat_get_groups_list{}]}).
+-type teknorota_groupchat_query() :: #teknorota_groupchat_query{}.
 
 -record(receipt_request, {}).
 -type receipt_request() :: #receipt_request{}.
@@ -793,6 +856,9 @@
                      items = [] :: [#ps_item{}]}).
 -type ps_retract() :: #ps_retract{}.
 
+-record(teknorota_groupchat_group_keys_updated, {id = <<>> :: binary()}).
+-type teknorota_groupchat_group_keys_updated() :: #teknorota_groupchat_group_keys_updated{}.
+
 -record(vcard_geo, {lat :: 'undefined' | binary(),
                     lon :: 'undefined' | binary()}).
 -type vcard_geo() :: #vcard_geo{}.
@@ -818,6 +884,9 @@
 
 -record(compress_failure, {reason :: 'processing-failed' | 'setup-failed' | 'undefined' | 'unsupported-method'}).
 -type compress_failure() :: #compress_failure{}.
+
+-record(teknorota_groupchat_groups_list, {groups = [] :: [#teknorota_groupchat_group_el{}]}).
+-type teknorota_groupchat_groups_list() :: #teknorota_groupchat_groups_list{}.
 
 -record(origin_id, {id = <<>> :: binary()}).
 -type origin_id() :: #origin_id{}.
@@ -1411,6 +1480,7 @@
                         hash_used() |
                         avatar_info() |
                         mam_archived() |
+                        teknorota_groupchat_group_keys_updated() |
                         disco_item() |
                         rsm_set() |
                         x509_challenge_failed() |
@@ -1432,18 +1502,18 @@
                         disco_info() |
                         media() |
                         pubsub_owner() |
+                        teknorota_groupchat_query() |
                         block_item() |
                         teknorota_profile_lastupdated() |
                         muc_history() |
                         feature_register() |
                         jingle() |
                         mix_join() |
+                        teknorota_groupchat_group_created() |
                         teknorota_subscription_get_packages() |
                         stanza_id() |
                         sic() |
-                        text() |
                         ps_item() |
-                        search() |
                         sm_enable() |
                         teknorota_register_query() |
                         stream_start() |
@@ -1465,6 +1535,7 @@
                         teknorota_fileshare_upconfirm() |
                         identity() |
                         vcard_sound() |
+                        teknorota_groupchat_new_group() |
                         teknorota_register_get_packages() |
                         compression() |
                         compressed() |
@@ -1477,6 +1548,7 @@
                         ibb_open() |
                         avatar_data() |
                         teknorota_subscription_create_invoice() |
+                        teknorota_groupchat_groups_list() |
                         avatar_meta() |
                         search_item() |
                         upload_slot_0() |
@@ -1493,9 +1565,11 @@
                         legacy_auth() |
                         vcard_photo() |
                         teknorota_register_virtual_complete() |
+                        teknorota_groupchat_left_group() |
                         offline_item() |
                         jingle_ft_range() |
                         gone() |
+                        search() |
                         carbons_enable() |
                         csi() |
                         push_notification() |
@@ -1538,6 +1612,7 @@
                         muc_invite() |
                         x509_ca_list() |
                         delegation() |
+                        teknorota_groupchat_group_info() |
                         teknorota_profile_set() |
                         privilege_perm() |
                         presence() |
@@ -1566,6 +1641,7 @@
                         jingle_error() |
                         ps_affiliation() |
                         vcard_temp() |
+                        teknorota_groupchat_get_groups_list() |
                         sm_resume() |
                         mix_leave() |
                         muc_owner() |
@@ -1573,6 +1649,7 @@
                         teknorota_push_unregistered() |
                         starttls() |
                         feature_csi() |
+                        teknorota_groupchat_group_key_el() |
                         adhoc_command() |
                         compress_failure() |
                         jingle_ft_received() |
@@ -1602,15 +1679,19 @@
                         vcard_geo() |
                         teknorota_profile_status() |
                         jingle_ft_file() |
+                        teknorota_groupchat_update_group_keys() |
+                        teknorota_groupchat_update_group_key() |
                         upload_retry() |
                         teknorota_profile_get_existing() |
                         rsm_first() |
                         hash() |
                         teknorota_profile_query() |
                         message() |
+                        teknorota_groupchat_group_el() |
                         private() |
                         carbons_received() |
                         muc_subscription() |
+                        text() |
                         stream_error() |
                         avatar_pointer() |
                         ps_event() |
@@ -1624,6 +1705,7 @@
                         jingle_ibb_transport() |
                         address() |
                         sm_failed() |
+                        teknorota_groupchat_group_updated() |
                         ps_unsubscribe() |
                         adhoc_actions() |
                         caps() |
@@ -1634,6 +1716,7 @@
                         teknorota_subscription_pay_invoice() |
                         pubsub() |
                         sasl_response() |
+                        teknorota_groupchat_participant() |
                         sasl_success() |
                         mix_client_leave() |
                         upload_file_too_large() |
@@ -1663,5 +1746,7 @@
                         sm_resumed() |
                         xdata_option() |
                         teknorota_register_packages() |
+                        teknorota_groupchat_update_group() |
                         teknorota_profile_set_success() |
-                        teknorota_profile_last_seen_el().
+                        teknorota_profile_last_seen_el() |
+                        teknorota_groupchat_leave_group().
