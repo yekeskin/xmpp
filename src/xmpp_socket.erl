@@ -1,6 +1,6 @@
 %%%-------------------------------------------------------------------
 %%%
-%%% Copyright (C) 2002-2019 ProcessOne, SARL. All Rights Reserved.
+%%% Copyright (C) 2002-2022 ProcessOne, SARL. All Rights Reserved.
 %%%
 %%% Licensed under the Apache License, Version 2.0 (the "License");
 %%% you may not use this file except in compliance with the License.
@@ -45,9 +45,11 @@
 	 pp/1,
 	 sockname/1,
 	 peername/1,
-	 send_ws_ping/1]).
+	 send_ws_ping/1, get_negotiated_cipher/1, get_tls_last_message/2,
+	 release/1]).
 
 -include("xmpp.hrl").
+-include_lib("public_key/include/public_key.hrl").
 
 -type sockmod() :: gen_tcp | fast_tls | ezlib | ext_mod().
 -type socket() :: inet:socket() | fast_tls:tls_socket() |
@@ -59,6 +61,7 @@
 			  {xmlstreamstart, binary(), [{binary(), binary()}]} |
 			  {xmlstreamend, binary()} |
 			  {xmlstreamraw, iodata()}.
+-type cert() :: #'Certificate'{} | #'OTPCertificate'{}.
 
 -record(socket_state, {sockmod           :: sockmod(),
                        socket            :: socket(),
@@ -80,12 +83,18 @@
 -callback sockname(ext_socket()) -> {ok, endpoint()} | {error, inet:posix()}.
 -callback peername(ext_socket()) -> {ok, endpoint()} | {error, inet:posix()}.
 -callback setopts(ext_socket(), [{active, once}]) -> ok | {error, inet:posix()}.
+-callback get_peer_certificate(ext_socket(), plain|otp|der) -> {ok, cert() | binary()} | error.
+
+-optional_callbacks([get_peer_certificate/2]).
 
 -define(dbg(Fmt, Args),
 	case xmpp_config:debug(global) of
 	    {ok, true} -> error_logger:info_msg(Fmt, Args);
 	    _ -> false
 	end).
+
+-dialyzer({no_match, send_xml/2}).
+-dialyzer({no_unused, stringify_stream_element/1}).
 
 %%====================================================================
 %% API
@@ -128,6 +137,9 @@ connect(Addr, Port, Opts, Timeout, Owner) ->
 	    Error
     end.
 
+-spec starttls(socket_state(), [proplists:property()]) ->
+		      {ok, socket_state()} |
+		      {error, inet:posix() | atom() | binary()}.
 starttls(#socket_state{sockmod = gen_tcp,
 		       socket = Socket} = SocketData, TLSOpts) ->
     case fast_tls:tcp_to_tls(Socket, TLSOpts) of
@@ -303,14 +315,43 @@ get_owner(SockMod, _) when SockMod == gen_tcp orelse
 get_owner(SockMod, Socket) ->
     SockMod:get_owner(Socket).
 
-get_peer_certificate(SocketData, Type) ->
-    fast_tls:get_peer_certificate(SocketData#socket_state.socket, Type).
+-spec get_peer_certificate(socket_state(), plain|otp) -> {ok, cert()} | error;
+			  (socket_state(), der) -> {ok, binary()} | error.
+get_peer_certificate(#socket_state{sockmod = SockMod,
+				   socket = Socket}, Type) ->
+    case erlang:function_exported(SockMod, get_peer_certificate, 2) of
+	true -> SockMod:get_peer_certificate(Socket, Type);
+	false -> error
+    end.
+
+-spec get_negotiated_cipher(socket_state()) -> {ok, binary()} | error.
+get_negotiated_cipher(#socket_state{sockmod = SockMod,
+				    socket = Socket}) ->
+    case erlang:function_exported(SockMod, get_negotiated_cipher, 1) of
+	true -> SockMod:get_negotiated_cipher(Socket);
+	false -> error
+    end.
+
+-spec get_tls_last_message(socket_state(), peer | self) -> {ok, binary()} | {error, term()}.
+get_tls_last_message(#socket_state{sockmod = SockMod,
+				    socket = Socket}, Type) ->
+    case erlang:function_exported(SockMod, get_tls_last_message, 2) of
+	true -> SockMod:get_tls_last_message(Type, Socket);
+	false -> {error, unavailable}
+    end.
 
 get_verify_result(SocketData) ->
     fast_tls:get_verify_result(SocketData#socket_state.socket).
 
 close(#socket_state{sockmod = SockMod, socket = Socket}) ->
     SockMod:close(Socket).
+
+release(#socket_state{xml_stream = XMLStream} = State) ->
+    close(State),
+    case XMLStream of
+	undefined -> ok;
+	_ -> fxml_stream:close(XMLStream)
+    end.
 
 -spec sockname(socket_state()) -> {ok, endpoint()} | {error, inet:posix()}.
 sockname(#socket_state{sockmod = SockMod,

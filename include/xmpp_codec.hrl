@@ -88,7 +88,7 @@
 		      'retrieve-default' | 'retrieve-items' |
 		      'retrieve-subscriptions' | 'subscribe' |
 		      'subscription-options' | 'subscription-notifications' |
-		      'multi-items'.
+		      'multi-items' | undefined.
 -record(ps_error, {type :: ps_error_type(), feature :: ps_feature()}).
 -type ps_error() :: #ps_error{}.
 
@@ -126,7 +126,8 @@
                   jid :: undefined | jid:jid(),
                   desc = <<>> :: binary(),
                   node = <<>> :: binary(),
-                  delivered :: 'false' | 'true' | 'undefined'}).
+                  delivered :: 'false' | 'true' | 'undefined',
+                  sub_els = [] :: [xmpp_element() | fxml:xmlel()]}).
 -type address() :: #address{}.
 
 -record(sasl_success, {text = <<>> :: binary()}).
@@ -149,6 +150,9 @@
                     data = <<>> :: binary()}).
 -type rsm_first() :: #rsm_first{}.
 
+-record(mark_received, {id = <<>> :: binary()}).
+-type mark_received() :: #mark_received{}.
+
 -record(teknorota_register_verify_init, {id = <<>> :: binary(),
                                          phone = <<>> :: binary(),
                                          country = <<>> :: binary(),
@@ -163,6 +167,12 @@
 -record(x509_challenge_failed, {}).
 -type x509_challenge_failed() :: #x509_challenge_failed{}.
 
+-record(mark_displayed, {id = <<>> :: binary()}).
+-type mark_displayed() :: #mark_displayed{}.
+
+-record(mark_acknowledged, {id = <<>> :: binary()}).
+-type mark_acknowledged() :: #mark_acknowledged{}.
+
 -record(teknorota_fileshare_download, {id = <<>> :: binary(),
                                        data = <<>> :: binary()}).
 -type teknorota_fileshare_download() :: #teknorota_fileshare_download{}.
@@ -170,7 +180,8 @@
 -record(carbons_enable, {}).
 -type carbons_enable() :: #carbons_enable{}.
 
--record(mix_create, {channel = <<>> :: binary()}).
+-record(mix_create, {channel = <<>> :: binary(),
+                     xmlns = <<>> :: binary()}).
 -type mix_create() :: #mix_create{}.
 
 -record(teknorota_profile_name, {cdata = <<>> :: binary()}).
@@ -183,7 +194,7 @@
                  stored :: 'undefined' | non_neg_integer()}).
 -type expire() :: #expire{}.
 
--record(mix_leave, {}).
+-record(mix_leave, {xmlns = <<>> :: binary()}).
 -type mix_leave() :: #mix_leave{}.
 
 -record(teknorota_register_create_invoice, {'package-id' = <<>> :: binary(),
@@ -376,6 +387,9 @@
 -record(db_feature, {errors = false :: boolean()}).
 -type db_feature() :: #db_feature{}.
 
+-record(mix_roster_annotate, {}).
+-type mix_roster_annotate() :: #mix_roster_annotate{}.
+
 -record(x_conference, {jid :: jid:jid(),
                        password = <<>> :: binary(),
                        reason = <<>> :: binary(),
@@ -454,17 +468,6 @@
 -record(teknorota_groupchat_group_key_el, {id = <<>> :: binary(),
                                            key = <<>> :: binary()}).
 -type teknorota_groupchat_group_key_el() :: #teknorota_groupchat_group_key_el{}.
-
--record(roster_item, {jid :: jid:jid(),
-                      name = <<>> :: binary(),
-                      groups = [] :: [binary()],
-                      subscription = none :: 'both' | 'from' | 'none' | 'remove' | 'to',
-                      ask :: 'subscribe' | 'undefined'}).
--type roster_item() :: #roster_item{}.
-
--record(roster_query, {items = [] :: [#roster_item{}],
-                       ver :: 'undefined' | binary()}).
--type roster_query() :: #roster_query{}.
 
 -record(feature_sm, {xmlns = <<>> :: binary()}).
 -type feature_sm() :: #feature_sm{}.
@@ -604,6 +607,11 @@
                        jid :: jid:jid()}).
 -type ps_subscribe() :: #ps_subscribe{}.
 
+-record(mix_presence, {xmlns = <<>> :: binary(),
+                       jid :: undefined | jid:jid(),
+                       nick = <<>> :: binary()}).
+-type mix_presence() :: #mix_presence{}.
+
 -record(teknorota_register_invoice, {id = <<>> :: binary(),
                                      token = <<>> :: binary(),
                                      success = <<>> :: binary()}).
@@ -614,6 +622,9 @@
 
 -record(muc_unique, {name = <<>> :: binary()}).
 -type muc_unique() :: #muc_unique{}.
+
+-record(markable, {}).
+-type markable() :: #markable{}.
 
 -record(teknorota_subscription_package, {id = <<>> :: binary(),
                                          name = <<>> :: binary(),
@@ -680,6 +691,11 @@
                      node = <<>> :: binary()}).
 -type disco_item() :: #disco_item{}.
 
+-record(disco_item, {jid :: jid:jid(),
+                     name = <<>> :: binary(),
+                     node = <<>> :: binary()}).
+-type disco_item() :: #disco_item{}.
+
 -record(compression, {methods = [] :: [binary()]}).
 -type compression() :: #compression{}.
 
@@ -718,6 +734,9 @@
 -record(avatar_meta, {info = [] :: [#avatar_info{}],
                       pointer :: 'undefined' | #avatar_pointer{}}).
 -type avatar_meta() :: #avatar_meta{}.
+
+-record(jidprep, {jid :: jid:jid()}).
+-type jidprep() :: #jidprep{}.
 
 -record(bob_data, {cid = <<>> :: binary(),
                    'max-age' :: 'undefined' | non_neg_integer(),
@@ -861,6 +880,13 @@
                      items = [] :: [#ps_item{}]}).
 -type ps_retract() :: #ps_retract{}.
 
+-record(muc_hat, {title = <<>> :: binary(),
+                  uri = <<>> :: binary()}).
+-type muc_hat() :: #muc_hat{}.
+
+-record(muc_hats, {hats = [] :: [#muc_hat{}]}).
+-type muc_hats() :: #muc_hats{}.
+
 -record(teknorota_groupchat_group_keys_updated, {id = <<>> :: binary()}).
 -type teknorota_groupchat_group_keys_updated() :: #teknorota_groupchat_group_keys_updated{}.
 
@@ -877,7 +903,8 @@
 
 -record(mix, {submission_id = <<>> :: binary(),
               jid :: undefined | jid:jid(),
-              nick = <<>> :: binary()}).
+              nick = <<>> :: binary(),
+              xmlns = <<>> :: binary()}).
 -type mix() :: #mix{}.
 
 -record(carbons_sent, {forwarded :: #forwarded{}}).
@@ -900,7 +927,8 @@
 -type x509_ca_list() :: #x509_ca_list{}.
 
 -record(mix_participant, {jid :: jid:jid(),
-                          nick = <<>> :: binary()}).
+                          nick = <<>> :: binary(),
+                          xmlns = <<>> :: binary()}).
 -type mix_participant() :: #mix_participant{}.
 
 -record(compressed, {}).
@@ -943,7 +971,8 @@
 -type jingle_ft_description() :: #jingle_ft_description{}.
 
 -record(mix_client_leave, {channel :: undefined | jid:jid(),
-                           leave :: #mix_leave{}}).
+                           leave :: #mix_leave{},
+                           xmlns = <<>> :: binary()}).
 -type mix_client_leave() :: #mix_client_leave{}.
 
 -record(legacy_auth_feature, {}).
@@ -996,6 +1025,12 @@
                          'content-type' = <<>> :: binary(),
                          xmlns = <<>> :: binary()}).
 -type upload_request() :: #upload_request{}.
+
+-record(mix_update_subscription, {xmlns = <<>> :: binary(),
+                                  jid :: undefined | jid:jid(),
+                                  subscribe = [] :: [binary()],
+                                  unsubscribe = [] :: [binary()]}).
+-type mix_update_subscription() :: #mix_update_subscription{}.
 
 -record(xdata_option, {label = <<>> :: binary(),
                        value :: binary()}).
@@ -1121,6 +1156,11 @@
                      suffix :: 'undefined' | binary()}).
 -type vcard_name() :: #vcard_name{}.
 
+-record(inbox_entry, {unread :: 'undefined' | non_neg_integer(),
+                      jid :: undefined | jid:jid(),
+                      id = <<>> :: binary()}).
+-type inbox_entry() :: #inbox_entry{}.
+
 -record(media_uri, {type = <<>> :: binary(),
                     uri = <<>> :: binary()}).
 -type media_uri() :: #media_uri{}.
@@ -1130,12 +1170,16 @@
                 uri = [] :: [#media_uri{}]}).
 -type media() :: #media{}.
 
--record(mix_destroy, {channel :: any()}).
+-record(mix_destroy, {channel :: any(),
+                      xmlns = <<>> :: binary()}).
 -type mix_destroy() :: #mix_destroy{}.
 
 -record(vcard_key, {type :: 'undefined' | binary(),
                     cred :: 'undefined' | binary()}).
 -type vcard_key() :: #vcard_key{}.
+
+-record(inbox_query, {rsm :: 'undefined' | #rsm_set{}}).
+-type inbox_query() :: #inbox_query{}.
 
 -record(identity, {category = <<>> :: binary(),
                    type = <<>> :: binary(),
@@ -1164,8 +1208,25 @@
                               password :: 'undefined' | binary()}).
 -type bookmark_conference() :: #bookmark_conference{}.
 
--record(mix_setnick, {nick :: binary()}).
+-record(mix_setnick, {nick :: binary(),
+                      xmlns = <<>> :: binary()}).
 -type mix_setnick() :: #mix_setnick{}.
+
+-record(mix_roster_channel, {'participant-id' = <<>> :: binary()}).
+-type mix_roster_channel() :: #mix_roster_channel{}.
+
+-record(roster_item, {jid :: jid:jid(),
+                      name = <<>> :: binary(),
+                      groups = [] :: [binary()],
+                      subscription = none :: 'both' | 'from' | 'none' | 'remove' | 'to',
+                      ask :: 'subscribe' | 'undefined',
+                      mix_channel :: 'undefined' | #mix_roster_channel{}}).
+-type roster_item() :: #roster_item{}.
+
+-record(roster_query, {items = [] :: [#roster_item{}],
+                       ver :: 'undefined' | binary(),
+                       mix_annotate :: 'undefined' | #mix_roster_annotate{}}).
+-type roster_query() :: #roster_query{}.
 
 -record(xmpp_session, {optional = false :: boolean()}).
 -type xmpp_session() :: #xmpp_session{}.
@@ -1227,6 +1288,26 @@
                 fields = [] :: [#xdata_field{}]}).
 -type xdata() :: #xdata{}.
 
+-record(service, {action :: 'add' | 'modify' | 'remove' | 'undefined',
+                  expires :: undefined | erlang:timestamp(),
+                  host :: binary() | inet:ip_address(),
+                  name = <<>> :: binary(),
+                  password = <<>> :: binary(),
+                  port :: 'undefined' | non_neg_integer(),
+                  restricted :: 'false' | 'true' | 'undefined',
+                  transport :: 'tcp' | 'udp' | 'undefined',
+                  type :: 'stun' | 'stuns' | 'turn' | 'turns',
+                  username = <<>> :: binary(),
+                  xdata :: 'undefined' | #xdata{}}).
+-type service() :: #service{}.
+
+-record(credentials, {services = [] :: [#service{}]}).
+-type credentials() :: #credentials{}.
+
+-record(services, {type :: 'stun' | 'stuns' | 'turn' | 'turns' | 'undefined',
+                   list = [] :: [#service{}]}).
+-type services() :: #services{}.
+
 -record(push_enable, {jid :: jid:jid(),
                       node = <<>> :: binary(),
                       xdata :: 'undefined' | #xdata{}}).
@@ -1252,6 +1333,7 @@
                     with :: undefined | jid:jid(),
                     withtext :: 'undefined' | binary(),
                     rsm :: 'undefined' | #rsm_set{},
+                    flippage = false :: boolean(),
                     xdata :: 'undefined' | #xdata{}}).
 -type mam_query() :: #mam_query{}.
 
@@ -1370,7 +1452,7 @@
                         sub_els = [] :: [xmpp_element() | fxml:xmlel()]}).
 -type jingle_reason() :: #jingle_reason{}.
 
--record(jingle, {action :: atom(),
+-record(jingle, {action :: 'content-accept' | 'content-add' | 'content-modify' | 'content-reject' | 'content-remove' | 'description-info' | 'security-info' | 'session-accept' | 'session-info' | 'session-initiate' | 'session-terminate' | 'transport-accept' | 'transport-info' | 'transport-reject' | 'transport-replace',
                  sid = <<>> :: binary(),
                  initiator :: undefined | jid:jid(),
                  responder :: undefined | jid:jid(),
@@ -1382,7 +1464,8 @@
 -record(mix_join, {id = <<>> :: binary(),
                    jid :: undefined | jid:jid(),
                    nick = <<>> :: binary(),
-                   subscribe = [] :: [binary()]}).
+                   subscribe = [] :: [binary()],
+                   xmlns = <<>> :: binary()}).
 -type mix_join() :: #mix_join{}.
 
 -record(privacy_item, {order :: non_neg_integer(),
@@ -1421,7 +1504,6 @@
 -type sm_failed() :: #sm_failed{}.
 
 -record(stanza_error, {type :: 'auth' | 'cancel' | 'continue' | 'modify' | 'wait',
-                       code :: 'undefined' | non_neg_integer(),
                        by :: undefined | jid:jid(),
                        reason :: atom() | #gone{} | #redirect{},
                        text = [] :: [#text{}],
@@ -1473,7 +1555,8 @@
                      url :: 'undefined' | binary(),
                      class :: 'confidential' | 'private' | 'public' | 'undefined',
                      key :: 'undefined' | #vcard_key{},
-                     desc :: 'undefined' | binary()}).
+                     desc :: 'undefined' | binary(),
+                     sub_els = [] :: [xmpp_element() | fxml:xmlel()]}).
 -type vcard_temp() :: #vcard_temp{}.
 
 -type xmpp_element() :: teknorota_subscription_pay_invoice() |
@@ -1561,6 +1644,13 @@
                         jingle_reason() |
                         delegation_query() |
                         jingle() |
+                        jingle_content() |
+                        jingle_error() |
+                        jingle_ft_checksum() |
+                        jingle_ft_description() |
+                        jingle_ft_error() |
+                        jingle_ft_file() |
+                        jingle_ft_range() |
                         teknorota_subscription_package() |
                         teknorota_groupchat_group_el() |
                         muc_decline() |
@@ -1598,6 +1688,15 @@
                         db_feature() |
                         x509_request() |
                         x509_challenge() |
+                        jingle_ibb_transport() |
+                        jingle_reason() |
+                        jingle_s5b_candidate() |
+                        jingle_s5b_transport() |
+                        last() |
+                        legacy_auth() |
+                        legacy_auth_feature() |
+                        mam_archived() |
+                        mam_fin() |
                         mam_prefs() |
                         adhoc_actions() |
                         mix_client_leave() |

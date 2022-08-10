@@ -1,7 +1,9 @@
 Erlang/Elixir XMPP library
 ==========================
 
-[![Build Status](https://travis-ci.org/processone/xmpp.svg?branch=master)](https://travis-ci.org/processone/xmpp) [![Coverage Status](https://coveralls.io/repos/processone/xmpp/badge.svg?branch=master&service=github)](https://coveralls.io/github/processone/xmpp?branch=master) [![Hex version](https://img.shields.io/hexpm/v/xmpp.svg "Hex version")](https://hex.pm/packages/xmpp)
+[![CI](https://github.com/processone/xmpp/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/processone/xmpp/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/processone/xmpp/badge.svg?branch=master&service=github)](https://coveralls.io/github/processone/xmpp?branch=master)
+[![Hex version](https://img.shields.io/hexpm/v/xmpp.svg "Hex version")](https://hex.pm/packages/xmpp)
 
 The library provides comprehensive representation
 of XMPP elements as well as tools to work with them. Every such element
@@ -46,6 +48,10 @@ The library is considered as production ready and has been used in
 [ejabberd XMPP server](https://www.process-one.net/en/ejabberd) since version 16.12.
 However, the API is quite unstable so far and incompatibilities may be introduced
 from release to release. The stable API will be denoted by `2.x` tag in the future.
+
+# Dependency
+
+You need at least Erlang OTP 19.0.
 
 # Compiling
 
@@ -189,7 +195,7 @@ can be used, such as [serr_not_well_formed/0](doc/API.md#serr_not_well_formed0) 
 The text element is represented by `#text{}` record (of `text()` type).
 Some record fields, such as `#message.body` or `#presence.status`,
 contain a list of text elements (i.e. `[text()]`).
-To avoid writting a lot of extracting code the following functions can be used
+To avoid writing a lot of extracting code the following functions can be used
 to manipulate with `text()` elements: [get_text/1](doc/API.md#get_text1),
 [get_text/2](doc/API.md#get_text2), [mk_text/1](doc/API.md#mk_text1) and [mk_text/2](doc/API.md#mk_text2).
 
@@ -281,6 +287,7 @@ XMPP elements from the following documents are supported:
 - [XEP-0199](https://xmpp.org/extensions/xep-0199.html):  XMPP Ping
 - [XEP-0202](https://xmpp.org/extensions/xep-0202.html):  Entity Time
 - [XEP-0203](https://xmpp.org/extensions/xep-0203.html):  Delayed Delivery
+- [XEP-0215](https://xmpp.org/extensions/xep-0215.html):  External Service Discovery
 - [XEP-0220](https://xmpp.org/extensions/xep-0220.html):  Server Dialback
 - [XEP-0221](https://xmpp.org/extensions/xep-0221.html):  Data Forms Media Element
 - [XEP-0231](https://xmpp.org/extensions/xep-0231.html):  Bits of Binary
@@ -295,6 +302,8 @@ XMPP elements from the following documents are supported:
 - [XEP-0300](https://xmpp.org/extensions/xep-0300.html):  Use of Cryptographic Hash Functions in XMPP
 - [XEP-0313](https://xmpp.org/extensions/xep-0313.html):  Message Archive Management
 - [XEP-0319](https://xmpp.org/extensions/xep-0319.html):  Last User Interaction in Presence
+- [XEP-0328](https://xmpp.org/extensions/xep-0328.html):  JID Prep
+- [XEP-0333](https://xmpp.org/extensions/xep-0333.html):  Chat Markers
 - [XEP-0334](https://xmpp.org/extensions/xep-0334.html):  Message Processing Hints
 - [XEP-0352](https://xmpp.org/extensions/xep-0352.html):  Client State Indication
 - [XEP-0355](https://xmpp.org/extensions/xep-0355.html):  Namespace Delegation
@@ -304,8 +313,10 @@ XMPP elements from the following documents are supported:
 - [XEP-0363](https://xmpp.org/extensions/xep-0363.html):  HTTP File Upload
 - [XEP-0369](https://xmpp.org/extensions/xep-0369.html):  Mediated Information eXchange (MIX)
 - [XEP-0377](https://xmpp.org/extensions/xep-0377.html):  Spam Reporting
+- [XEP-0403](https://xmpp.org/extensions/xep-0403.html):  MIX: Presence Support
 - [XEP-0405](https://xmpp.org/extensions/xep-0405.html):  MIX: Participant Server Requirements
 - [XEP-0417](https://xmpp.org/extensions/xep-0417.html):  E2E Authentication in XMPP: Certificate Issuance and Revocation
+- [XEP-0430](https://xmpp.org/extensions/xep-0430.html):  Inbox
 - [draft-cridland-xmpp-session-01](https://tools.ietf.org/html/draft-cridland-xmpp-session-01): XMPP Session Establishment
 
 As well as some proprietary extensions from [ProcessOne](https://www.process-one.net)

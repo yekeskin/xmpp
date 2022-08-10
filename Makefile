@@ -1,27 +1,49 @@
-REBAR=./rebar
 ERL=erl
+
+ifndef USE_REBAR3
+REBAR ?= ./rebar
+else
+REBAR ?= rebar3
+endif
+
+IS_REBAR3:=$(shell expr `$(REBAR) --version | awk -F '[ .]' '/rebar / {print $$2}'` '>=' 3)
+
+ifeq "$(IS_REBAR3)" "1"
+  DEPSBASE=_build
+  DEPDIR=$(DEPSBASE)/default/lib
+else
+  DEPSBASE=deps
+  DEPDIR=$(DEPSBASE)
+endif
 
 all: src
 
 src:
-	$(REBAR) get-deps compile
+	$(REBAR) get-deps
+	$(REBAR) compile
 
-spec: src/xmpp_codec.erl include/xmpp_codec.hrl deps/fast_xml/ebin/fxml_gen.beam
-	$(ERL) -noinput +B -pa ebin -pa deps/*/ebin -eval \
+spec: src/xmpp_codec.erl include/xmpp_codec.hrl $(DEPDIR)/fast_xml/ebin/fxml_gen.beam
+	$(ERL) -noinput +B -pa ebin -pa $(DEPDIR)/*/ebin -eval \
 	'case fxml_gen:compile("specs/xmpp_codec.spec", [{add_type_specs, xmpp_element}, {erl_dir, "src"}, {hrl_dir, "include"}]) of ok -> halt(0); _ -> halt(1) end.'
 
 xdata: ebin/xdata_codec.beam
-	$(ERL) -noinput +B -pa ebin -pa deps/*/ebin -eval \
+	ERLTIDY=true $(REBAR) compile
+	$(ERL) -noinput +B -pa ebin -pa $(DEPDIR)/*/ebin -eval \
 	'case xdata_codec:compile("specs", [{erl_dir, "src"}, {hrl_dir, "include"}]) of ok -> halt(0); _ -> halt(1) end.'
 
 clean:
 	$(REBAR) clean
+	rm -rf _build/default/lib
 	rm -rf deps
 	rm -rf ebin
 
 xref: all
-	$(REBAR) skip_deps=true xref
+	$(REBAR) xref
 
+ifeq "$(IS_REBAR3)" "1"
+dialyzer:
+	$(REBAR) dialyzer
+else
 deps := $(wildcard deps/*/ebin)
 
 dialyzer/erlang.plt:
@@ -58,6 +80,11 @@ dialyzer: erlang_plt deps_plt xmpp_plt
 	@dialyzer --plts dialyzer/*.plt --no_check_plt \
 	--get_warnings -o dialyzer/error.log ebin; \
 	status=$$? ; if [ $$status -ne 2 ]; then exit $$status; else exit 0; fi
+endif
+
+_build/default/lib/fast_xml/ebin/fxml_gen.beam:
+	$(REBAR) get-deps
+	$(REBAR) compile
 
 deps/fast_xml/ebin/fxml_gen.beam:
 	$(REBAR) get-deps compile

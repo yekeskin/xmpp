@@ -1,3 +1,164 @@
+# Version 1.5.8
+
+* Updating fast_tls to version 1.1.15.
+* Updating ezlib to version 1.0.12.
+
+# Version 1.5.7
+
+* Updating ezlib to version 1.0.11.
+* Updating fast_tls to version 1.1.14.
+* Updating fast_xml to version 1.1.49.
+* Updating stringprep to version 1.0.28.
+* Updating p1_utils to version 1.0.25.
+* Make socket release on detach, free resources earlier
+* Fix crash when doing srv resolution
+
+# Version 1.5.6
+
+* Updating fast_xml to version 1.1.48.
+
+# Version 1.5.5
+
+* Updating fast_xml to version 1.1.47.
+* Allow 'max' value in pubsub max_items, item_expire and children_max
+* Add compatibility quirk for old smack version in roster
+* Don't generate code attribute in errors (deprececed by rfc6120)
+* Change internal representation of markable element
+* Add MUC hats support
+* Generate documentation before publishing to hex
+* 
+
+# Version 1.5.4
+
+* Updating ezlib to version 1.0.10.
+* Updating fast_tls to version 1.1.13.
+* Updating fast_xml to version 1.1.47.
+* Updating stringprep to version 1.0.27.
+* Updating p1_utils to version 1.0.23.
+* Switch from using Travis to Github Actions as CI
+* Add support for MIX roster extension
+* Allow children inside address element
+* Make compatible with OTP24
+* Allow arbitrary children inside vCard
+
+# Version 1.5.3
+
+* Updating fast_tls to version 1.1.12.
+* Updating fast_xml to version 1.1.46.
+* Updating p1_utils to version 1.0.22.
+* Updating stringprep to version 1.0.25.
+* Fix spec to match the current source code, as reportd by Dialyzer
+* xmpp uses p1_options, so Dialyzer reports some false warnings
+* Fix return value when skipping queued tcp packet to already closed socket
+
+# Version 1.5.2
+
+* Updating fast_tls to version 1.1.11.
+* Allow to free socket/parser/tls when session get detached
+* Add support for XEP-0430: Inbox
+* Add support for XEP-0333: Chat Markers
+* Add missing applications to xmpp.app
+* Fix timezone in timestamp used by XEP-0202
+* Don't throw exception when client send invalid length sasl response
+
+# Version 1.5.1
+
+* Fix issues with scram *-PLUS
+
+# Version 1.5.0
+
+* Updating p1_utils to version 1.0.21.
+* Updating stringprep to version 1.0.24.
+* Updating fast_tls to version 1.1.10.
+* Updating fast_xml to version 1.1.45.
+* Add support for scram-sha-256/512-{plus}
+
+# Version 1.4.10
+
+* Updating ezlib to version 1.0.9.
+* Updating fast_tls to version 1.1.9.
+* Updating fast_xml to version 1.1.44.
+* Updating stringprep to version 1.0.23.
+* Add support for MAM Flipped Pages
+* Exclude old OTP releases from Travis
+* Support building specs with rebar3
+
+# Version 1.4.9
+
+* Updating p1_utils to version 1.0.20.
+* Updating fast_xml to version 1.1.43.
+* Updating fast_tls to version 1.1.8.
+* Updating stringprep to version 1.0.22.
+
+# Version 1.4.8
+
+* Fixes to compile with Erlang/OTP 23.0
+* updating ezlib to version 1.0.8.
+* updating fast_tls to version 1.1.7.
+* updating fast_xml to version 1.1.42.
+* updating stringprep to version 1.0.21.
+* Replace bad-protocol sasl errors with not-authorized
+* Add Travis setup, and set Erlang/OTP 19.0 as lowest supported version
+
+# Version 1.4.7
+
+* Updating fast_tls to version 1.1.6.
+* Updating p1_utils to version 1.0.19.
+* Updating fast_xml to version 1.1.41.
+* Updating stringprep to version 1.0.20.
+* Fix compatibility issues with Erlang 23
+
+# Version 1.4.6
+
+* Updating fast_tls to version 1.1.5.
+* Updating fast_xml to version 1.1.40.
+* Recognize elements from XEP-0215 (External Service Discovery)
+* Limit usage of synchronously terminating session, as is can cause
+  problems with handling of queued messages
+
+# Version 1.4.5
+
+* Updating ezlib to version 1.0.7.
+* Updating fast_tls to version 1.1.4.
+* Updating fast_xml to version 1.1.39.
+* Updating p1_utils to version 1.0.18.
+* Updating stringprep to version 1.0.19.
+* Update copyright year
+
+# Version 1.4.4
+
+* Fix handling of infinity values in couple places
+* Declare namespace for "urn:xmpp:carbons:rules:0"
+
+# Version 1.4.3
+
+* Updating fast_tls to version 1.1.3.
+* Updating stringprep to version 1.0.18.
+* Updating fast_xml to version 1.1.38.
+* Updating p1_utils to version 1.0.17.
+
+# Version 1.4.2
+
+* Fix incorrect return type
+
+# Version 1.4.1
+
+* Add support for jid-prep
+* Improve handling of IDNA
+
+# Version 1.4.0
+
+* Updating fast_tls to version 1.1.2.
+* Updating fast_xml to version 1.1.37.
+* Updating stringprep to version 1.0.17.
+* Updating p1_utils to version 1.0.16.
+* Update type specs
+* Improve xdata compiler
+* Add support for CAPTCHA data forms (XEP-0158)
+* Accept certificates without XmppAddr fields
+* Improve xmpp\_socket:get\_peer\_certificate/2
+* Update pubsub#metadata form
+
 # Version 1.3.4
 
 * Updating ezlib to version 1.0.6.
@@ -9,7 +170,7 @@
 # Version 1.3.3
 
 * Allow muc_subscriber element to have jid or nick attribute
-* Add support for XEP-0417 
+* Add support for XEP-0417
 * Add get_subtags/2 and try_subtags/2
 
 # Version 1.3.2
@@ -44,7 +205,7 @@
 
 * Updating fast_tls to version 1.0.26.
 * Add support for XEP-0048 and XEP-0411
-* Add logging of data transmited over xml sockets
+* Add logging of data transmitted over xml sockets
 * Add functions for processing white space pings
 * Validate xml:lang values
 * Fix encoding of timestamp with negative TZ offsets
@@ -234,7 +395,7 @@ Evgeniy Khramtsov:
 
 # Version 1.1.4
 
-* Support for password on MUC subcribe (Badlop)
+* Support for password on MUC subscribe (Badlop)
 
 # Version 1.1.3
 

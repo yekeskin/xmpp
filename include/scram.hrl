@@ -1,6 +1,6 @@
 %%%-------------------------------------------------------------------
 %%%
-%%% Copyright (C) 2002-2019 ProcessOne, SARL. All Rights Reserved.
+%%% Copyright (C) 2002-2022 ProcessOne, SARL. All Rights Reserved.
 %%%
 %%% Licensed under the Apache License, Version 2.0 (the "License");
 %%% you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 -record(scram, {storedkey = <<"">> :: binary(),
 		serverkey = <<"">> :: binary(),
 		salt = <<"">>      :: binary(),
+		hash = sha         :: sha | sha256 | sha512,
 		iterationcount = 0 :: integer()}).
 
 -type scram() :: #scram{}.

@@ -1,6 +1,6 @@
 %%%-------------------------------------------------------------------
 %%%
-%%% Copyright (C) 2002-2019 ProcessOne, SARL. All Rights Reserved.
+%%% Copyright (C) 2002-2022 ProcessOne, SARL. All Rights Reserved.
 %%%
 %%% Licensed under the Apache License, Version 2.0 (the "License");
 %%% you may not use this file except in compliance with the License.
@@ -73,13 +73,13 @@ authenticate(#{xmlns := ?NS_CLIENT, stream_direction := in,
     end.
 
 format_error(idna_failed) ->
-    {'bad-protocol', <<"Remote domain is not an IDN hostname">>};
+    {'not-authorized', <<"Remote domain is not an IDN hostname">>};
 format_error(hostname_mismatch) ->
     {'not-authorized', <<"Certificate host name mismatch">>};
 format_error(jid_mismatch) ->
     {'not-authorized', <<"Certificate JID mismatch">>};
 format_error(get_cert_failed) ->
-    {'bad-protocol', <<"Failed to get peer certificate">>};
+    {'not-authorized', <<"Failed to get peer certificate">>};
 format_error(invalid_authzid) ->
     {'invalid-authzid', <<"Malformed JID">>};
 format_error(Other) ->
@@ -100,9 +100,7 @@ get_cert_domains(Cert) ->
 verify_server_cert(Server, Socket) ->
     case verify_cert(Socket) of
 	{ok, Cert} ->
-	    case xmpp_idna:domain_utf8_to_ascii(Server) of
-		false ->
-		    {error, idna_failed};
+	    try list_to_binary(idna:utf8_to_ascii(Server)) of
 		AsciiServer ->
 		    case lists:any(
 			   fun(D) -> match_domain(AsciiServer, D) end,
@@ -112,6 +110,8 @@ verify_server_cert(Server, Socket) ->
 			false ->
 			    {error, hostname_mismatch}
 		    end
+	    catch _:_ ->
+		    {error, idna_failed}
 	    end;
 	{error, _} = Err ->
 	    Err
@@ -166,11 +166,8 @@ get_domains_from_san(Extensions) when is_list(Extensions) ->
 			  {ok, #jid{luser = <<"">>,
 				    lresource = <<"">>,
 				    lserver = Domain}} ->
-			      case xmpp_idna:domain_utf8_to_ascii(Domain) of
-				  false ->
-				      [];
-				  ASCIIDomain ->
-				      [ASCIIDomain]
+			      try list_to_binary(idna:utf8_to_ascii(Domain))
+			      catch _:_ -> []
 			      end;
 			  _ ->
 			      []
@@ -235,13 +232,17 @@ get_username(#jid{user = <<>>}, [#jid{user = U, lserver = LS}], LServer)
     %% The user didn't provide JID or username, and there is only
     %% one 'non-global' JID matching current domain
     {ok, U};
+get_username(#jid{user = User}, [], _) when User /= <<>> ->
+    %% The user provided username, but the certificate contains no JIDs
+    %% We accept this since the certificate is verified
+    {ok, User};
 get_username(#jid{user = User, luser = LUser}, JIDs, LServer) when User /= <<>> ->
     %% The user provided username
     lists:foldl(
       fun(_, {ok, _} = OK) ->
 	      OK;
 	 (#jid{user = <<>>, lserver = LS}, _) when LS == LServer ->
-	      %% Found "global" JID in the certficate
+	      %% Found "global" JID in the certificate
 	      %% (i.e. in the form of 'domain.com')
 	      %% within current domain, so we force matching
 	      {ok, User};

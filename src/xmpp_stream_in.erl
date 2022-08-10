@@ -1,6 +1,6 @@
 %%%-------------------------------------------------------------------
 %%%
-%%% Copyright (C) 2002-2019 ProcessOne, SARL. All Rights Reserved.
+%%% Copyright (C) 2002-2022 ProcessOne, SARL. All Rights Reserved.
 %%%
 %%% Licensed under the Apache License, Version 2.0 (the "License");
 %%% you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
 -protocol({xep, 114, '1.6'}).
 
 %% API
--export([start/3, start_link/3, call/3, cast/2, reply/2, stop/1,
+-export([start/3, start_link/3, call/3, cast/2, reply/2, stop/1, stop_async/1,
 	 accept/1, send/2, close/1, close/2, send_error/3, establish/1,
 	 get_transport/1, change_shaper/2, set_timeout/2, format_error/1,
 	 send_ws_ping/1]).
@@ -31,6 +31,8 @@
 %% gen_server callbacks
 -export([init/1, handle_cast/2, handle_call/3, handle_info/2,
 	 terminate/2, code_change/3]).
+
+-deprecated([{stop, 1}]).
 
 %%-define(DBGFSM, true).
 -ifdef(DBGFSM).
@@ -40,11 +42,44 @@
 -endif.
 
 -include("xmpp.hrl").
--type state() :: map().
+-type state() :: #{owner := pid(),
+		   mod := module(),
+		   socket := xmpp_socket:socket(),
+		   socket_mod => xmpp_socket:sockmod(),
+		   socket_opts => [proplists:property()],
+		   socket_monitor => reference(),
+		   stream_timeout := {integer(), integer()} | infinity,
+		   stream_state := stream_state(),
+		   stream_direction => in | out,
+		   stream_id => binary(),
+		   stream_header_sent => boolean(),
+		   stream_restarted => boolean(),
+		   stream_compressed => boolean(),
+		   stream_encrypted => boolean(),
+		   stream_version => {non_neg_integer(), non_neg_integer()},
+		   stream_authenticated => boolean(),
+		   ip => {inet:ip_address(), inet:port_number()},
+		   codec_options => [xmpp:decode_option()],
+		   xmlns => binary(),
+		   lang => binary(),
+		   user => binary(),
+		   server => binary(),
+		   resource => binary(),
+		   lserver => binary(),
+		   remote_server => binary(),
+		   sasl_mech => binary(),
+		   sasl_state => xmpp_sasl:sasl_state(),
+		   _ => _}.
+-type stream_state() :: accepting | wait_for_stream | wait_for_handshake |
+			wait_for_starttls | wait_for_sasl_request |
+			wait_for_sasl_response | wait_for_bind |
+			established | disconnected.
 -type stop_reason() :: {stream, reset | {in | out, stream_error()}} |
 		       {tls, inet:posix() | atom() | binary()} |
 		       {socket, inet:posix() | atom()} |
 		       internal_failure.
+-type noreply() :: {noreply, state(), timeout()}.
+-type next_state() :: noreply() | {stop, term(), state()}.
 -export_type([state/0, stop_reason/0]).
 -callback init(list()) -> {ok, state()} | {error, term()} | ignore.
 -callback handle_cast(term(), state()) -> state().
@@ -130,11 +165,19 @@ reply(Ref, Reply) ->
 -spec stop(pid()) -> ok;
 	  (state()) -> no_return().
 stop(Pid) when is_pid(Pid) ->
-    cast(Pid, stop);
+    stop_async(Pid);
 stop(#{owner := Owner} = State) when Owner == self() ->
     terminate(normal, State),
-    exit(normal);
+    try erlang:nif_error(normal)
+    catch _:_ -> exit(normal)
+    end;
 stop(_) ->
+    erlang:error(badarg).
+
+-spec stop_async(pid()) -> ok.
+stop_async(Pid) when is_pid(Pid) ->
+    cast(Pid, stop);
+stop_async(_) ->
     erlang:error(badarg).
 
 -spec accept(pid()) -> ok.
@@ -194,6 +237,7 @@ set_timeout(#{owner := Owner} = State, Timeout) when Owner == self() ->
 set_timeout(_, _) ->
     erlang:error(badarg).
 
+-spec get_transport(state()) -> atom().
 get_transport(#{socket := Socket, owner := Owner})
   when Owner == self() ->
     xmpp_socket:get_transport(Socket);
@@ -239,6 +283,7 @@ init([Mod, {SockMod, Socket}, Opts]) ->
 	      stream_state => accepting},
     {ok, State, Timeout}.
 
+-spec handle_cast(term(), state()) -> next_state().
 handle_cast(accept, #{socket := Socket,
 		      socket_mod := SockMod,
 		      socket_opts := Opts} = State) ->
@@ -251,18 +296,29 @@ handle_cast(accept, #{socket := Socket,
 	    State3 = State2#{socket => XMPPSocket,
 			     socket_monitor => SocketMonitor,
 			     ip => IP},
-	    State4 = init_state(State3, Opts),
-	    case is_disconnected(State4) of
-		true -> noreply(State4);
-		false -> handle_info({tcp, Socket, <<>>}, State4)
+	    case init_state(State3, Opts) of
+		{stop, State4} ->
+		    {stop, normal, State4};
+		State4 ->
+		    case is_disconnected(State4) of
+			true -> noreply(State4);
+			false -> handle_info({tcp, Socket, <<>>}, State4)
+		    end
 	    end;
 	{error, _} ->
-	    stop(State)
+	    {stop, normal, State}
     end;
 handle_cast({send, Pkt}, State) ->
     noreply(send_pkt(State, Pkt));
 handle_cast(send_ws_ping, State) ->
     noreply(send_ws_ping(State));
+handle_cast(release_socket, #{socket := Socket,
+			      socket_monitor := Monitor} = State) ->
+    erlang:demonitor(Monitor),
+    xmpp_socket:release(Socket),
+    State2 = maps:remove(socket, State),
+    State3 = maps:remove(socket_monitor, State2),
+    noreply(State3);
 handle_cast(stop, State) ->
     {stop, normal, State};
 handle_cast({close, Reason}, State) ->
@@ -277,13 +333,15 @@ handle_cast(Cast, State) ->
 	      catch _:{?MODULE, undef} -> State
 	      end).
 
+-spec handle_call(term(), term(), state()) -> next_state().
 handle_call(Call, From, State) ->
     noreply(try callback(handle_call, Call, From, State)
 	    catch _:{?MODULE, undef} -> State
 	    end).
 
+-spec handle_info(term(), state()) -> next_state().
 handle_info(_, #{stream_state := accepting} = State) ->
-    stop(State);
+    {stop, normal, State};
 handle_info({'$gen_event', {xmlstreamstart, Name, Attrs}},
 	    #{stream_state := wait_for_stream,
 	      xmlns := XMLNS, lang := MyLang} = State) ->
@@ -373,7 +431,7 @@ handle_info(timeout, #{lang := Lang} = State) ->
 		    Txt = <<"Idle connection">>,
 		    send_pkt(State, xmpp:serr_connection_timeout(Txt, Lang));
 		  _:{?MODULE, undef} ->
-		    stop(State)
+		      {stop, normal, State}
 	    end);
 handle_info({'DOWN', MRef, _Type, _Object, _Info},
 	    #{socket_monitor := MRef} = State) ->
@@ -389,6 +447,9 @@ handle_info({tcp, _, Data}, #{socket := Socket} = State) ->
 	      %% TODO: make fast_tls return atoms
 	      process_stream_end({tls, Reason}, State)
       end);
+% Skip new tcp messages after socket get removed from state
+handle_info({tcp, _, _}, State) ->
+    noreply(State);
 handle_info({tcp_closed, _}, State) ->
     handle_info({'$gen_event', closed}, State);
 handle_info({tcp_error, _, Reason}, State) ->
@@ -398,6 +459,7 @@ handle_info(Info, State) ->
 	    catch _:{?MODULE, undef} -> State
 	    end).
 
+-spec terminate(term(), state()) -> state().
 terminate(_, #{stream_state := accepting} = State) ->
     State;
 terminate(Reason, State) ->
@@ -412,13 +474,14 @@ terminate(Reason, State) ->
 	    send_trailer(State)
     end.
 
+-spec code_change(term(), state(), term()) -> {ok, state()} | {error, term()}.
 code_change(OldVsn, State, Extra) ->
     callback(code_change, OldVsn, State, Extra).
 
 %%%===================================================================
 %%% Internal functions
 %%%===================================================================
--spec init_state(state(), [proplists:property()]) -> state().
+-spec init_state(state(), [proplists:property()]) -> state() | {stop, state()}.
 init_state(#{socket := Socket, mod := Mod} = State, Opts) ->
     Encrypted = proplists:get_bool(tls, Opts),
     State1 = State#{stream_direction => in,
@@ -455,10 +518,13 @@ init_state(#{socket := Socket, mod := Mod} = State, Opts) ->
 	{error, Reason} ->
 	    process_stream_end(Reason, State1);
 	ignore ->
-	    stop(State)
+	    {stop, State}
     end.
 
--spec noreply(state()) -> {noreply, state(), non_neg_integer() | infinity}.
+-spec noreply(state()) -> noreply();
+	     ({stop, state()}) -> {stop, normal, state()}.
+noreply({stop, State}) ->
+    {stop, normal, State};
 noreply(#{stream_timeout := infinity} = State) ->
     {noreply, State, infinity};
 noreply(#{stream_timeout := {MSecs, StartTime}} = State) ->
@@ -503,8 +569,13 @@ process_stream_end(_, #{stream_state := disconnected} = State) ->
 process_stream_end(Reason, State) ->
     State1 = State#{stream_timeout => infinity,
 		    stream_state => disconnected},
-    try callback(handle_stream_end, Reason, State1)
-    catch _:{?MODULE, undef} -> stop(State1)
+    try
+        State2 = callback(handle_stream_end, Reason, State1),
+        cast(self(), release_socket),
+        State2
+    catch _:{?MODULE, undef} ->
+	stop_async(self()),
+        State1
     end.
 
 -spec process_stream(stream_start(), state()) -> state().
@@ -815,7 +886,7 @@ process_starttls_failure(Why, State) ->
 
 -spec process_sasl_request(sasl_auth(), state()) -> state().
 process_sasl_request(#sasl_auth{mechanism = Mech, text = ClientIn},
-		     #{lserver := LServer} = State) ->
+		     #{lserver := LServer, socket := Socket} = State) ->
     State1 = State#{sasl_mech => Mech},
     Mechs = get_sasl_mechanisms(State1),
     case lists:member(Mech, Mechs) of
@@ -832,7 +903,7 @@ process_sasl_request(#sasl_auth{mechanism = Mech, text = ClientIn},
 	    CheckPW = check_password_fun(Mech, State1),
 	    CheckPWDigest = check_password_digest_fun(Mech, State1),
 	    SASLState = xmpp_sasl:server_new(LServer, GetPW, CheckPW, CheckPWDigest),
-	    Res = xmpp_sasl:server_start(SASLState, Mech, ClientIn),
+	    Res = xmpp_sasl:server_start(SASLState, Mech, ClientIn, Socket),
 	    process_sasl_result(Res, State1#{sasl_state => SASLState});
 	false ->
 	    process_sasl_result({error, unsupported_mechanism, <<"">>}, State1)
@@ -1183,7 +1254,9 @@ socket_send(_, _) ->
 close_socket(#{socket := Socket} = State) ->
     xmpp_socket:close(Socket),
     State#{stream_timeout => infinity,
-	   stream_state => disconnected}.
+	   stream_state => disconnected};
+close_socket(State) ->
+    State.
 
 -spec select_lang(binary(), binary()) -> binary().
 select_lang(Lang, <<"">>) -> Lang;

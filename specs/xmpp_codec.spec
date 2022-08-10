@@ -3,6 +3,16 @@
                data = <<>> :: binary()}).
 -type text() :: #text{}.
 
+-xml(jidprep,
+     #elem{name = <<"jid">>,
+	   xmlns = <<"urn:xmpp:jidprep:0">>,
+	   module = 'xep0328',
+	   result = {jidprep, '$jid'},
+	   cdata = #cdata{label = '$jid',
+			  required = true,
+			  dec = {jid, decode, []},
+			  enc = {jid, encode, []}}}).
+
 -xml(last,
      #elem{name = <<"query">>,
            xmlns = <<"jabber:iq:last">>,
@@ -61,7 +71,7 @@
            xmlns = <<"jabber:iq:roster">>,
 	   module = rfc6121,
            result = {roster_item, '$jid', '$name',
-                     '$groups', '$subscription', '$ask'},
+                     '$groups', '$subscription', '$ask', '$mix_channel'},
            attrs = [#attr{name = <<"jid">>,
                           required = true,
                           dec = {jid, decode, []},
@@ -70,20 +80,23 @@
 			  default = <<"">>},
                     #attr{name = <<"subscription">>,
                           default = none,
+                          always_encode = true,
                           enc = {enc_enum, []},
                           dec = {dec_enum, [[none,to,from,both,remove]]}},
                     #attr{name = <<"ask">>,
                           enc = {enc_enum, []},
                           dec = {dec_enum, [[subscribe]]}}],
-           refs = [#ref{name = roster_group, label = '$groups'}]}).
+           refs = [#ref{name = roster_group, label = '$groups'},
+                   #ref{name = mix_roster_channel, label = '$mix_channel', min = 0, max = 1}]}).
 
 -xml(roster_query,
      #elem{name = <<"query">>,
            xmlns = <<"jabber:iq:roster">>,
 	   module = rfc6121,
-           result = {roster_query, '$items', '$ver'},
+           result = {roster_query, '$items', '$ver', '$mix_annotate'},
            attrs = [#attr{name = <<"ver">>, default = undefined}],
-           refs = [#ref{name = roster_item, label = '$items'}]}).
+           refs = [#ref{name = roster_item, label = '$items'},
+                   #ref{name = mix_roster_annotate, label = '$mix_annotate', min = 0, max = 1}]}).
 
 -xml(rosterver_feature,
      #elem{name = <<"ver">>,
@@ -720,17 +733,13 @@
            xmlns = [<<"jabber:client">>, <<"jabber:server">>,
 		    <<"jabber:component:accept">>],
 	   module = rfc6120,
-           result = {stanza_error, '$type', '$code', '$by', '$reason', '$text', '$_els'},
+           result = {stanza_error, '$type', '$by', '$reason', '$text', '$_els'},
            attrs = [#attr{name = <<"type">>,
                           label = '$type',
                           required = true,
                           dec = {dec_enum, [[auth, cancel, continue,
                                              modify, wait]]},
                           enc = {enc_enum, []}},
-		    #attr{name = <<"code">>,
-			  label = '$code',
-			  enc = {enc_int, []},
-                          dec = {dec_int, [0, infinity]}},
                     #attr{name = <<"by">>,
 			  label = '$by',
 			  enc = {jid, encode, []},
@@ -1875,7 +1884,7 @@
                      '$mailer', '$tz', '$geo', '$title', '$role', '$logo',
                      '$org', '$categories', '$note', '$prodid', %% '$agent',
                      '$rev', '$sort_string', '$sound', '$uid', '$url', '$class',
-                     '$key', '$desc'},
+                     '$key', '$desc', '$_els'},
            refs = [#ref{name = vcard_N, min = 0, max = 1, label = '$n'},
                    #ref{name = vcard_ADR, label = '$adr'},
                    #ref{name = vcard_LABEL, label = '$label'},
@@ -2389,7 +2398,7 @@
 		      'retrieve-default' | 'retrieve-items' |
 		      'retrieve-subscriptions' | 'subscribe' |
 		      'subscription-options' | 'subscription-notifications' |
-		      'multi-items'.
+		      'multi-items' | undefined.
 -record(ps_error, {type :: ps_error_type(), feature :: ps_feature()}).
 -type ps_error() :: #ps_error{}.
 
@@ -3081,13 +3090,19 @@
 	   result = '$cdata',
 	   cdata = #cdata{required = true}}).
 
+-xml(mam_flip_page,
+     #elem{name = <<"flip-page">>,
+	   xmlns = <<"urn:xmpp:mam:2">>,
+	   module = 'xep0313',
+	   result = 'true'}).
+
 -xml(mam_query,
      #elem{name = <<"query">>,
            xmlns = [<<"urn:xmpp:mam:0">>, <<"urn:xmpp:mam:1">>,
 		    <<"urn:xmpp:mam:2">>, <<"urn:xmpp:mam:tmp">>],
 	   module = 'xep0313',
            result = {mam_query, '$xmlns', '$id', '$start', '$end', '$with',
-		     '$withtext', '$rsm', '$xdata'},
+		     '$withtext', '$rsm', '$flippage', '$xdata'},
            attrs = [#attr{name = <<"queryid">>, label = '$id'},
 		    #attr{name = <<"xmlns">>}],
            refs = [#ref{name = mam_start, min = 0, max = 1, label = '$start'},
@@ -3095,6 +3110,8 @@
                    #ref{name = mam_with, min = 0, max = 1, label = '$with'},
 		   #ref{name = mam_withtext, min = 0, max = 1, label = '$withtext'},
                    #ref{name = rsm_set, min = 0, max = 1, label = '$rsm'},
+                   #ref{name = mam_flip_page, min = 0, max = 1,
+                        label = '$flippage', default = false},
 		   #ref{name = xdata, min = 0, max = 1, label = '$xdata'}]}).
 
 -xml(mam_archived,
@@ -3216,6 +3233,43 @@
 	   result = {carbons_sent, '$forwarded'},
 	   refs = [#ref{name = forwarded, min = 1,
                         max = 1, label = '$forwarded'}]}).
+
+-xml(inbox_query,
+     #elem{name = <<"inbox">>,
+	   xmlns = <<"urn:xmpp:inbox:1">>,
+	   module = 'xep0430',
+	   result = {inbox_query, '$rsm'},
+	   refs = [#ref{name = rsm_set, min = 0, max = 1, label = '$rsm'}]}).
+
+-xml(inbox_entry,
+     #elem{name = <<"entry">>,
+	   xmlns = <<"urn:xmpp:inbox:1">>,
+	   module = 'xep0430',
+	   result = {inbox_entry, '$unread', '$jid', '$id'},
+	   attrs = [#attr{name = <<"unread">>,
+			  dec = {dec_int, [0, infinity]},
+			  enc = {enc_int, []}},
+		    #attr{name = <<"jid">>,
+			  label = '$jid',
+			  dec = {jid, decode, []},
+			  enc = {jid, encode, []}},
+		    #attr{name = <<"id">>}]}).
+
+-xml(inbox_fin,
+     #elem{name = <<"fin">>,
+	   xmlns = <<"urn:xmpp:inbox:1">>,
+	   module = 'xep0430',
+	   result = {inbox_fin, '$total', '$unread', '$all_unread', '$rsm'},
+	   attrs = [#attr{name = <<"total">>,
+			  dec = {dec_int, [0, infinity]},
+			  enc = {enc_int, []}},
+		    #attr{name = <<"unread">>,
+			  dec = {dec_int, [0, infinity]},
+			  enc = {enc_int, []}},
+		    #attr{name = <<"all-unread">>, label = '$all_unread',
+			  dec = {dec_int, [0, infinity]},
+			  enc = {enc_int, []}}],
+	   refs = [#ref{name = rsm_set, min = 0, max = 1, label = '$rsm'}]}).
 
 -xml(feature_csi,
      #elem{name = <<"csi">>,
@@ -3409,7 +3463,16 @@
 
 -xml(mix_subscribe,
      #elem{name = <<"subscribe">>,
-	   xmlns = <<"urn:xmpp:mix:core:0">>,
+	   xmlns = [<<"urn:xmpp:mix:core:0">>, <<"urn:xmpp:mix:core:1">>],
+	   module = 'xep0369',
+	   result = '$node',
+	   attrs = [#attr{name = <<"node">>,
+			  required = true,
+			  label = '$node'}]}).
+
+-xml(mix_unsubscribe,
+     #elem{name = <<"unsubscribe">>,
+	   xmlns = [<<"urn:xmpp:mix:core:0">>, <<"urn:xmpp:mix:core:1">>],
 	   module = 'xep0369',
 	   result = '$node',
 	   attrs = [#attr{name = <<"node">>,
@@ -3418,14 +3481,14 @@
 
 -xml(mix_nick,
      #elem{name = <<"nick">>,
-	   xmlns = <<"urn:xmpp:mix:core:0">>,
+	   xmlns = [<<"urn:xmpp:mix:core:0">>, <<"urn:xmpp:mix:core:1">>, <<"urn:xmpp:mix:presence:0">>],
 	   module = 'xep0369',
 	   result = '$cdata',
 	   cdata = #cdata{required = true}}).
 
 -xml(mix_jid,
      #elem{name = <<"jid">>,
-	   xmlns = <<"urn:xmpp:mix:core:0">>,
+	   xmlns = [<<"urn:xmpp:mix:core:0">>, <<"urn:xmpp:mix:core:1">>, <<"urn:xmpp:mix:presence:0">>],
 	   module = 'xep0369',
 	   result = '$cdata',
 	   cdata = #cdata{required = true,
@@ -3441,22 +3504,35 @@
 
 -xml(mix_setnick,
      #elem{name = <<"setnick">>,
-	   xmlns = <<"urn:xmpp:mix:core:0">>,
+	   xmlns = [<<"urn:xmpp:mix:core:0">>, <<"urn:xmpp:mix:core:1">>],
 	   module = 'xep0369',
-	   result = {mix_setnick, '$nick'},
+	   result = {mix_setnick, '$nick', '$xmlns'},
+	   attrs = [#attr{name = <<"xmlns">>}],
 	   refs = [#ref{name = mix_nick, min = 1, max = 1,
 			label = '$nick'}]}).
 
+-xml(mix_update_subscription,
+     #elem{name = <<"update-subscription">>,
+	   xmlns = [<<"urn:xmpp:mix:core:0">>, <<"urn:xmpp:mix:core:1">>],
+	   module = 'xep0369',
+	   result = {mix_update_subscription, '$xmlns', '$jid', '$subscribe', '$unsubscribe'},
+	   attrs = [#attr{name = <<"xmlns">>},
+		    #attr{name = <<"jid">>, label = '$jid',
+			  dec = {jid, decode, []}, enc = {jid, encode, []}}],
+	   refs = [#ref{name = mix_subscribe, min = 0, label = '$subscribe'},
+		   #ref{name = mix_unsubscribe, min = 0, label = '$unsubscribe'}]}).
+
 -xml(mix_join,
      #elem{name = <<"join">>,
-	   xmlns = <<"urn:xmpp:mix:core:0">>,
+	   xmlns = [<<"urn:xmpp:mix:core:0">>, <<"urn:xmpp:mix:core:1">>],
 	   module = 'xep0369',
-	   result = {mix_join, '$id', '$jid', '$nick', '$subscribe'},
+	   result = {mix_join, '$id', '$jid', '$nick', '$subscribe', '$xmlns'},
 	   attrs = [#attr{name = <<"id">>},
 		    #attr{name = <<"jid">>,
 			  label = '$jid',
 			  dec = {jid, decode, []},
-                          enc = {jid, encode, []}}],
+                          enc = {jid, encode, []}},
+		    #attr{name = <<"xmlns">>}],
 	   refs = [#ref{name = mix_subscribe, min = 0, label = '$subscribe'},
 		   #ref{name = mix_nick,
 			default = <<"">>,
@@ -3465,71 +3541,102 @@
 
 -xml(mix_client_join,
      #elem{name = <<"client-join">>,
-	   xmlns = <<"urn:xmpp:mix:pam:0">>,
+	   xmlns = [<<"urn:xmpp:mix:pam:0">>, <<"urn:xmpp:mix:pam:2">>],
 	   module = 'xep0405',
-	   result = {mix_client_join, '$channel', '$join'},
+	   result = {mix_client_join, '$channel', '$join', '$xmlns'},
 	   attrs = [#attr{name = <<"channel">>,
 			  dec = {jid, decode, []},
-			  enc = {jid, encode, []}}],
+			  enc = {jid, encode, []}},
+		    #attr{name = <<"xmlns">>}],
 	   refs = [#ref{name = mix_join, min = 1, max = 1, label = '$join'}]}).
 
 -xml(mix_leave,
      #elem{name = <<"leave">>,
-	   xmlns = <<"urn:xmpp:mix:core:0">>,
+	   xmlns = [<<"urn:xmpp:mix:core:0">>, <<"urn:xmpp:mix:core:1">>],
 	   module = 'xep0369',
-	   result = {mix_leave}}).
+	   result = {mix_leave, '$xmlns'},
+	   attrs = [#attr{name = <<"xmlns">>}]}).
 
 -xml(mix_client_leave,
      #elem{name = <<"client-leave">>,
-	   xmlns = <<"urn:xmpp:mix:pam:0">>,
+	   xmlns = [<<"urn:xmpp:mix:pam:0">>, <<"urn:xmpp:mix:pam:2">>],
 	   module = 'xep0405',
-	   result = {mix_client_leave, '$channel', '$leave'},
+	   result = {mix_client_leave, '$channel', '$leave', '$xmlns'},
 	   attrs = [#attr{name = <<"channel">>,
 			  dec = {jid, decode, []},
-			  enc = {jid, encode, []}}],
+			  enc = {jid, encode, []}},
+		    #attr{name = <<"xmlns">>}],
 	   refs = [#ref{name = mix_leave, min = 1, max = 1, label = '$leave'}]}).
 
 -xml(mix_participant,
      #elem{name = <<"participant">>,
-	   xmlns = <<"urn:xmpp:mix:core:0">>,
+	   xmlns = [<<"urn:xmpp:mix:core:0">>, <<"urn:xmpp:mix:core:1">>],
 	   module = 'xep0369',
-	   result = {mix_participant, '$jid', '$nick'},
+	   result = {mix_participant, '$jid', '$nick', '$xmlns'},
 	   attrs = [#attr{name = <<"jid">>,
 			  required = true,
 			  label = '$jid',
 			  dec = {jid, decode, []},
                           enc = {jid, encode, []}},
 		    #attr{name = <<"nick">>,
-			  label = '$nick'}]}).
+			  label = '$nick'},
+		    #attr{name = <<"xmlns">>}]}).
 
 -xml(mix_create,
      #elem{name = <<"create">>,
-	   xmlns = <<"urn:xmpp:mix:core:0">>,
+	   xmlns = [<<"urn:xmpp:mix:core:0">>, <<"urn:xmpp:mix:core:1">>],
 	   module = 'xep0369',
-	   result = {mix_create, '$channel'},
+	   result = {mix_create, '$channel', '$xmlns'},
 	   attrs = [#attr{name = <<"channel">>,
 			  default = <<"">>,
-			  dec = {nodeprep, []}}]}).
+			  dec = {nodeprep, []}},
+		    #attr{name = <<"xmlns">>}]}).
 
 -xml(mix_destroy,
      #elem{name = <<"destroy">>,
-	   xmlns = <<"urn:xmpp:mix:core:0">>,
+	   xmlns = [<<"urn:xmpp:mix:core:0">>, <<"urn:xmpp:mix:core:1">>],
 	   module = 'xep0369',
-	   result = {mix_destroy, '$channel'},
+	   result = {mix_destroy, '$channel', '$xmlns'},
 	   attrs = [#attr{name = <<"channel">>,
 			  dec = {jid, nodeprep, []},
-			  required = true}]}).
+			  required = true},
+		    #attr{name = <<"xmlns">>}]}).
 
 -xml(mix,
      #elem{name = <<"mix">>,
-	   xmlns = <<"urn:xmpp:mix:core:0">>,
+	   xmlns = [<<"urn:xmpp:mix:core:0">>, <<"urn:xmpp:mix:core:1">>],
 	   module = 'xep0369',
-	   result = {mix, '$submission_id', '$jid', '$nick'},
+	   result = {mix, '$submission_id', '$jid', '$nick', '$xmlns'},
+	   attrs = [#attr{name = <<"xmlns">>}],
 	   refs = [#ref{name = mix_submission_id, default = <<"">>,
 			min = 0, max = 1, label = '$submission_id'},
 		   #ref{name = mix_jid,	min = 0, max = 1, label = '$jid'},
 		   #ref{name = mix_nick, min = 0, max = 1,
 			label = '$nick', default = <<"">>}]}).
+
+-xml(mix_roster_channel,
+     #elem{name = <<"channel">>,
+           xmlns = <<"urn:xmpp:mix:roster:0">>,
+           module = 'xep0405',
+           result = {mix_roster_channel, '$participant-id'},
+           attrs = [#attr{name = <<"participant-id">>,
+                          required = true}]}).
+
+-xml(mix_roster_annotate,
+     #elem{name  = <<"annotate">>,
+           xmlns = <<"urn:xmpp:mix:roster:0">>,
+           module = 'xep0405',
+           result = {mix_roster_annotate}}).
+
+-xml(mix_presence,
+     #elem{name = <<"mix">>,
+	   xmlns = [<<"urn:xmpp:mix:presence:0">>],
+	   module = 'xep0403',
+	   result = {mix_presence, '$xmlns', '$jid', '$nick'},
+	   attrs = [#attr{name = <<"xmlns">>}],
+	   refs = [#ref{name = mix_jid,	min = 0, max = 1, label = '$jid'},
+		   #ref{name = mix_nick, min = 0, max = 1, label = '$nick',
+			default = <<"">>}]}).
 
 -record(hint, {type :: 'no-copy' | 'no-store' | 'no-storage' | 'store' |
 		       'no-permanent-store' | 'no-permanent-storage'}).
@@ -3709,7 +3816,7 @@
      #elem{name = <<"address">>,
 	   xmlns = <<"http://jabber.org/protocol/address">>,
 	   module = 'xep0033',
-	   result = {address, '$type', '$jid', '$desc', '$node', '$delivered'},
+	   result = {address, '$type', '$jid', '$desc', '$node', '$delivered', '$_els'},
 	   attrs = [#attr{name = <<"type">>,
 			  required = true,
 			  dec = {dec_enum, [[bcc, cc, noreply, ofrom,
@@ -3930,7 +4037,7 @@
 			  dec = {dec_int, [0, infinity]},
 			  enc = {enc_int, []}},
 		    #attr{name = <<"width">>,
-			  dec = {dec_int, [0, inifinity]},
+			  dec = {dec_int, [0, infinity]},
 			  enc = {enc_int, []}}],
 	   refs = [#ref{name = media_uri, label = '$uri'}]}).
 
@@ -3971,6 +4078,33 @@
 	   module = 'xep0184',
 	   result = {receipt_response, '$id'},
 	   attrs = [#attr{name = <<"id">>}]}).
+
+-xml(mark_markable,
+     #elem{name = <<"markable">>,
+	   xmlns = <<"urn:xmpp:chat-markers:0">>,
+	   module = 'xep0333',
+	   result = {markable}}).
+
+-xml(mark_received,
+     #elem{name = <<"received">>,
+	   xmlns = <<"urn:xmpp:chat-markers:0">>,
+	   module = 'xep0333',
+	   result = {mark_received, '$id'},
+	   attrs = [#attr{name = <<"id">>, required = true}]}).
+
+-xml(mark_displayed,
+     #elem{name = <<"displayed">>,
+	   xmlns = <<"urn:xmpp:chat-markers:0">>,
+	   module = 'xep0333',
+	   result = {mark_displayed, '$id'},
+	   attrs = [#attr{name = <<"id">>, required = true}]}).
+
+-xml(mark_acknowledged,
+     #elem{name = <<"acknowledged">>,
+	   xmlns = <<"urn:xmpp:chat-markers:0">>,
+	   module = 'xep0333',
+	   result = {mark_acknowledged, '$id'},
+	   attrs = [#attr{name = <<"id">>, required = true}]}).
 
 -xml(sic_ip,
      #elem{name = <<"ip">>,
@@ -4075,7 +4209,7 @@
 		    #attr{name = <<"filename">>,
 			  required = true},
 		    #attr{name = <<"size">>,
-			  dec = {dec_int, [1, inifinity]},
+			  dec = {dec_int, [1, infinity]},
 			  enc = {enc_int, []},
 			  required = true},
 		    #attr{name = <<"content-type">>}]}).
@@ -4254,6 +4388,58 @@
 			  dec = {jid, decode, []},
 			  enc = {jid, encode, []}}],
 	   refs = [#ref{name = delegate, label = '$delegate'}]}).
+
+-xml(service,
+     #elem{name = <<"service">>,
+	   xmlns = <<"urn:xmpp:extdisco:2">>,
+	   module = 'xep0215',
+	   result = {service, '$action', '$expires', '$host', '$name',
+		     '$password', '$port', '$restricted', '$transport', '$type',
+		     '$username', '$xdata'},
+	   attrs = [#attr{name = <<"action">>,
+			  dec = {dec_enum, [[add, remove, modify]]},
+			  enc = {enc_enum, []}},
+		    #attr{name = <<"expires">>,
+			  dec = {dec_utc, []},
+			  enc = {enc_utc, []}},
+		    #attr{name = <<"host">>,
+			  required = true,
+			  dec = {dec_host, []},
+			  enc = {enc_host, []}},
+		    #attr{name = <<"name">>},
+		    #attr{name = <<"password">>},
+		    #attr{name = <<"port">>,
+			  dec = {dec_int, [0, 65535]},
+			  enc = {enc_int, []}},
+		    #attr{name = <<"restricted">>,
+			  dec = {dec_bool, []},
+			  enc = {enc_bool, []}},
+		    #attr{name = <<"transport">>,
+			  dec = {dec_enum, [[tcp, udp]]},
+			  enc = {enc_enum, []}},
+		    #attr{name = <<"type">>,
+			  required = true,
+			  dec = {dec_enum, [[stun, turn, stuns, turns]]},
+			  enc = {enc_enum, []}},
+		    #attr{name = <<"username">>}],
+	   refs = [#ref{name = xdata, min = 0, max = 1}]}).
+
+-xml(services,
+     #elem{name = <<"services">>,
+	   xmlns = <<"urn:xmpp:extdisco:2">>,
+	   module = 'xep0215',
+	   result = {services, '$type', '$list'},
+	   attrs = [#attr{name = <<"type">>,
+			  dec = {dec_enum, [[stun, turn, stuns, turns]]},
+			  enc = {enc_enum, []}}],
+	   refs = [#ref{name = service, label = '$list'}]}).
+
+-xml(credentials,
+     #elem{name = <<"credentials">>,
+	   xmlns = <<"urn:xmpp:extdisco:2">>,
+	   module = 'xep0215',
+	   result = {credentials, '$services'},
+	   refs = [#ref{name = service, label = '$services'}]}).
 
 -xml(avatar_data,
      #elem{name = <<"data">>,
@@ -4888,6 +5074,23 @@
 	   xmlns = <<"urn:xmpp:x509:0">>,
 	   module = 'xep0417',
 	   result = {x509_register}}).
+
+-xml(muc_hats,
+     #elem{name = <<"hats">>,
+	   xmlns = <<"xmpp:prosody.im/protocol/hats:1">>,
+	   module = 'xep0317',
+	   result = {muc_hats, '$hats'},
+	   refs = [#ref{name = muc_hat, label = '$hats'}]}).
+
+-xml(muc_hat,
+     #elem{name = <<"hat">>,
+	   xmlns = <<"xmpp:prosody.im/protocol/hats:1">>,
+	   module = 'xep0317',
+	   result = {muc_hat, '$title', '$uri'},
+           attrs = [#attr{name = <<"title">>,
+                          required = true},
+                    #attr{name = <<"uri">>,
+                          required = true}]}).
 
 -xml(teknorota_register_verify_init,
      #elem{
@@ -5629,7 +5832,7 @@ dec_tzo(Val) ->
 
 enc_tzo({H, M}) ->
     Sign = if H >= 0 ->
-                   <<>>;
+                   <<"+">>;
               true ->
                    <<"-">>
            end,
@@ -5702,6 +5905,16 @@ enc_ip(Addr) ->
 
 -type xmpp_host() :: binary() | inet:ip_address() |
 		     {binary() | inet:ip_address(), inet:port_number()}.
+
+-spec dec_host(_) -> binary() | inet:ip_address().
+dec_host(S) ->
+    try dec_ip(S) catch _:_ -> S end.
+
+enc_host(Addr) when is_tuple(Addr) ->
+    enc_ip(Addr);
+enc_host(Host) ->
+    Host.
+
 -spec dec_host_port(_) -> binary() | inet:ip_address() |
 			  {binary() | inet:ip_address(), inet:port_number()}.
 dec_host_port(<<$[, T/binary>>) ->
@@ -5710,9 +5923,9 @@ dec_host_port(<<$[, T/binary>>) ->
 dec_host_port(S) ->
     case binary:split(S, <<$:>>) of
 	[S] ->
-	    try dec_ip(S) catch _:_ -> S end;
+	    dec_host(S);
 	[S, P] ->
-	    {try dec_ip(S) catch _:_ -> S end, dec_int(P, 0, 65535)}
+	    {dec_host(S), dec_int(P, 0, 65535)}
     end.
 
 enc_host_port(Host) when is_binary(Host) ->
