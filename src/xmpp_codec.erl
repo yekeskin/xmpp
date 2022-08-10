@@ -266,8 +266,6 @@ get_mod(<<"error">>, <<"jabber:component:accept">>) ->
 get_mod(<<"password">>, <<"jabber:iq:auth">>) ->
     xep0078;
 get_mod(<<"TZ">>, <<"vcard-temp">>) -> xep0054;
-get_mod(<<"client-leave">>, <<"urn:xmpp:mix:pam:2">>) ->
-    xep0405;
 get_mod(<<"content">>, <<"urn:xmpp:jingle:1">>) ->
     xep0166;
 get_mod(<<"nick">>, <<"storage:bookmarks">>) -> xep0048;
@@ -281,9 +279,13 @@ get_mod(<<"TYPE">>, <<"vcard-temp">>) -> xep0054;
 get_mod(<<"query">>,
         <<"http://jabber.org/protocol/disco#items">>) ->
     xep0030;
+get_mod(<<"channel">>, <<"urn:xmpp:mix:roster:0">>) ->
+    xep0405;
 get_mod(<<"invoice">>, <<"teknorota:xmpp:register">>) ->
     teknorota_register;
 get_mod(<<"KEYWORD">>, <<"vcard-temp">>) -> xep0054;
+get_mod(<<"create">>, <<"urn:xmpp:mix:core:1">>) ->
+    xep0369;
 get_mod(<<"data">>,
         <<"http://jabber.org/protocol/ibb">>) ->
     xep0047;
@@ -297,28 +299,15 @@ get_mod(<<"gone">>,
 get_mod(<<"response">>,
         <<"urn:ietf:params:xml:ns:xmpp-sasl">>) ->
     rfc6120;
-get_mod(<<"REGION">>, <<"vcard-temp">>) -> xep0054;
 get_mod(<<"create">>,
         <<"http://jabber.org/protocol/pubsub#event">>) ->
     xep0060;
 get_mod(<<"offline">>,
         <<"http://jabber.org/protocol/offline">>) ->
     xep0013;
-get_mod(<<"nick">>, <<"urn:xmpp:mix:presence:0">>) ->
-    xep0369;
-get_mod(<<"leave">>, <<"urn:xmpp:mix:core:1">>) ->
-    xep0369;
 get_mod(<<"actions">>,
         <<"http://jabber.org/protocol/commands">>) ->
     xep0050;
-get_mod(<<"package">>,
-	<<"teknorota:xmpp:subscription">>) ->
-    teknorota_subscription;
-get_mod(<<"thread">>, <<"jabber:component:accept">>) ->
-    rfc6120;
-get_mod(<<"bad-protocol">>,
-        <<"urn:ietf:params:xml:ns:xmpp-sasl">>) ->
-    rfc6120;
 get_mod(<<"mechanisms">>,
         <<"urn:ietf:params:xml:ns:xmpp-sasl">>) ->
     rfc6120;
@@ -328,59 +317,22 @@ get_mod(<<"query">>,
 get_mod(<<"displayed">>, <<"jabber:x:event">>) ->
     xep0022;
 get_mod(<<"start">>, <<"urn:xmpp:mam:tmp">>) -> xep0313;
-get_mod(<<"received">>, <<"urn:xmpp:carbons:2">>) ->
-    xep0280;
-get_mod(<<"x">>, <<"jabber:x:event">>) -> xep0022;
 get_mod(<<"general-error">>, <<"urn:xmpp:jingle:1">>) ->
     xep0166;
-get_mod(<<"nick">>, <<"jabber:iq:register">>) ->
-    xep0077;
-get_mod(<<"internal-server-error">>,
-        <<"urn:ietf:params:xml:ns:xmpp-streams">>) ->
-    rfc6120;
 get_mod(<<"x">>, <<"vcard-temp:x:update">>) -> xep0153;
 get_mod(<<"purge">>,
         <<"http://jabber.org/protocol/pubsub">>) ->
     xep0060;
 get_mod(<<"with">>, <<"urn:xmpp:mam:tmp">>) -> xep0313;
 get_mod(<<"address">>, <<"urn:xmpp:sic:0">>) -> xep0279;
-get_mod(<<"put">>,
-        <<"eu:siacs:conversations:http:upload">>) ->
-    xep0363;
 get_mod(<<"failure">>,
         <<"urn:ietf:params:xml:ns:xmpp-sasl">>) ->
     rfc6120;
 get_mod(<<"PRIVATE">>, <<"vcard-temp">>) -> xep0054;
-get_mod(<<"options">>,
-        <<"http://jabber.org/protocol/pubsub">>) ->
-    xep0060;
 get_mod(<<"pubsub">>,
         <<"http://jabber.org/protocol/pubsub">>) ->
     xep0060;
-get_mod(<<"disable">>, <<"urn:xmpp:carbons:2">>) ->
-    xep0280;
-get_mod(<<"mix">>, <<"urn:xmpp:mix:presence:0">>) ->
-    xep0403;
-get_mod(<<"unsupported-method">>,
-        <<"http://jabber.org/protocol/compress">>) ->
-    xep0138;
 get_mod(<<"tzo">>, <<"urn:xmpp:time">>) -> xep0202;
-get_mod(<<"POSTAL">>, <<"vcard-temp">>) -> xep0054;
-get_mod(<<"payload-too-big">>,
-        <<"http://jabber.org/protocol/pubsub#errors">>) ->
-    xep0060;
-get_mod(<<"presence-out">>, <<"jabber:iq:privacy">>) ->
-    xep0016;
-get_mod(<<"mechanism-too-weak">>,
-        <<"urn:ietf:params:xml:ns:xmpp-sasl">>) ->
-    rfc6120;
-get_mod(<<"improper-addressing">>,
-        <<"urn:ietf:params:xml:ns:xmpp-streams">>) ->
-    rfc6120;
-get_mod(<<"r">>, <<"urn:xmpp:sm:3">>) -> xep0198;
-get_mod(<<"submission-id">>,
-        <<"urn:xmpp:mix:core:0">>) ->
-    xep0369;
 get_mod(<<"unsupported-info">>,
         <<"urn:xmpp:jingle:errors:1">>) ->
     xep0166;
@@ -404,10 +356,10 @@ get_mod(<<"subscriptions">>,
 get_mod(<<"prefs">>, <<"urn:xmpp:mam:1">>) -> xep0313;
 get_mod(<<"sm">>, <<"urn:xmpp:sm:2">>) -> xep0198;
 get_mod(<<"query">>,
-	<<"teknorota:xmpp:subscription">>) ->
+        <<"teknorota:xmpp:subscription">>) ->
     teknorota_subscription;
 get_mod(<<"leave-group">>,
-	<<"teknorota:xmpp:groupchat">>) ->
+        <<"teknorota:xmpp:groupchat">>) ->
     teknorota_groupchat;
 get_mod(<<"item">>, <<"jabber:iq:privacy">>) -> xep0016;
 get_mod(<<"feature-not-implemented">>,
@@ -453,7 +405,7 @@ get_mod(<<"query">>, <<"urn:xmpp:delegation:1">>) ->
     xep0355;
 get_mod(<<"hash">>, <<"urn:xmpp:hashes:2">>) -> xep0300;
 get_mod(<<"pay-invoice">>,
-	<<"teknorota:xmpp:register">>) ->
+        <<"teknorota:xmpp:register">>) ->
     teknorota_register;
 get_mod(<<"invalid-options">>,
         <<"http://jabber.org/protocol/pubsub#errors">>) ->
@@ -471,7 +423,7 @@ get_mod(<<"unsubscribe">>,
         <<"http://jabber.org/protocol/pubsub">>) ->
     xep0060;
 get_mod(<<"virtual-init">>,
-	<<"teknorota:xmpp:register">>) ->
+        <<"teknorota:xmpp:register">>) ->
     teknorota_register;
 get_mod(<<"presence">>, <<"jabber:server">>) -> rfc6120;
 get_mod(<<"configure">>,
@@ -501,7 +453,7 @@ get_mod(<<"unsupported-applications">>,
         <<"urn:xmpp:jingle:1">>) ->
     xep0166;
 get_mod(<<"get-groups-list">>,
-	<<"teknorota:xmpp:groupchat">>) ->
+        <<"teknorota:xmpp:groupchat">>) ->
     teknorota_groupchat;
 get_mod(<<"text">>, <<"urn:xmpp:reporting:0">>) ->
     xep0377;
@@ -566,10 +518,10 @@ get_mod(<<"data">>, <<"urn:xmpp:bob">>) -> xep0231;
 get_mod(<<"success">>, <<"urn:xmpp:jingle:1">>) ->
     xep0166;
 get_mod(<<"virtual-complete">>,
-	<<"teknorota:xmpp:register">>) ->
+        <<"teknorota:xmpp:register">>) ->
     teknorota_register;
 get_mod(<<"subscription">>,
-	<<"teknorota:xmpp:subscription">>) ->
+        <<"teknorota:xmpp:subscription">>) ->
     teknorota_subscription;
 get_mod(<<"method">>,
         <<"http://jabber.org/protocol/compress">>) ->
@@ -627,7 +579,7 @@ get_mod(<<"handshake">>,
 get_mod(<<"avatar">>, <<"teknorota:xmpp:profile">>) ->
     teknorota_profile;
 get_mod(<<"get-existing-users">>,
-	<<"teknorota:xmpp:profile">>) ->
+        <<"teknorota:xmpp:profile">>) ->
     teknorota_profile;
 get_mod(<<"not-subscribed">>,
         <<"http://jabber.org/protocol/pubsub#errors">>) ->
@@ -675,7 +627,7 @@ get_mod(<<"hats">>,
         <<"xmpp:prosody.im/protocol/hats:1">>) ->
     xep0317;
 get_mod(<<"packages">>,
-	<<"teknorota:xmpp:subscription">>) ->
+        <<"teknorota:xmpp:subscription">>) ->
     teknorota_subscription;
 get_mod(<<"item">>, <<"jabber:iq:roster">>) -> rfc6121;
 get_mod(<<"redirect">>,
@@ -769,13 +721,13 @@ get_mod(<<"close">>,
 get_mod(<<"x509-csr">>, <<"urn:xmpp:x509:0">>) ->
     xep0417;
 get_mod(<<"get-subscription-info">>,
-	<<"teknorota:xmpp:subscription">>) ->
+        <<"teknorota:xmpp:subscription">>) ->
     teknorota_subscription;
 get_mod(<<"invoice">>,
-	<<"teknorota:xmpp:subscription">>) ->
+        <<"teknorota:xmpp:subscription">>) ->
     teknorota_subscription;
 get_mod(<<"get-profile">>,
-	<<"teknorota:xmpp:profile">>) ->
+        <<"teknorota:xmpp:profile">>) ->
     teknorota_profile;
 get_mod(<<"internal-server-error">>,
         <<"urn:ietf:params:xml:ns:xmpp-stanzas">>) ->
@@ -800,7 +752,7 @@ get_mod(<<"password">>,
 get_mod(<<"services">>, <<"urn:xmpp:extdisco:2">>) ->
     xep0215;
 get_mod(<<"invoices">>,
-	<<"teknorota:xmpp:subscription">>) ->
+        <<"teknorota:xmpp:subscription">>) ->
     teknorota_subscription;
 get_mod(<<"method">>,
         <<"http://jabber.org/features/compress">>) ->
@@ -809,7 +761,7 @@ get_mod(<<"invalid-jid">>,
         <<"http://jabber.org/protocol/pubsub#errors">>) ->
     xep0060;
 get_mod(<<"packages">>,
-	<<"teknorota:xmpp:register">>) ->
+        <<"teknorota:xmpp:register">>) ->
     teknorota_register;
 get_mod(<<"iq">>, <<"jabber:client">>) -> rfc6120;
 get_mod(<<"LOCALITY">>, <<"vcard-temp">>) -> xep0054;
@@ -829,7 +781,7 @@ get_mod(<<"failed-application">>,
         <<"urn:xmpp:jingle:1">>) ->
     xep0166;
 get_mod(<<"lastupdated">>,
-	<<"teknorota:xmpp:profile">>) ->
+        <<"teknorota:xmpp:profile">>) ->
     teknorota_profile;
 get_mod(<<"priority">>, <<"jabber:server">>) -> rfc6120;
 get_mod(<<"redirect">>,
@@ -884,7 +836,7 @@ get_mod(<<"item">>, <<"jabber:iq:search">>) -> xep0055;
 get_mod(<<"stream:stream">>, <<"jabber:server">>) ->
     rfc6120;
 get_mod(<<"check-invoice">>,
-	<<"teknorota:xmpp:subscription">>) ->
+        <<"teknorota:xmpp:subscription">>) ->
     teknorota_subscription;
 get_mod(<<"proceed">>,
         <<"urn:ietf:params:xml:ns:xmpp-tls">>) ->
@@ -896,7 +848,7 @@ get_mod(<<"undefined-condition">>,
     rfc6120;
 get_mod(<<"DESC">>, <<"vcard-temp">>) -> xep0054;
 get_mod(<<"get-packages">>,
-	<<"teknorota:xmpp:register">>) ->
+        <<"teknorota:xmpp:register">>) ->
     teknorota_register;
 get_mod(<<"subscriptions">>, <<"urn:xmpp:mucsub:0">>) ->
     p1_mucsub;
@@ -923,7 +875,7 @@ get_mod(<<"stream:stream">>,
         <<"jabber:component:accept">>) ->
     rfc6120;
 get_mod(<<"get-last-seen">>,
-	<<"teknorota:xmpp:profile">>) ->
+        <<"teknorota:xmpp:profile">>) ->
     teknorota_profile;
 get_mod(<<"email">>, <<"jabber:iq:register">>) ->
     xep0077;
@@ -934,7 +886,7 @@ get_mod(<<"file-too-large">>,
         <<"urn:xmpp:jingle:apps:file-transfer:errors:0">>) ->
     xep0234;
 get_mod(<<"set-profile-success">>,
-	<<"teknorota:xmpp:profile">>) ->
+        <<"teknorota:xmpp:profile">>) ->
     teknorota_profile;
 get_mod(<<"active">>, <<"jabber:iq:privacy">>) ->
     xep0016;
@@ -974,10 +926,10 @@ get_mod(<<"optional">>,
     rfc3921;
 get_mod(<<"offline">>, <<"jabber:x:event">>) -> xep0022;
 get_mod(<<"group-created">>,
-	<<"teknorota:xmpp:groupchat">>) ->
+        <<"teknorota:xmpp:groupchat">>) ->
     teknorota_groupchat;
 get_mod(<<"left-group">>,
-	<<"teknorota:xmpp:groupchat">>) ->
+        <<"teknorota:xmpp:groupchat">>) ->
     teknorota_groupchat;
 get_mod(<<"default">>, <<"jabber:iq:privacy">>) ->
     xep0016;
@@ -987,10 +939,10 @@ get_mod(<<"bind">>,
 get_mod(<<"enable">>, <<"urn:xmpp:carbons:2">>) ->
     xep0280;
 get_mod(<<"check-invoice">>,
-	<<"teknorota:xmpp:register">>) ->
+        <<"teknorota:xmpp:register">>) ->
     teknorota_register;
 get_mod(<<"group-updated">>,
-	<<"teknorota:xmpp:groupchat">>) ->
+        <<"teknorota:xmpp:groupchat">>) ->
     teknorota_groupchat;
 get_mod(<<"block">>, <<"urn:xmpp:blocking">>) ->
     xep0191;
@@ -1014,7 +966,7 @@ get_mod(<<"state">>, <<"jabber:iq:register">>) ->
     xep0077;
 get_mod(<<"utc">>, <<"urn:xmpp:time">>) -> xep0202;
 get_mod(<<"query">>,
-	<<"teknorota:xmpp:pushnotifications">>) ->
+        <<"teknorota:xmpp:pushnotifications">>) ->
     teknorota_push;
 get_mod(<<"DOM">>, <<"vcard-temp">>) -> xep0054;
 get_mod(<<"default">>,
@@ -1054,7 +1006,7 @@ get_mod(<<"query">>,
 get_mod(<<"last">>, <<"jabber:iq:register">>) ->
     xep0077;
 get_mod(<<"query">>,
-	<<"teknorota:xmpp:filesharing">>) ->
+        <<"teknorota:xmpp:filesharing">>) ->
     teknorota_fileshare;
 get_mod(<<"thread">>, <<"jabber:client">>) -> rfc6120;
 get_mod(<<"streamhost-used">>,
@@ -1064,7 +1016,7 @@ get_mod(<<"query">>, <<"urn:xmpp:mam:0">>) -> xep0313;
 get_mod(<<"unsubscribe">>, <<"urn:xmpp:mix:core:0">>) ->
     xep0369;
 get_mod(<<"update-group">>,
-	<<"teknorota:xmpp:groupchat">>) ->
+        <<"teknorota:xmpp:groupchat">>) ->
     teknorota_groupchat;
 get_mod(<<"recipient-unavailable">>,
         <<"urn:ietf:params:xml:ns:xmpp-stanzas">>) ->
@@ -1156,7 +1108,7 @@ get_mod(<<"join">>, <<"urn:xmpp:mix:core:0">>) ->
 get_mod(<<"composing">>, <<"jabber:x:event">>) ->
     xep0022;
 get_mod(<<"set-profile">>,
-	<<"teknorota:xmpp:profile">>) ->
+        <<"teknorota:xmpp:profile">>) ->
     teknorota_profile;
 get_mod(<<"reset">>,
         <<"urn:ietf:params:xml:ns:xmpp-streams">>) ->
@@ -1196,10 +1148,10 @@ get_mod(<<"not-in-roster-group">>,
 get_mod(<<"package">>, <<"teknorota:xmpp:register">>) ->
     teknorota_register;
 get_mod(<<"unregistered">>,
-	<<"teknorota:xmpp:pushnotifications">>) ->
+        <<"teknorota:xmpp:pushnotifications">>) ->
     teknorota_push;
 get_mod(<<"participant">>,
-	<<"teknorota:xmpp:groupchat">>) ->
+        <<"teknorota:xmpp:groupchat">>) ->
     teknorota_groupchat;
 get_mod(<<"unsupported-encoding">>,
         <<"urn:ietf:params:xml:ns:xmpp-streams">>) ->
@@ -1232,7 +1184,7 @@ get_mod(<<"continue">>,
         <<"http://jabber.org/protocol/muc#admin">>) ->
     xep0045;
 get_mod(<<"registered">>,
-	<<"teknorota:xmpp:pushnotifications">>) ->
+        <<"teknorota:xmpp:pushnotifications">>) ->
     teknorota_push;
 get_mod(<<"undefined-condition">>,
         <<"urn:ietf:params:xml:ns:xmpp-stanzas">>) ->
@@ -1290,7 +1242,7 @@ get_mod(<<"candidate-error">>,
 get_mod(<<"query">>, <<"teknorota:xmpp:register">>) ->
     teknorota_register;
 get_mod(<<"upload">>,
-	<<"teknorota:xmpp:filesharing">>) ->
+        <<"teknorota:xmpp:filesharing">>) ->
     teknorota_fileshare;
 get_mod(<<"hash">>, <<"teknorota:xmpp:profile">>) ->
     teknorota_profile;
@@ -1313,7 +1265,7 @@ get_mod(<<"proxy-error">>,
         <<"urn:xmpp:jingle:transports:s5b:1">>) ->
     xep0260;
 get_mod(<<"get-packages">>,
-	<<"teknorota:xmpp:subscription">>) ->
+        <<"teknorota:xmpp:subscription">>) ->
     teknorota_subscription;
 get_mod(<<"stat">>,
         <<"http://jabber.org/protocol/stats">>) ->
@@ -1326,7 +1278,7 @@ get_mod(<<"reason">>, <<"urn:xmpp:jingle:1">>) ->
 get_mod(<<"x509-request">>, <<"urn:xmpp:x509:0">>) ->
     xep0417;
 get_mod(<<"verify-init">>,
-	<<"teknorota:xmpp:register">>) ->
+        <<"teknorota:xmpp:register">>) ->
     teknorota_register;
 get_mod(<<"thread">>, <<"jabber:server">>) -> rfc6120;
 get_mod(<<"host-unknown">>,
@@ -1339,10 +1291,10 @@ get_mod(<<"INTERNET">>, <<"vcard-temp">>) -> xep0054;
 get_mod(<<"title">>, <<"jabber:x:data">>) -> xep0004;
 get_mod(<<"no-copy">>, <<"urn:xmpp:hints">>) -> xep0334;
 get_mod(<<"new-group">>,
-	<<"teknorota:xmpp:groupchat">>) ->
+        <<"teknorota:xmpp:groupchat">>) ->
     teknorota_groupchat;
 get_mod(<<"update-group-keys">>,
-	<<"teknorota:xmpp:groupchat">>) ->
+        <<"teknorota:xmpp:groupchat">>) ->
     teknorota_groupchat;
 get_mod(<<"subscription">>,
         <<"http://jabber.org/protocol/pubsub#owner">>) ->
@@ -1356,7 +1308,7 @@ get_mod(<<"note">>,
         <<"http://jabber.org/protocol/commands">>) ->
     xep0050;
 get_mod(<<"group-keys-updated">>,
-	<<"teknorota:xmpp:groupchat">>) ->
+        <<"teknorota:xmpp:groupchat">>) ->
     teknorota_groupchat;
 get_mod(<<"message">>, <<"jabber:server">>) -> rfc6120;
 get_mod(<<"MIDDLE">>, <<"vcard-temp">>) -> xep0054;
@@ -1413,7 +1365,7 @@ get_mod(<<"set">>,
         <<"http://jabber.org/protocol/rsm">>) ->
     xep0059;
 get_mod(<<"get-invoices">>,
-	<<"teknorota:xmpp:subscription">>) ->
+        <<"teknorota:xmpp:subscription">>) ->
     teknorota_subscription;
 get_mod(<<"status">>, <<"jabber:client">>) -> rfc6120;
 get_mod(<<"item">>,
@@ -1426,7 +1378,7 @@ get_mod(<<"activated">>,
         <<"urn:xmpp:jingle:transports:s5b:1">>) ->
     xep0260;
 get_mod(<<"download">>,
-	<<"teknorota:xmpp:filesharing">>) ->
+        <<"teknorota:xmpp:filesharing">>) ->
     teknorota_fileshare;
 get_mod(<<"user">>, <<"teknorota:xmpp:profile">>) ->
     teknorota_profile;
@@ -1476,7 +1428,7 @@ get_mod(<<"file-too-large">>,
         <<"urn:xmpp:http:upload">>) ->
     xep0363;
 get_mod(<<"last-seen">>,
-	<<"teknorota:xmpp:profile">>) ->
+        <<"teknorota:xmpp:profile">>) ->
     teknorota_profile;
 get_mod(<<"storage">>, <<"storage:bookmarks">>) ->
     xep0048;
@@ -1489,10 +1441,10 @@ get_mod(<<"reason">>,
         <<"http://jabber.org/protocol/muc#admin">>) ->
     xep0045;
 get_mod(<<"pay-invoice">>,
-	<<"teknorota:xmpp:subscription">>) ->
+        <<"teknorota:xmpp:subscription">>) ->
     teknorota_subscription;
 get_mod(<<"group-info">>,
-	<<"teknorota:xmpp:groupchat">>) ->
+        <<"teknorota:xmpp:groupchat">>) ->
     teknorota_groupchat;
 get_mod(<<"policy-violation">>,
         <<"urn:ietf:params:xml:ns:xmpp-stanzas">>) ->
@@ -1552,7 +1504,7 @@ get_mod(<<"candidate">>,
         <<"urn:xmpp:jingle:transports:s5b:1">>) ->
     xep0260;
 get_mod(<<"upconfirm">>,
-	<<"teknorota:xmpp:filesharing">>) ->
+        <<"teknorota:xmpp:filesharing">>) ->
     teknorota_fileshare;
 get_mod(<<"subject">>, <<"jabber:server">>) -> rfc6120;
 get_mod(<<"bad-namespace-prefix">>,
@@ -1602,7 +1554,7 @@ get_mod(<<"query">>,
         <<"http://jabber.org/protocol/muc#owner">>) ->
     xep0045;
 get_mod(<<"create-invoice">>,
-	<<"teknorota:xmpp:register">>) ->
+        <<"teknorota:xmpp:register">>) ->
     teknorota_register;
 get_mod(<<"query">>, <<"teknorota:xmpp:groupchat">>) ->
     teknorota_groupchat;
@@ -1650,7 +1602,7 @@ get_mod(<<"dialback">>,
 get_mod(<<"put">>, <<"urn:xmpp:http:upload">>) ->
     xep0363;
 get_mod(<<"register">>,
-	<<"teknorota:xmpp:pushnotifications">>) ->
+        <<"teknorota:xmpp:pushnotifications">>) ->
     teknorota_push;
 get_mod(<<"query">>, <<"jabber:iq:privacy">>) ->
     xep0016;
@@ -1680,7 +1632,7 @@ get_mod(<<"count">>,
     xep0059;
 get_mod(<<"ip">>, <<"urn:xmpp:sic:0">>) -> xep0279;
 get_mod(<<"create-invoice">>,
-	<<"teknorota:xmpp:subscription">>) ->
+        <<"teknorota:xmpp:subscription">>) ->
     teknorota_subscription;
 get_mod(<<"text">>,
         <<"urn:ietf:params:xml:ns:xmpp-stanzas">>) ->
@@ -1705,6 +1657,12 @@ get_mod(<<"max-file-size">>,
     xep0363;
 get_mod(<<"cancel">>, <<"urn:xmpp:jingle:1">>) ->
     xep0166;
+get_mod(<<"group-key">>,
+        <<"teknorota:xmpp:groupchat">>) ->
+    teknorota_groupchat;
+get_mod(<<"groups-list">>,
+        <<"teknorota:xmpp:groupchat">>) ->
+    teknorota_groupchat;
 get_mod(<<"not-authorized">>,
         <<"urn:ietf:params:xml:ns:xmpp-streams">>) ->
     rfc6120;
@@ -1716,6 +1674,9 @@ get_mod(<<"db:verify">>, <<"jabber:server">>) ->
 get_mod(<<"security-error">>,
         <<"urn:xmpp:jingle:1">>) ->
     xep0166;
+get_mod(<<"unregister">>,
+        <<"teknorota:xmpp:pushnotifications">>) ->
+    teknorota_push;
 get_mod(<<"abort">>,
         <<"urn:ietf:params:xml:ns:xmpp-sasl">>) ->
     rfc6120;
@@ -1727,6 +1688,9 @@ get_mod(<<"flip-page">>, <<"urn:xmpp:mam:2">>) ->
     xep0313;
 get_mod(<<"received">>, <<"urn:xmpp:receipts">>) ->
     xep0184;
+get_mod(<<"get-updated-users">>,
+        <<"teknorota:xmpp:profile">>) ->
+    teknorota_profile;
 get_mod(<<"report">>, <<"urn:xmpp:reporting:0">>) ->
     xep0377;
 get_mod(<<"item-not-found">>,
@@ -1766,78 +1730,11 @@ get_mod(<<"item">>,
 get_mod(<<"range">>,
         <<"urn:xmpp:jingle:apps:file-transfer:5">>) ->
     xep0234;
-get_mod(<<"group-key">>,
-	<<"teknorota:xmpp:groupchat">>) ->
-    teknorota_groupchat;
-get_mod(<<"groups-list">>,
-	<<"teknorota:xmpp:groupchat">>) ->
-    teknorota_groupchat;
-get_mod(<<"not-authorized">>,
-	<<"urn:ietf:params:xml:ns:xmpp-streams">>) ->
-    rfc6120;
-get_mod(<<"unsubscribe">>, <<"urn:xmpp:mucsub:0">>) ->
-    p1_mucsub;
-get_mod(<<"failed">>, <<"urn:xmpp:sm:2">>) -> xep0198;
-get_mod(<<"db:verify">>, <<"jabber:server">>) ->
-    xep0220;
-get_mod(<<"security-error">>,
-	<<"urn:xmpp:jingle:1">>) ->
-    xep0166;
-get_mod(<<"unregister">>,
-	<<"teknorota:xmpp:pushnotifications">>) ->
-    teknorota_push;
-get_mod(<<"abort">>,
-	<<"urn:ietf:params:xml:ns:xmpp-sasl">>) ->
-    rfc6120;
-get_mod(<<"FAMILY">>, <<"vcard-temp">>) -> xep0054;
-get_mod(<<"headers">>,
-	<<"http://jabber.org/protocol/shim">>) ->
-    xep0131;
-get_mod(<<"received">>, <<"urn:xmpp:receipts">>) ->
-    xep0184;
-get_mod(<<"get-updated-users">>,
-	<<"teknorota:xmpp:profile">>) ->
-    teknorota_profile;
-get_mod(<<"report">>, <<"urn:xmpp:reporting:0">>) ->
-    xep0377;
-get_mod(<<"item-not-found">>,
-	<<"urn:ietf:params:xml:ns:xmpp-stanzas">>) ->
-    rfc6120;
-get_mod(<<"item">>,
-	<<"http://jabber.org/protocol/pubsub">>) ->
-    xep0060;
-get_mod(<<"decline">>,
-	<<"http://jabber.org/protocol/muc#user">>) ->
-    xep0045;
-get_mod(<<"x">>,
-	<<"http://jabber.org/protocol/muc#user">>) ->
-    xep0045;
-get_mod(<<"failure">>,
-	<<"http://jabber.org/protocol/compress">>) ->
-    xep0138;
-get_mod(<<"resource-constraint">>,
-	<<"urn:ietf:params:xml:ns:xmpp-streams">>) ->
-    rfc6120;
-get_mod(<<"VERSION">>, <<"vcard-temp">>) -> xep0054;
-get_mod(<<"item-forbidden">>,
-	<<"http://jabber.org/protocol/pubsub#errors">>) ->
-    xep0060;
-get_mod(<<"history">>,
-	<<"http://jabber.org/protocol/muc">>) ->
-    xep0045;
-get_mod(<<"inactive">>, <<"urn:xmpp:csi:0">>) ->
-    xep0352;
-get_mod(<<"presence">>, <<"jabber:client">>) -> rfc6120;
-get_mod(<<"INTL">>, <<"vcard-temp">>) -> xep0054;
-get_mod(<<"item">>,
-	<<"http://jabber.org/protocol/muc#admin">>) ->
-    xep0045;
-get_mod(<<"range">>,
-	<<"urn:xmpp:jingle:apps:file-transfer:5">>) ->
-    xep0234;
 get_mod(<<"verify-complete">>,
-	<<"teknorota:xmpp:register">>) ->
+        <<"teknorota:xmpp:register">>) ->
     teknorota_register;
+get_mod(<<"client-leave">>, <<"urn:xmpp:mix:pam:2">>) ->
+    xep0405;
 get_mod(<<"request">>, <<"urn:xmpp:http:upload">>) ->
     xep0363;
 get_mod(<<"timeout">>, <<"urn:xmpp:jingle:1">>) ->
@@ -1845,7 +1742,7 @@ get_mod(<<"timeout">>, <<"urn:xmpp:jingle:1">>) ->
 get_mod(<<"iq">>, <<"jabber:component:accept">>) ->
     rfc6120;
 get_mod(<<"query">>,
-	<<"http://jabber.org/protocol/muc#admin">>) ->
+        <<"http://jabber.org/protocol/muc#admin">>) ->
     xep0045;
 get_mod(<<"thumbnail">>, <<"urn:xmpp:thumbs:1">>) ->
     xep0264;
@@ -1856,12 +1753,12 @@ get_mod(<<"subscribe">>, <<"urn:xmpp:mix:core:0">>) ->
 get_mod(<<"first">>, <<"jabber:iq:register">>) ->
     xep0077;
 get_mod(<<"x">>,
-	<<"http://jabber.org/protocol/muc">>) ->
+        <<"http://jabber.org/protocol/muc">>) ->
     xep0045;
 get_mod(<<"media">>, <<"urn:xmpp:media-element">>) ->
     xep0221;
 get_mod(<<"out-of-order">>,
-	<<"urn:xmpp:jingle:errors:1">>) ->
+        <<"urn:xmpp:jingle:errors:1">>) ->
     xep0166;
 get_mod(<<"result">>, <<"urn:xmpp:mam:tmp">>) ->
     xep0313;
@@ -1869,6 +1766,56 @@ get_mod(<<"active">>, <<"urn:xmpp:csi:0">>) -> xep0352;
 get_mod(<<"slot">>, <<"urn:xmpp:http:upload">>) ->
     xep0363;
 get_mod(<<"digest">>, <<"jabber:iq:auth">>) -> xep0078;
+get_mod(<<"REGION">>, <<"vcard-temp">>) -> xep0054;
+get_mod(<<"nick">>, <<"urn:xmpp:mix:presence:0">>) ->
+    xep0369;
+get_mod(<<"leave">>, <<"urn:xmpp:mix:core:1">>) ->
+    xep0369;
+get_mod(<<"package">>,
+        <<"teknorota:xmpp:subscription">>) ->
+    teknorota_subscription;
+get_mod(<<"thread">>, <<"jabber:component:accept">>) ->
+    rfc6120;
+get_mod(<<"bad-protocol">>,
+        <<"urn:ietf:params:xml:ns:xmpp-sasl">>) ->
+    rfc6120;
+get_mod(<<"received">>, <<"urn:xmpp:carbons:2">>) ->
+    xep0280;
+get_mod(<<"x">>, <<"jabber:x:event">>) -> xep0022;
+get_mod(<<"nick">>, <<"jabber:iq:register">>) ->
+    xep0077;
+get_mod(<<"internal-server-error">>,
+        <<"urn:ietf:params:xml:ns:xmpp-streams">>) ->
+    rfc6120;
+get_mod(<<"put">>,
+        <<"eu:siacs:conversations:http:upload">>) ->
+    xep0363;
+get_mod(<<"options">>,
+        <<"http://jabber.org/protocol/pubsub">>) ->
+    xep0060;
+get_mod(<<"disable">>, <<"urn:xmpp:carbons:2">>) ->
+    xep0280;
+get_mod(<<"mix">>, <<"urn:xmpp:mix:presence:0">>) ->
+    xep0403;
+get_mod(<<"unsupported-method">>,
+        <<"http://jabber.org/protocol/compress">>) ->
+    xep0138;
+get_mod(<<"POSTAL">>, <<"vcard-temp">>) -> xep0054;
+get_mod(<<"payload-too-big">>,
+        <<"http://jabber.org/protocol/pubsub#errors">>) ->
+    xep0060;
+get_mod(<<"presence-out">>, <<"jabber:iq:privacy">>) ->
+    xep0016;
+get_mod(<<"mechanism-too-weak">>,
+        <<"urn:ietf:params:xml:ns:xmpp-sasl">>) ->
+    rfc6120;
+get_mod(<<"improper-addressing">>,
+        <<"urn:ietf:params:xml:ns:xmpp-streams">>) ->
+    rfc6120;
+get_mod(<<"r">>, <<"urn:xmpp:sm:3">>) -> xep0198;
+get_mod(<<"submission-id">>,
+        <<"urn:xmpp:mix:core:0">>) ->
+    xep0369;
 get_mod(Name, XMLNS) ->
     xmpp_codec_external:lookup(Name, XMLNS).
 
@@ -1883,14 +1830,25 @@ get_mod({mam_prefs, _, _, _, _}) -> xep0313;
 get_mod({upload_file_too_large, _, _}) -> xep0363;
 get_mod({jingle_ft_description, _}) -> xep0234;
 get_mod({x509_revoke, _, _}) -> xep0417;
-get_mod({teknorota_subscription_create_invoice, _,
-	 _}) ->
+get_mod({teknorota_subscription_create_invoice,
+         _,
+         _}) ->
     teknorota_subscription;
 get_mod({muc_user, _, _, _, _, _, _}) -> xep0045;
-get_mod({jidprep, _}) -> xep0328;
-get_mod({teknorota_subscription_invoice, _, _, _, _, _,
-	 _, _, _, _, _, _}) ->
+get_mod({teknorota_subscription_invoice,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _}) ->
     teknorota_subscription;
+get_mod({jidprep, _}) -> xep0328;
 get_mod({bytestreams, _, _, _, _, _, _}) -> xep0065;
 get_mod({address, _, _, _, _, _, _}) -> xep0033;
 get_mod({sasl_auth, _, _}) -> rfc6120;
@@ -1932,6 +1890,7 @@ get_mod({teknorota_groupchat_participant, _, _, _}) ->
     teknorota_groupchat;
 get_mod({iq, _, _, _, _, _, _, _}) -> rfc6120;
 get_mod({xdata_option, _, _}) -> xep0004;
+get_mod({mix_presence, _, _, _}) -> xep0403;
 get_mod({x509_cert_chain, _, _}) -> xep0417;
 get_mod({teknorota_register_invoice, _, _, _}) ->
     teknorota_register;
@@ -1943,11 +1902,26 @@ get_mod({vcard_geo, _, _}) -> xep0054;
 get_mod({xevent, _, _, _, _, _}) -> xep0022;
 get_mod({jingle_content, _, _, _, _, _}) -> xep0166;
 get_mod({feature_register}) -> xep0077;
-get_mod({pubsub, _, _, _, _, _, _, _, _, _, _, _, _, _,
-	 _, _, _}) ->
+get_mod({pubsub,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _}) ->
     xep0060;
 get_mod({x_conference, _, _, _, _, _}) -> xep0249;
-get_mod({mix_destroy, _}) -> xep0369;
+get_mod({inbox_query, _}) -> xep0430;
 get_mod({disco_info, _, _, _, _}) -> xep0030;
 get_mod({oob_x, _, _, _}) -> xep0066;
 get_mod({teknorota_subscription_get_invoices}) ->
@@ -1959,22 +1933,26 @@ get_mod({teknorota_push_register, _, _}) ->
     teknorota_push;
 get_mod({teknorota_profile_user, _, _}) ->
     teknorota_profile;
-get_mod({teknorota_groupchat_update_group, _, _, _,
-	 _}) ->
+get_mod({teknorota_groupchat_update_group,
+         _,
+         _,
+         _,
+         _}) ->
     teknorota_groupchat;
 get_mod({stats, _, _}) -> xep0039;
 get_mod({muc, _, _}) -> xep0045;
 get_mod({carbons_enable}) -> xep0280;
 get_mod({carbons_private}) -> xep0280;
 get_mod({mix_roster_channel, _}) -> xep0405;
-get_mod({services, _, _}) -> xep0215;
-get_mod({teknorota_groupchat_update_group_keys, _,
-	 _}) ->
+get_mod({teknorota_groupchat_update_group_keys,
+         _,
+         _}) ->
     teknorota_groupchat;
 get_mod({shim, _}) -> xep0131;
 get_mod({mam_archived, _, _}) -> xep0313;
 get_mod({delegated, _, _}) -> xep0355;
 get_mod({text, _, _}) -> xep0234;
+get_mod({muc_hat, _, _}) -> xep0317;
 get_mod({xmpp_session, _}) -> rfc3921;
 get_mod({ping}) -> xep0199;
 get_mod({time, _, _}) -> xep0202;
@@ -2011,27 +1989,43 @@ get_mod({register,
          _,
          _}) ->
     xep0077;
+get_mod({service, _, _, _, _, _, _, _, _, _, _, _}) ->
+    xep0215;
 get_mod({teknorota_fileshare_upload, _, _, _, _}) ->
     teknorota_fileshare;
-get_mod({teknorota_groupchat_query, _, _, _, _, _, _,
-	 _}) ->
+get_mod({teknorota_groupchat_query,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _}) ->
     teknorota_groupchat;
 get_mod({version, _, _, _}) -> xep0092;
 get_mod({muc_subscription, _, _, _}) -> p1_mucsub;
-get_mod({roster_item, _, _, _, _, _}) -> rfc6121;
 get_mod({vcard_photo, _, _, _}) -> xep0054;
 get_mod({ps_publish, _, _}) -> xep0060;
-get_mod({mam_query, _, _, _, _, _, _, _, _, _}) ->
-    xep0313;
 get_mod({xcaptcha, _}) -> xep0158;
 get_mod({avatar_data, _}) -> xep0084;
+get_mod({mix_destroy, _, _}) -> xep0369;
 get_mod({media_uri, _, _}) -> xep0221;
 get_mod({jingle_error, _}) -> xep0166;
-get_mod({teknorota_register_verify_complete, _, _, _, _,
-	 _, _}) ->
+get_mod({teknorota_register_verify_complete,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _}) ->
     teknorota_register;
-get_mod({teknorota_register_package, _, _, _, _, _,
-	 _}) ->
+get_mod({teknorota_register_package,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _}) ->
     teknorota_register;
 get_mod({teknorota_push_unregister, _}) ->
     teknorota_push;
@@ -2046,30 +2040,22 @@ get_mod({teknorota_register_packages, _}) ->
     teknorota_register;
 get_mod({teknorota_subscription_invoices, _}) ->
     teknorota_subscription;
-get_mod({teknorota_groupchat_group_info, _, _, _, _,
-	 _}) ->
+get_mod({teknorota_groupchat_group_info,
+         _,
+         _,
+         _,
+         _,
+         _}) ->
     teknorota_groupchat;
-get_mod({identity, _, _, _, _}) -> xep0030;
-get_mod({redirect, _}) -> rfc6120;
-get_mod({muc_history, _, _, _, _}) -> xep0045;
 get_mod({muc_owner, _, _, _}) -> xep0045;
 get_mod({mix_setnick, _, _}) -> xep0369;
 get_mod({mark_received, _}) -> xep0333;
 get_mod({mark_displayed, _}) -> xep0333;
 get_mod({mark_acknowledged, _}) -> xep0333;
-get_mod({jingle_ft_file, _, _, _, _, _, _, _, _}) ->
-    xep0234;
-get_mod({teknorota_register_virtual_init, _}) ->
-    teknorota_register;
-get_mod({teknorota_profile_get, _}) ->
-    teknorota_profile;
 get_mod({teknorota_profile_get_updated, _}) ->
     teknorota_profile;
-get_mod({teknorota_groupchat_group_updated, _}) ->
-    teknorota_groupchat;
 get_mod({bookmark_url, _, _}) -> xep0048;
 get_mod({gone, _}) -> rfc6120;
-get_mod({sasl_response, _}) -> rfc6120;
 get_mod({vcard_temp,
          _,
          _,
@@ -2103,40 +2089,45 @@ get_mod({vcard_temp,
          _}) ->
     xep0054;
 get_mod({chatstate, _}) -> xep0085;
-get_mod({muc_unique, _}) -> xep0045;
 get_mod({mix_leave, _}) -> xep0369;
 get_mod({receipt_response, _}) -> xep0184;
 get_mod({sic, _, _, _}) -> xep0279;
-get_mod({idle, _}) -> xep0319;
-get_mod({stanza_error, _, _, _, _, _}) -> rfc6120;
 get_mod({teknorota_subscription_check_invoice, _}) ->
     teknorota_subscription;
 get_mod({teknorota_profile_name, _}) ->
     teknorota_profile;
-get_mod({teknorota_groupchat_group_key_el, _, _}) ->
-    teknorota_groupchat;
-get_mod({sm_resumed, _, _, _}) -> xep0198;
+get_mod({stanza_error, _, _, _, _, _}) -> rfc6120;
 get_mod({offline_item, _, _}) -> xep0013;
 get_mod({mix_participant, _, _, _}) -> xep0369;
 get_mod({db_verify, _, _, _, _, _, _}) -> xep0220;
 get_mod({upload_slot, _, _, _}) -> xep0363;
-get_mod({jingle_ibb_transport, _, _, _}) -> xep0261;
-get_mod({teknorota_subscription_query, _, _, _, _, _,
-	 _}) ->
+get_mod({teknorota_subscription_query,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _}) ->
     teknorota_subscription;
-get_mod({muc_decline, _, _, _}) -> xep0045;
-get_mod({sm_enable, _, _, _}) -> xep0198;
 get_mod({offline, _, _, _}) -> xep0013;
 get_mod({mix_client_leave, _, _, _}) -> xep0405;
-get_mod({thumbnail, _, _, _, _}) -> xep0264;
 get_mod({delegation, _, _}) -> xep0355;
 get_mod({x509_challenge, _, _, _}) -> xep0417;
-get_mod({teknorota_subscription_pay_invoice, _, _,
-	 _}) ->
+get_mod({teknorota_subscription_pay_invoice,
+         _,
+         _,
+         _}) ->
     teknorota_subscription;
 get_mod({sm_enabled, _, _, _, _, _}) -> xep0198;
-get_mod({teknorota_register_query, _, _, _, _, _, _, _,
-	 _}) ->
+get_mod({teknorota_register_query,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _}) ->
     teknorota_register;
 get_mod({teknorota_profile_hash, _}) ->
     teknorota_profile;
@@ -2148,16 +2139,16 @@ get_mod({mix_update_subscription, _, _, _, _}) ->
     xep0369;
 get_mod({upload_retry, _}) -> xep0363;
 get_mod({x509_register}) -> xep0417;
-get_mod({roster_item, _, _, _, _, _, _}) -> rfc6121;
 get_mod({teknorota_profile_key, _}) ->
     teknorota_profile;
+get_mod({roster_item, _, _, _, _, _, _}) -> rfc6121;
 get_mod({rsm_set, _, _, _, _, _, _, _}) -> xep0059;
 get_mod({avatar_meta, _, _}) -> xep0084;
-get_mod({roster_query, _, _, _}) -> rfc6121;
 get_mod({teknorota_register_get_packages}) ->
     teknorota_register;
 get_mod({teknorota_profile_set_success}) ->
     teknorota_profile;
+get_mod({roster_query, _, _, _}) -> rfc6121;
 get_mod({unblock, _}) -> xep0191;
 get_mod({stat_error, _, _}) -> xep0039;
 get_mod({sasl_abort}) -> rfc6120;
@@ -2202,8 +2193,13 @@ get_mod({jingle_reason, _, _, _}) -> xep0166;
 get_mod({teknorota_register_pay_invoice, _, _, _, _}) ->
     teknorota_register;
 get_mod({ps_event, _, _, _, _, _, _}) -> xep0060;
-get_mod({teknorota_subscription_package, _, _, _, _, _,
-	 _}) ->
+get_mod({teknorota_subscription_package,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _}) ->
     teknorota_subscription;
 get_mod({teknorota_push_query, _, _}) -> teknorota_push;
 get_mod({sasl_mechanisms, _}) -> rfc6120;
@@ -2227,6 +2223,10 @@ get_mod({ibb_close, _}) -> xep0047;
 get_mod({vcard_sound, _, _, _}) -> xep0054;
 get_mod({ps_retract, _, _, _}) -> xep0060;
 get_mod({privilege_perm, _, _}) -> xep0356;
+get_mod({teknorota_subscription_info}) ->
+    teknorota_subscription;
+get_mod({teknorota_fileshare_upconfirm, _, _}) ->
+    teknorota_fileshare;
 get_mod({vcard_adr,
          _,
          _,
@@ -2247,6 +2247,13 @@ get_mod({ps_unsubscribe, _, _, _}) -> xep0060;
 get_mod({sm_resume, _, _, _}) -> xep0198;
 get_mod({push_enable, _, _, _}) -> xep0357;
 get_mod({jingle_ft_range, _, _, _}) -> xep0234;
+get_mod({teknorota_register_create_invoice, _, _, _}) ->
+    teknorota_register;
+get_mod({teknorota_register_virtual_complete,
+         _,
+         _,
+         _}) ->
+    teknorota_register;
 get_mod({db_result, _, _, _, _, _}) -> xep0220;
 get_mod({bookmark_conference, _, _, _, _, _}) ->
     xep0048;
@@ -2254,33 +2261,6 @@ get_mod({vcard_name, _, _, _, _, _}) -> xep0054;
 get_mod({inbox_fin, _, _, _, _}) -> xep0430;
 get_mod({csi, _}) -> xep0352;
 get_mod({sm_a, _, _}) -> xep0198;
-get_mod({jingle_s5b_transport, _, _, _, _, _, _, _}) ->
-    xep0260;
-get_mod({teknorota_subscription_info}) ->
-    teknorota_subscription;
-get_mod({teknorota_fileshare_upconfirm, _, _}) ->
-    teknorota_fileshare;
-get_mod({vcard_adr, _, _, _, _, _, _, _, _, _, _, _, _,
-	 _, _}) ->
-    xep0054;
-get_mod({ps_unsubscribe, _, _, _}) -> xep0060;
-get_mod({sm_resume, _, _, _}) -> xep0198;
-get_mod({push_enable, _, _, _}) -> xep0357;
-get_mod({jingle_ft_range, _, _, _}) -> xep0234;
-get_mod({teknorota_register_create_invoice, _, _, _}) ->
-    teknorota_register;
-get_mod({teknorota_register_virtual_complete, _, _,
-	 _}) ->
-    teknorota_register;
-get_mod({mam_query, _, _, _, _, _, _, _, _}) -> xep0313;
-get_mod({db_result, _, _, _, _, _}) -> xep0220;
-get_mod({bookmark_conference, _, _, _, _, _}) ->
-    xep0048;
-get_mod({vcard_name, _, _, _, _, _}) -> xep0054;
-get_mod({csi, _}) -> xep0352;
-get_mod({mix_join, _, _, _, _}) -> xep0369;
-get_mod({sm_a, _, _}) -> xep0198;
-get_mod({mix, _, _, _}) -> xep0369;
 get_mod({jingle_s5b_transport, _, _, _, _, _, _, _}) ->
     xep0260;
 get_mod({teknorota_subscription_get_packages}) ->
@@ -2294,6 +2274,7 @@ get_mod({muc_actor, _, _}) -> xep0045;
 get_mod({nick, _}) -> xep0172;
 get_mod({jingle, _, _, _, _, _, _, _}) -> xep0166;
 get_mod({x509_csr, _, _}) -> xep0417;
+get_mod({services, _, _}) -> xep0215;
 get_mod({avatar_info, _, _, _, _, _, _}) -> xep0084;
 get_mod({privacy_list, _, _}) -> xep0016;
 get_mod({report, _, _}) -> xep0377;
@@ -2323,14 +2304,29 @@ get_mod({teknorota_groupchat_leave_group, _}) ->
     teknorota_groupchat;
 get_mod({teknorota_groupchat_left_group, _}) ->
     teknorota_groupchat;
-get_mod({vcard_tel, _, _, _, _, _, _, _, _, _, _, _, _,
-	 _, _}) ->
+get_mod({vcard_tel,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _}) ->
     xep0054;
+get_mod({mam_query, _, _, _, _, _, _, _, _, _}) ->
+    xep0313;
 get_mod({search_item, _, _, _, _, _}) -> xep0055;
 get_mod({hash, _, _}) -> xep0300;
-get_mod({roster_query, _, _}) -> rfc6121;
 get_mod({vcard_key, _, _}) -> xep0054;
 get_mod({sm_r, _}) -> xep0198;
+get_mod({mix_join, _, _, _, _, _}) -> xep0369;
 get_mod({upload_slot_0, _, _, _}) -> xep0363;
 get_mod({delegation_query, _, _}) -> xep0355;
 get_mod({jingle_s5b_candidate, _, _, _, _, _, _}) ->
@@ -2339,12 +2335,48 @@ get_mod({teknorota_profile_el, _, _, _, _, _, _, _}) ->
     teknorota_profile;
 get_mod({teknorota_groupchat_new_group, _, _, _}) ->
     teknorota_groupchat;
-get_mod({message, _, _, _, _, _, _, _, _, _, _, _, _, _,
-	 _, _}) ->
+get_mod({message,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _,
+         _}) ->
     rfc6120;
 get_mod({muc_subscriptions, _}) -> p1_mucsub;
+get_mod({mix, _, _, _, _}) -> xep0369;
 get_mod({addresses, _}) -> xep0033;
 get_mod({ibb_data, _, _, _}) -> xep0047;
 get_mod({teknorota_subscription_packages, _}) ->
     teknorota_subscription;
+get_mod({identity, _, _, _, _}) -> xep0030;
+get_mod({redirect, _}) -> rfc6120;
+get_mod({muc_history, _, _, _, _}) -> xep0045;
+get_mod({jingle_ft_file, _, _, _, _, _, _, _, _}) ->
+    xep0234;
+get_mod({teknorota_register_virtual_init, _}) ->
+    teknorota_register;
+get_mod({teknorota_profile_get, _}) ->
+    teknorota_profile;
+get_mod({teknorota_groupchat_group_updated, _}) ->
+    teknorota_groupchat;
+get_mod({sasl_response, _}) -> rfc6120;
+get_mod({muc_unique, _}) -> xep0045;
+get_mod({idle, _}) -> xep0319;
+get_mod({teknorota_groupchat_group_key_el, _, _}) ->
+    teknorota_groupchat;
+get_mod({sm_resumed, _, _, _}) -> xep0198;
+get_mod({jingle_ibb_transport, _, _, _}) -> xep0261;
+get_mod({muc_decline, _, _, _}) -> xep0045;
+get_mod({sm_enable, _, _, _}) -> xep0198;
+get_mod({thumbnail, _, _, _, _}) -> xep0264;
 get_mod(Record) -> xmpp_codec_external:lookup(Record).

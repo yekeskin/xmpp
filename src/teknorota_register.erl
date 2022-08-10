@@ -6,53 +6,65 @@
 -compile(export_all).
 
 do_decode(<<"query">>, <<"teknorota:xmpp:register">>,
-	  El, Opts) ->
+          El, Opts) ->
     decode_teknorota_register_query(<<"teknorota:xmpp:register">>,
-				    Opts, El);
+                                    Opts,
+                                    El);
 do_decode(<<"invoice">>, <<"teknorota:xmpp:register">>,
-	  El, Opts) ->
+          El, Opts) ->
     decode_teknorota_register_invoice(<<"teknorota:xmpp:register">>,
-				      Opts, El);
+                                      Opts,
+                                      El);
 do_decode(<<"virtual-complete">>,
-	  <<"teknorota:xmpp:register">>, El, Opts) ->
+          <<"teknorota:xmpp:register">>, El, Opts) ->
     decode_teknorota_register_virtual_complete(<<"teknorota:xmpp:register">>,
-					       Opts, El);
+                                               Opts,
+                                               El);
 do_decode(<<"virtual-init">>,
-	  <<"teknorota:xmpp:register">>, El, Opts) ->
+          <<"teknorota:xmpp:register">>, El, Opts) ->
     decode_teknorota_register_virtual_init(<<"teknorota:xmpp:register">>,
-					   Opts, El);
+                                           Opts,
+                                           El);
 do_decode(<<"check-invoice">>,
-	  <<"teknorota:xmpp:register">>, El, Opts) ->
+          <<"teknorota:xmpp:register">>, El, Opts) ->
     decode_teknorota_register_check_invoice(<<"teknorota:xmpp:register">>,
-					    Opts, El);
+                                            Opts,
+                                            El);
 do_decode(<<"pay-invoice">>,
-	  <<"teknorota:xmpp:register">>, El, Opts) ->
+          <<"teknorota:xmpp:register">>, El, Opts) ->
     decode_teknorota_register_pay_invoice(<<"teknorota:xmpp:register">>,
-					  Opts, El);
+                                          Opts,
+                                          El);
 do_decode(<<"create-invoice">>,
-	  <<"teknorota:xmpp:register">>, El, Opts) ->
+          <<"teknorota:xmpp:register">>, El, Opts) ->
     decode_teknorota_register_create_invoice(<<"teknorota:xmpp:register">>,
-					     Opts, El);
+                                             Opts,
+                                             El);
 do_decode(<<"packages">>, <<"teknorota:xmpp:register">>,
-	  El, Opts) ->
+          El, Opts) ->
     decode_teknorota_register_packages(<<"teknorota:xmpp:register">>,
-				       Opts, El);
+                                       Opts,
+                                       El);
 do_decode(<<"package">>, <<"teknorota:xmpp:register">>,
-	  El, Opts) ->
+          El, Opts) ->
     decode_teknorota_register_package(<<"teknorota:xmpp:register">>,
-				      Opts, El);
+                                      Opts,
+                                      El);
 do_decode(<<"get-packages">>,
-	  <<"teknorota:xmpp:register">>, El, Opts) ->
+          <<"teknorota:xmpp:register">>, El, Opts) ->
     decode_teknorota_register_get_packages(<<"teknorota:xmpp:register">>,
-					   Opts, El);
+                                           Opts,
+                                           El);
 do_decode(<<"verify-complete">>,
-	  <<"teknorota:xmpp:register">>, El, Opts) ->
+          <<"teknorota:xmpp:register">>, El, Opts) ->
     decode_teknorota_register_verify_complete(<<"teknorota:xmpp:register">>,
-					      Opts, El);
+                                              Opts,
+                                              El);
 do_decode(<<"verify-init">>,
-	  <<"teknorota:xmpp:register">>, El, Opts) ->
+          <<"teknorota:xmpp:register">>, El, Opts) ->
     decode_teknorota_register_verify_init(<<"teknorota:xmpp:register">>,
-					  Opts, El);
+                                          Opts,
+                                          El);
 do_decode(Name, <<>>, _, _) ->
     erlang:error({xmpp_codec, {missing_tag_xmlns, Name}});
 do_decode(Name, XMLNS, _, _) ->
@@ -73,125 +85,198 @@ tags() ->
      {<<"verify-init">>, <<"teknorota:xmpp:register">>}].
 
 do_encode({teknorota_register_verify_init, _, _, _, _} =
-	      Verify_init,
-	  TopXMLNS) ->
+              Verify_init,
+          TopXMLNS) ->
     encode_teknorota_register_verify_init(Verify_init,
-					  TopXMLNS);
-do_encode({teknorota_register_verify_complete, _, _, _,
-	   _, _, _} =
-	      Verify_complete,
-	  TopXMLNS) ->
+                                          TopXMLNS);
+do_encode({teknorota_register_verify_complete,
+           _,
+           _,
+           _,
+           _,
+           _,
+           _} =
+              Verify_complete,
+          TopXMLNS) ->
     encode_teknorota_register_verify_complete(Verify_complete,
-					      TopXMLNS);
+                                              TopXMLNS);
 do_encode({teknorota_register_get_packages} =
-	      Get_packages,
-	  TopXMLNS) ->
+              Get_packages,
+          TopXMLNS) ->
     encode_teknorota_register_get_packages(Get_packages,
-					   TopXMLNS);
-do_encode({teknorota_register_package, _, _, _, _, _,
-	   _} =
-	      Package,
-	  TopXMLNS) ->
+                                           TopXMLNS);
+do_encode({teknorota_register_package,
+           _,
+           _,
+           _,
+           _,
+           _,
+           _} =
+              Package,
+          TopXMLNS) ->
     encode_teknorota_register_package(Package, TopXMLNS);
 do_encode({teknorota_register_packages, _} = Packages,
-	  TopXMLNS) ->
+          TopXMLNS) ->
     encode_teknorota_register_packages(Packages, TopXMLNS);
 do_encode({teknorota_register_create_invoice, _, _, _} =
-	      Create_invoice,
-	  TopXMLNS) ->
+              Create_invoice,
+          TopXMLNS) ->
     encode_teknorota_register_create_invoice(Create_invoice,
-					     TopXMLNS);
+                                             TopXMLNS);
 do_encode({teknorota_register_pay_invoice, _, _, _, _} =
-	      Pay_invoice,
-	  TopXMLNS) ->
+              Pay_invoice,
+          TopXMLNS) ->
     encode_teknorota_register_pay_invoice(Pay_invoice,
-					  TopXMLNS);
+                                          TopXMLNS);
 do_encode({teknorota_register_check_invoice, _, _} =
-	      Check_invoice,
-	  TopXMLNS) ->
+              Check_invoice,
+          TopXMLNS) ->
     encode_teknorota_register_check_invoice(Check_invoice,
-					    TopXMLNS);
+                                            TopXMLNS);
 do_encode({teknorota_register_virtual_init, _} =
-	      Virtual_init,
-	  TopXMLNS) ->
+              Virtual_init,
+          TopXMLNS) ->
     encode_teknorota_register_virtual_init(Virtual_init,
-					   TopXMLNS);
-do_encode({teknorota_register_virtual_complete, _, _,
-	   _} =
-	      Virtual_complete,
-	  TopXMLNS) ->
+                                           TopXMLNS);
+do_encode({teknorota_register_virtual_complete,
+           _,
+           _,
+           _} =
+              Virtual_complete,
+          TopXMLNS) ->
     encode_teknorota_register_virtual_complete(Virtual_complete,
-					       TopXMLNS);
+                                               TopXMLNS);
 do_encode({teknorota_register_invoice, _, _, _} =
-	      Invoice,
-	  TopXMLNS) ->
+              Invoice,
+          TopXMLNS) ->
     encode_teknorota_register_invoice(Invoice, TopXMLNS);
-do_encode({teknorota_register_query, _, _, _, _, _, _,
-	   _, _} =
-	      Query,
-	  TopXMLNS) ->
+do_encode({teknorota_register_query,
+           _,
+           _,
+           _,
+           _,
+           _,
+           _,
+           _,
+           _} =
+              Query,
+          TopXMLNS) ->
     encode_teknorota_register_query(Query, TopXMLNS).
 
 do_get_name({teknorota_register_check_invoice, _, _}) ->
     <<"check-invoice">>;
-do_get_name({teknorota_register_create_invoice, _, _,
-	     _}) ->
+do_get_name({teknorota_register_create_invoice,
+             _,
+             _,
+             _}) ->
     <<"create-invoice">>;
 do_get_name({teknorota_register_get_packages}) ->
     <<"get-packages">>;
 do_get_name({teknorota_register_invoice, _, _, _}) ->
     <<"invoice">>;
-do_get_name({teknorota_register_package, _, _, _, _, _,
-	     _}) ->
+do_get_name({teknorota_register_package,
+             _,
+             _,
+             _,
+             _,
+             _,
+             _}) ->
     <<"package">>;
 do_get_name({teknorota_register_packages, _}) ->
     <<"packages">>;
-do_get_name({teknorota_register_pay_invoice, _, _, _,
-	     _}) ->
+do_get_name({teknorota_register_pay_invoice,
+             _,
+             _,
+             _,
+             _}) ->
     <<"pay-invoice">>;
-do_get_name({teknorota_register_query, _, _, _, _, _, _,
-	     _, _}) ->
+do_get_name({teknorota_register_query,
+             _,
+             _,
+             _,
+             _,
+             _,
+             _,
+             _,
+             _}) ->
     <<"query">>;
-do_get_name({teknorota_register_verify_complete, _, _,
-	     _, _, _, _}) ->
+do_get_name({teknorota_register_verify_complete,
+             _,
+             _,
+             _,
+             _,
+             _,
+             _}) ->
     <<"verify-complete">>;
-do_get_name({teknorota_register_verify_init, _, _, _,
-	     _}) ->
+do_get_name({teknorota_register_verify_init,
+             _,
+             _,
+             _,
+             _}) ->
     <<"verify-init">>;
-do_get_name({teknorota_register_virtual_complete, _, _,
-	     _}) ->
+do_get_name({teknorota_register_virtual_complete,
+             _,
+             _,
+             _}) ->
     <<"virtual-complete">>;
 do_get_name({teknorota_register_virtual_init, _}) ->
     <<"virtual-init">>.
 
 do_get_ns({teknorota_register_check_invoice, _, _}) ->
     <<"teknorota:xmpp:register">>;
-do_get_ns({teknorota_register_create_invoice, _, _,
-	   _}) ->
+do_get_ns({teknorota_register_create_invoice,
+           _,
+           _,
+           _}) ->
     <<"teknorota:xmpp:register">>;
 do_get_ns({teknorota_register_get_packages}) ->
     <<"teknorota:xmpp:register">>;
 do_get_ns({teknorota_register_invoice, _, _, _}) ->
     <<"teknorota:xmpp:register">>;
-do_get_ns({teknorota_register_package, _, _, _, _, _,
-	   _}) ->
+do_get_ns({teknorota_register_package,
+           _,
+           _,
+           _,
+           _,
+           _,
+           _}) ->
     <<"teknorota:xmpp:register">>;
 do_get_ns({teknorota_register_packages, _}) ->
     <<"teknorota:xmpp:register">>;
-do_get_ns({teknorota_register_pay_invoice, _, _, _,
-	   _}) ->
+do_get_ns({teknorota_register_pay_invoice,
+           _,
+           _,
+           _,
+           _}) ->
     <<"teknorota:xmpp:register">>;
-do_get_ns({teknorota_register_query, _, _, _, _, _, _,
-	   _, _}) ->
+do_get_ns({teknorota_register_query,
+           _,
+           _,
+           _,
+           _,
+           _,
+           _,
+           _,
+           _}) ->
     <<"teknorota:xmpp:register">>;
-do_get_ns({teknorota_register_verify_complete, _, _, _,
-	   _, _, _}) ->
+do_get_ns({teknorota_register_verify_complete,
+           _,
+           _,
+           _,
+           _,
+           _,
+           _}) ->
     <<"teknorota:xmpp:register">>;
-do_get_ns({teknorota_register_verify_init, _, _, _,
-	   _}) ->
+do_get_ns({teknorota_register_verify_init,
+           _,
+           _,
+           _,
+           _}) ->
     <<"teknorota:xmpp:register">>;
-do_get_ns({teknorota_register_virtual_complete, _, _,
-	   _}) ->
+do_get_ns({teknorota_register_virtual_complete,
+           _,
+           _,
+           _}) ->
     <<"teknorota:xmpp:register">>;
 do_get_ns({teknorota_register_virtual_init, _}) ->
     <<"teknorota:xmpp:register">>.
@@ -216,9 +301,14 @@ pp(teknorota_register_virtual_complete, 3) ->
 pp(teknorota_register_invoice, 3) ->
     [id, token, success];
 pp(teknorota_register_query, 8) ->
-    [verify_init, verify_complete, get_packages,
-     create_invoice, pay_invoice, check_invoice,
-     virtual_init, virtual_complete];
+    [verify_init,
+     verify_complete,
+     get_packages,
+     create_invoice,
+     pay_invoice,
+     check_invoice,
+     virtual_init,
+     virtual_complete];
 pp(_, _) -> no.
 
 records() ->
@@ -236,446 +326,592 @@ records() ->
      {teknorota_register_query, 8}].
 
 decode_teknorota_register_query(__TopXMLNS, __Opts,
-				{xmlel, <<"query">>, _attrs, _els}) ->
-    {Get_packages, Virtual_init, Verify_init,
-     Virtual_complete, Check_invoice, Pay_invoice,
-     Create_invoice, Verify_complete} =
-	decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					    _els, [], [], [], [], [], [], [],
-					    []),
-    {teknorota_register_query, Verify_init, Verify_complete,
-     Get_packages, Create_invoice, Pay_invoice,
-     Check_invoice, Virtual_init, Virtual_complete}.
+                                {xmlel, <<"query">>, _attrs, _els}) ->
+    {Get_packages,
+     Virtual_init,
+     Verify_init,
+     Virtual_complete,
+     Check_invoice,
+     Pay_invoice,
+     Create_invoice,
+     Verify_complete} =
+        decode_teknorota_register_query_els(__TopXMLNS,
+                                            __Opts,
+                                            _els,
+                                            [],
+                                            [],
+                                            [],
+                                            [],
+                                            [],
+                                            [],
+                                            [],
+                                            []),
+    {teknorota_register_query,
+     Verify_init,
+     Verify_complete,
+     Get_packages,
+     Create_invoice,
+     Pay_invoice,
+     Check_invoice,
+     Virtual_init,
+     Virtual_complete}.
 
 decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-				    [], Get_packages, Virtual_init, Verify_init,
-				    Virtual_complete, Check_invoice,
-				    Pay_invoice, Create_invoice,
-				    Verify_complete) ->
+                                    [], Get_packages, Virtual_init, Verify_init,
+                                    Virtual_complete, Check_invoice,
+                                    Pay_invoice, Create_invoice,
+                                    Verify_complete) ->
     {lists:reverse(Get_packages),
-     lists:reverse(Virtual_init), lists:reverse(Verify_init),
+     lists:reverse(Virtual_init),
+     lists:reverse(Verify_init),
      lists:reverse(Virtual_complete),
      lists:reverse(Check_invoice),
      lists:reverse(Pay_invoice),
      lists:reverse(Create_invoice),
      lists:reverse(Verify_complete)};
 decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-				    [{xmlel, <<"verify-init">>, _attrs, _} = _el
-				     | _els],
-				    Get_packages, Virtual_init, Verify_init,
-				    Virtual_complete, Check_invoice,
-				    Pay_invoice, Create_invoice,
-				    Verify_complete) ->
-    case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
-			     __TopXMLNS)
-	of
-      <<"teknorota:xmpp:register">> ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      [decode_teknorota_register_verify_init(<<"teknorota:xmpp:register">>,
-										     __Opts,
-										     _el)
-					       | Verify_init],
-					      Virtual_complete, Check_invoice,
-					      Pay_invoice, Create_invoice,
-					      Verify_complete);
-      _ ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      Verify_init, Virtual_complete,
-					      Check_invoice, Pay_invoice,
-					      Create_invoice, Verify_complete)
+                                    [{xmlel, <<"verify-init">>, _attrs, _} = _el
+                                     | _els],
+                                    Get_packages, Virtual_init, Verify_init,
+                                    Virtual_complete, Check_invoice,
+                                    Pay_invoice, Create_invoice,
+                                    Verify_complete) ->
+    case xmpp_codec:get_attr(<<"xmlns">>,
+                             _attrs,
+                             __TopXMLNS)
+        of
+        <<"teknorota:xmpp:register">> ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                [decode_teknorota_register_verify_init(<<"teknorota:xmpp:register">>,
+                                                                                       __Opts,
+                                                                                       _el)
+                                                 | Verify_init],
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                Verify_complete);
+        _ ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                Verify_init,
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                Verify_complete)
     end;
 decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-				    [{xmlel, <<"verify-complete">>, _attrs, _} =
-					 _el
-				     | _els],
-				    Get_packages, Virtual_init, Verify_init,
-				    Virtual_complete, Check_invoice,
-				    Pay_invoice, Create_invoice,
-				    Verify_complete) ->
-    case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
-			     __TopXMLNS)
-	of
-      <<"teknorota:xmpp:register">> ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      Verify_init, Virtual_complete,
-					      Check_invoice, Pay_invoice,
-					      Create_invoice,
-					      [decode_teknorota_register_verify_complete(<<"teknorota:xmpp:register">>,
-											 __Opts,
-											 _el)
-					       | Verify_complete]);
-      _ ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      Verify_init, Virtual_complete,
-					      Check_invoice, Pay_invoice,
-					      Create_invoice, Verify_complete)
+                                    [{xmlel, <<"verify-complete">>, _attrs, _} =
+                                         _el
+                                     | _els],
+                                    Get_packages, Virtual_init, Verify_init,
+                                    Virtual_complete, Check_invoice,
+                                    Pay_invoice, Create_invoice,
+                                    Verify_complete) ->
+    case xmpp_codec:get_attr(<<"xmlns">>,
+                             _attrs,
+                             __TopXMLNS)
+        of
+        <<"teknorota:xmpp:register">> ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                Verify_init,
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                [decode_teknorota_register_verify_complete(<<"teknorota:xmpp:register">>,
+                                                                                           __Opts,
+                                                                                           _el)
+                                                 | Verify_complete]);
+        _ ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                Verify_init,
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                Verify_complete)
     end;
 decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-				    [{xmlel, <<"get-packages">>, _attrs, _} =
-					 _el
-				     | _els],
-				    Get_packages, Virtual_init, Verify_init,
-				    Virtual_complete, Check_invoice,
-				    Pay_invoice, Create_invoice,
-				    Verify_complete) ->
-    case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
-			     __TopXMLNS)
-	of
-      <<"teknorota:xmpp:register">> ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els,
-					      [decode_teknorota_register_get_packages(<<"teknorota:xmpp:register">>,
-										      __Opts,
-										      _el)
-					       | Get_packages],
-					      Virtual_init, Verify_init,
-					      Virtual_complete, Check_invoice,
-					      Pay_invoice, Create_invoice,
-					      Verify_complete);
-      _ ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      Verify_init, Virtual_complete,
-					      Check_invoice, Pay_invoice,
-					      Create_invoice, Verify_complete)
+                                    [{xmlel, <<"get-packages">>, _attrs, _} =
+                                         _el
+                                     | _els],
+                                    Get_packages, Virtual_init, Verify_init,
+                                    Virtual_complete, Check_invoice,
+                                    Pay_invoice, Create_invoice,
+                                    Verify_complete) ->
+    case xmpp_codec:get_attr(<<"xmlns">>,
+                             _attrs,
+                             __TopXMLNS)
+        of
+        <<"teknorota:xmpp:register">> ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                [decode_teknorota_register_get_packages(<<"teknorota:xmpp:register">>,
+                                                                                        __Opts,
+                                                                                        _el)
+                                                 | Get_packages],
+                                                Virtual_init,
+                                                Verify_init,
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                Verify_complete);
+        _ ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                Verify_init,
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                Verify_complete)
     end;
 decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-				    [{xmlel, <<"create-invoice">>, _attrs, _} =
-					 _el
-				     | _els],
-				    Get_packages, Virtual_init, Verify_init,
-				    Virtual_complete, Check_invoice,
-				    Pay_invoice, Create_invoice,
-				    Verify_complete) ->
-    case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
-			     __TopXMLNS)
-	of
-      <<"teknorota:xmpp:register">> ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      Verify_init, Virtual_complete,
-					      Check_invoice, Pay_invoice,
-					      [decode_teknorota_register_create_invoice(<<"teknorota:xmpp:register">>,
-											__Opts,
-											_el)
-					       | Create_invoice],
-					      Verify_complete);
-      _ ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      Verify_init, Virtual_complete,
-					      Check_invoice, Pay_invoice,
-					      Create_invoice, Verify_complete)
+                                    [{xmlel, <<"create-invoice">>, _attrs, _} =
+                                         _el
+                                     | _els],
+                                    Get_packages, Virtual_init, Verify_init,
+                                    Virtual_complete, Check_invoice,
+                                    Pay_invoice, Create_invoice,
+                                    Verify_complete) ->
+    case xmpp_codec:get_attr(<<"xmlns">>,
+                             _attrs,
+                             __TopXMLNS)
+        of
+        <<"teknorota:xmpp:register">> ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                Verify_init,
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                [decode_teknorota_register_create_invoice(<<"teknorota:xmpp:register">>,
+                                                                                          __Opts,
+                                                                                          _el)
+                                                 | Create_invoice],
+                                                Verify_complete);
+        _ ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                Verify_init,
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                Verify_complete)
     end;
 decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-				    [{xmlel, <<"pay-invoice">>, _attrs, _} = _el
-				     | _els],
-				    Get_packages, Virtual_init, Verify_init,
-				    Virtual_complete, Check_invoice,
-				    Pay_invoice, Create_invoice,
-				    Verify_complete) ->
-    case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
-			     __TopXMLNS)
-	of
-      <<"teknorota:xmpp:register">> ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      Verify_init, Virtual_complete,
-					      Check_invoice,
-					      [decode_teknorota_register_pay_invoice(<<"teknorota:xmpp:register">>,
-										     __Opts,
-										     _el)
-					       | Pay_invoice],
-					      Create_invoice, Verify_complete);
-      _ ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      Verify_init, Virtual_complete,
-					      Check_invoice, Pay_invoice,
-					      Create_invoice, Verify_complete)
+                                    [{xmlel, <<"pay-invoice">>, _attrs, _} = _el
+                                     | _els],
+                                    Get_packages, Virtual_init, Verify_init,
+                                    Virtual_complete, Check_invoice,
+                                    Pay_invoice, Create_invoice,
+                                    Verify_complete) ->
+    case xmpp_codec:get_attr(<<"xmlns">>,
+                             _attrs,
+                             __TopXMLNS)
+        of
+        <<"teknorota:xmpp:register">> ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                Verify_init,
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                [decode_teknorota_register_pay_invoice(<<"teknorota:xmpp:register">>,
+                                                                                       __Opts,
+                                                                                       _el)
+                                                 | Pay_invoice],
+                                                Create_invoice,
+                                                Verify_complete);
+        _ ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                Verify_init,
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                Verify_complete)
     end;
 decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-				    [{xmlel, <<"check-invoice">>, _attrs, _} =
-					 _el
-				     | _els],
-				    Get_packages, Virtual_init, Verify_init,
-				    Virtual_complete, Check_invoice,
-				    Pay_invoice, Create_invoice,
-				    Verify_complete) ->
-    case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
-			     __TopXMLNS)
-	of
-      <<"teknorota:xmpp:register">> ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      Verify_init, Virtual_complete,
-					      [decode_teknorota_register_check_invoice(<<"teknorota:xmpp:register">>,
-										       __Opts,
-										       _el)
-					       | Check_invoice],
-					      Pay_invoice, Create_invoice,
-					      Verify_complete);
-      _ ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      Verify_init, Virtual_complete,
-					      Check_invoice, Pay_invoice,
-					      Create_invoice, Verify_complete)
+                                    [{xmlel, <<"check-invoice">>, _attrs, _} =
+                                         _el
+                                     | _els],
+                                    Get_packages, Virtual_init, Verify_init,
+                                    Virtual_complete, Check_invoice,
+                                    Pay_invoice, Create_invoice,
+                                    Verify_complete) ->
+    case xmpp_codec:get_attr(<<"xmlns">>,
+                             _attrs,
+                             __TopXMLNS)
+        of
+        <<"teknorota:xmpp:register">> ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                Verify_init,
+                                                Virtual_complete,
+                                                [decode_teknorota_register_check_invoice(<<"teknorota:xmpp:register">>,
+                                                                                         __Opts,
+                                                                                         _el)
+                                                 | Check_invoice],
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                Verify_complete);
+        _ ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                Verify_init,
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                Verify_complete)
     end;
 decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-				    [{xmlel, <<"virtual-init">>, _attrs, _} =
-					 _el
-				     | _els],
-				    Get_packages, Virtual_init, Verify_init,
-				    Virtual_complete, Check_invoice,
-				    Pay_invoice, Create_invoice,
-				    Verify_complete) ->
-    case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
-			     __TopXMLNS)
-	of
-      <<"teknorota:xmpp:register">> ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages,
-					      [decode_teknorota_register_virtual_init(<<"teknorota:xmpp:register">>,
-										      __Opts,
-										      _el)
-					       | Virtual_init],
-					      Verify_init, Virtual_complete,
-					      Check_invoice, Pay_invoice,
-					      Create_invoice, Verify_complete);
-      _ ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      Verify_init, Virtual_complete,
-					      Check_invoice, Pay_invoice,
-					      Create_invoice, Verify_complete)
+                                    [{xmlel, <<"virtual-init">>, _attrs, _} =
+                                         _el
+                                     | _els],
+                                    Get_packages, Virtual_init, Verify_init,
+                                    Virtual_complete, Check_invoice,
+                                    Pay_invoice, Create_invoice,
+                                    Verify_complete) ->
+    case xmpp_codec:get_attr(<<"xmlns">>,
+                             _attrs,
+                             __TopXMLNS)
+        of
+        <<"teknorota:xmpp:register">> ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                [decode_teknorota_register_virtual_init(<<"teknorota:xmpp:register">>,
+                                                                                        __Opts,
+                                                                                        _el)
+                                                 | Virtual_init],
+                                                Verify_init,
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                Verify_complete);
+        _ ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                Verify_init,
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                Verify_complete)
     end;
 decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-				    [{xmlel, <<"virtual-complete">>, _attrs,
-				      _} =
-					 _el
-				     | _els],
-				    Get_packages, Virtual_init, Verify_init,
-				    Virtual_complete, Check_invoice,
-				    Pay_invoice, Create_invoice,
-				    Verify_complete) ->
-    case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
-			     __TopXMLNS)
-	of
-      <<"teknorota:xmpp:register">> ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      Verify_init,
-					      [decode_teknorota_register_virtual_complete(<<"teknorota:xmpp:register">>,
-											  __Opts,
-											  _el)
-					       | Virtual_complete],
-					      Check_invoice, Pay_invoice,
-					      Create_invoice, Verify_complete);
-      _ ->
-	  decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					      _els, Get_packages, Virtual_init,
-					      Verify_init, Virtual_complete,
-					      Check_invoice, Pay_invoice,
-					      Create_invoice, Verify_complete)
+                                    [{xmlel,
+                                      <<"virtual-complete">>,
+                                      _attrs,
+                                      _} =
+                                         _el
+                                     | _els],
+                                    Get_packages, Virtual_init, Verify_init,
+                                    Virtual_complete, Check_invoice,
+                                    Pay_invoice, Create_invoice,
+                                    Verify_complete) ->
+    case xmpp_codec:get_attr(<<"xmlns">>,
+                             _attrs,
+                             __TopXMLNS)
+        of
+        <<"teknorota:xmpp:register">> ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                Verify_init,
+                                                [decode_teknorota_register_virtual_complete(<<"teknorota:xmpp:register">>,
+                                                                                            __Opts,
+                                                                                            _el)
+                                                 | Virtual_complete],
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                Verify_complete);
+        _ ->
+            decode_teknorota_register_query_els(__TopXMLNS,
+                                                __Opts,
+                                                _els,
+                                                Get_packages,
+                                                Virtual_init,
+                                                Verify_init,
+                                                Virtual_complete,
+                                                Check_invoice,
+                                                Pay_invoice,
+                                                Create_invoice,
+                                                Verify_complete)
     end;
 decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-				    [_ | _els], Get_packages, Virtual_init,
-				    Verify_init, Virtual_complete,
-				    Check_invoice, Pay_invoice, Create_invoice,
-				    Verify_complete) ->
-    decode_teknorota_register_query_els(__TopXMLNS, __Opts,
-					_els, Get_packages, Virtual_init,
-					Verify_init, Virtual_complete,
-					Check_invoice, Pay_invoice,
-					Create_invoice, Verify_complete).
+                                    [_ | _els], Get_packages, Virtual_init,
+                                    Verify_init, Virtual_complete,
+                                    Check_invoice, Pay_invoice, Create_invoice,
+                                    Verify_complete) ->
+    decode_teknorota_register_query_els(__TopXMLNS,
+                                        __Opts,
+                                        _els,
+                                        Get_packages,
+                                        Virtual_init,
+                                        Verify_init,
+                                        Virtual_complete,
+                                        Check_invoice,
+                                        Pay_invoice,
+                                        Create_invoice,
+                                        Verify_complete).
 
 encode_teknorota_register_query({teknorota_register_query,
-				 Verify_init, Verify_complete, Get_packages,
-				 Create_invoice, Pay_invoice, Check_invoice,
-				 Virtual_init, Virtual_complete},
-				__TopXMLNS) ->
+                                 Verify_init,
+                                 Verify_complete,
+                                 Get_packages,
+                                 Create_invoice,
+                                 Pay_invoice,
+                                 Check_invoice,
+                                 Virtual_init,
+                                 Virtual_complete},
+                                __TopXMLNS) ->
     __NewTopXMLNS =
-	xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
-				    [], __TopXMLNS),
+        xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
+                                    [],
+                                    __TopXMLNS),
     _els =
-	lists:reverse('encode_teknorota_register_query_$get_packages'(Get_packages,
-								      __NewTopXMLNS,
-								      'encode_teknorota_register_query_$virtual_init'(Virtual_init,
-														      __NewTopXMLNS,
-														      'encode_teknorota_register_query_$verify_init'(Verify_init,
-																				     __NewTopXMLNS,
-																				     'encode_teknorota_register_query_$virtual_complete'(Virtual_complete,
-																											 __NewTopXMLNS,
-																											 'encode_teknorota_register_query_$check_invoice'(Check_invoice,
-																																	  __NewTopXMLNS,
-																																	  'encode_teknorota_register_query_$pay_invoice'(Pay_invoice,
-																																							 __NewTopXMLNS,
-																																							 'encode_teknorota_register_query_$create_invoice'(Create_invoice,
-																																													   __NewTopXMLNS,
-																																													   'encode_teknorota_register_query_$verify_complete'(Verify_complete,
-																																																			      __NewTopXMLNS,
-																																																			      []))))))))),
+        lists:reverse('encode_teknorota_register_query_$get_packages'(Get_packages,
+                                                                      __NewTopXMLNS,
+                                                                      'encode_teknorota_register_query_$virtual_init'(Virtual_init,
+                                                                                                                      __NewTopXMLNS,
+                                                                                                                      'encode_teknorota_register_query_$verify_init'(Verify_init,
+                                                                                                                                                                     __NewTopXMLNS,
+                                                                                                                                                                     'encode_teknorota_register_query_$virtual_complete'(Virtual_complete,
+                                                                                                                                                                                                                         __NewTopXMLNS,
+                                                                                                                                                                                                                         'encode_teknorota_register_query_$check_invoice'(Check_invoice,
+                                                                                                                                                                                                                                                                          __NewTopXMLNS,
+                                                                                                                                                                                                                                                                          'encode_teknorota_register_query_$pay_invoice'(Pay_invoice,
+                                                                                                                                                                                                                                                                                                                         __NewTopXMLNS,
+                                                                                                                                                                                                                                                                                                                         'encode_teknorota_register_query_$create_invoice'(Create_invoice,
+                                                                                                                                                                                                                                                                                                                                                                           __NewTopXMLNS,
+                                                                                                                                                                                                                                                                                                                                                                           'encode_teknorota_register_query_$verify_complete'(Verify_complete,
+                                                                                                                                                                                                                                                                                                                                                                                                                              __NewTopXMLNS,
+                                                                                                                                                                                                                                                                                                                                                                                                                              []))))))))),
     _attrs = xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-					__TopXMLNS),
+                                        __TopXMLNS),
     {xmlel, <<"query">>, _attrs, _els}.
 
 'encode_teknorota_register_query_$get_packages'([],
-						__TopXMLNS, _acc) ->
+                                                __TopXMLNS, _acc) ->
     _acc;
 'encode_teknorota_register_query_$get_packages'([Get_packages
-						 | _els],
-						__TopXMLNS, _acc) ->
+                                                 | _els],
+                                                __TopXMLNS, _acc) ->
     'encode_teknorota_register_query_$get_packages'(_els,
-						    __TopXMLNS,
-						    [encode_teknorota_register_get_packages(Get_packages,
-											    __TopXMLNS)
-						     | _acc]).
+                                                    __TopXMLNS,
+                                                    [encode_teknorota_register_get_packages(Get_packages,
+                                                                                            __TopXMLNS)
+                                                     | _acc]).
 
 'encode_teknorota_register_query_$virtual_init'([],
-						__TopXMLNS, _acc) ->
+                                                __TopXMLNS, _acc) ->
     _acc;
 'encode_teknorota_register_query_$virtual_init'([Virtual_init
-						 | _els],
-						__TopXMLNS, _acc) ->
+                                                 | _els],
+                                                __TopXMLNS, _acc) ->
     'encode_teknorota_register_query_$virtual_init'(_els,
-						    __TopXMLNS,
-						    [encode_teknorota_register_virtual_init(Virtual_init,
-											    __TopXMLNS)
-						     | _acc]).
+                                                    __TopXMLNS,
+                                                    [encode_teknorota_register_virtual_init(Virtual_init,
+                                                                                            __TopXMLNS)
+                                                     | _acc]).
 
 'encode_teknorota_register_query_$verify_init'([],
-					       __TopXMLNS, _acc) ->
+                                               __TopXMLNS, _acc) ->
     _acc;
 'encode_teknorota_register_query_$verify_init'([Verify_init
-						| _els],
-					       __TopXMLNS, _acc) ->
+                                                | _els],
+                                               __TopXMLNS, _acc) ->
     'encode_teknorota_register_query_$verify_init'(_els,
-						   __TopXMLNS,
-						   [encode_teknorota_register_verify_init(Verify_init,
-											  __TopXMLNS)
-						    | _acc]).
+                                                   __TopXMLNS,
+                                                   [encode_teknorota_register_verify_init(Verify_init,
+                                                                                          __TopXMLNS)
+                                                    | _acc]).
 
 'encode_teknorota_register_query_$virtual_complete'([],
-						    __TopXMLNS, _acc) ->
+                                                    __TopXMLNS, _acc) ->
     _acc;
 'encode_teknorota_register_query_$virtual_complete'([Virtual_complete
-						     | _els],
-						    __TopXMLNS, _acc) ->
+                                                     | _els],
+                                                    __TopXMLNS, _acc) ->
     'encode_teknorota_register_query_$virtual_complete'(_els,
-							__TopXMLNS,
-							[encode_teknorota_register_virtual_complete(Virtual_complete,
-												    __TopXMLNS)
-							 | _acc]).
+                                                        __TopXMLNS,
+                                                        [encode_teknorota_register_virtual_complete(Virtual_complete,
+                                                                                                    __TopXMLNS)
+                                                         | _acc]).
 
 'encode_teknorota_register_query_$check_invoice'([],
-						 __TopXMLNS, _acc) ->
+                                                 __TopXMLNS, _acc) ->
     _acc;
 'encode_teknorota_register_query_$check_invoice'([Check_invoice
-						  | _els],
-						 __TopXMLNS, _acc) ->
+                                                  | _els],
+                                                 __TopXMLNS, _acc) ->
     'encode_teknorota_register_query_$check_invoice'(_els,
-						     __TopXMLNS,
-						     [encode_teknorota_register_check_invoice(Check_invoice,
-											      __TopXMLNS)
-						      | _acc]).
+                                                     __TopXMLNS,
+                                                     [encode_teknorota_register_check_invoice(Check_invoice,
+                                                                                              __TopXMLNS)
+                                                      | _acc]).
 
 'encode_teknorota_register_query_$pay_invoice'([],
-					       __TopXMLNS, _acc) ->
+                                               __TopXMLNS, _acc) ->
     _acc;
 'encode_teknorota_register_query_$pay_invoice'([Pay_invoice
-						| _els],
-					       __TopXMLNS, _acc) ->
+                                                | _els],
+                                               __TopXMLNS, _acc) ->
     'encode_teknorota_register_query_$pay_invoice'(_els,
-						   __TopXMLNS,
-						   [encode_teknorota_register_pay_invoice(Pay_invoice,
-											  __TopXMLNS)
-						    | _acc]).
+                                                   __TopXMLNS,
+                                                   [encode_teknorota_register_pay_invoice(Pay_invoice,
+                                                                                          __TopXMLNS)
+                                                    | _acc]).
 
 'encode_teknorota_register_query_$create_invoice'([],
-						  __TopXMLNS, _acc) ->
+                                                  __TopXMLNS, _acc) ->
     _acc;
 'encode_teknorota_register_query_$create_invoice'([Create_invoice
-						   | _els],
-						  __TopXMLNS, _acc) ->
+                                                   | _els],
+                                                  __TopXMLNS, _acc) ->
     'encode_teknorota_register_query_$create_invoice'(_els,
-						      __TopXMLNS,
-						      [encode_teknorota_register_create_invoice(Create_invoice,
-												__TopXMLNS)
-						       | _acc]).
+                                                      __TopXMLNS,
+                                                      [encode_teknorota_register_create_invoice(Create_invoice,
+                                                                                                __TopXMLNS)
+                                                       | _acc]).
 
 'encode_teknorota_register_query_$verify_complete'([],
-						   __TopXMLNS, _acc) ->
+                                                   __TopXMLNS, _acc) ->
     _acc;
 'encode_teknorota_register_query_$verify_complete'([Verify_complete
-						    | _els],
-						   __TopXMLNS, _acc) ->
+                                                    | _els],
+                                                   __TopXMLNS, _acc) ->
     'encode_teknorota_register_query_$verify_complete'(_els,
-						       __TopXMLNS,
-						       [encode_teknorota_register_verify_complete(Verify_complete,
-												  __TopXMLNS)
-							| _acc]).
+                                                       __TopXMLNS,
+                                                       [encode_teknorota_register_verify_complete(Verify_complete,
+                                                                                                  __TopXMLNS)
+                                                        | _acc]).
 
 decode_teknorota_register_invoice(__TopXMLNS, __Opts,
-				  {xmlel, <<"invoice">>, _attrs, _els}) ->
+                                  {xmlel, <<"invoice">>, _attrs, _els}) ->
     {Id, Token, Success} =
-	decode_teknorota_register_invoice_attrs(__TopXMLNS,
-						_attrs, undefined, undefined,
-						undefined),
+        decode_teknorota_register_invoice_attrs(__TopXMLNS,
+                                                _attrs,
+                                                undefined,
+                                                undefined,
+                                                undefined),
     {teknorota_register_invoice, Id, Token, Success}.
 
 decode_teknorota_register_invoice_attrs(__TopXMLNS,
-					[{<<"id">>, _val} | _attrs], _Id, Token,
-					Success) ->
+                                        [{<<"id">>, _val} | _attrs], _Id, Token,
+                                        Success) ->
     decode_teknorota_register_invoice_attrs(__TopXMLNS,
-					    _attrs, _val, Token, Success);
+                                            _attrs,
+                                            _val,
+                                            Token,
+                                            Success);
 decode_teknorota_register_invoice_attrs(__TopXMLNS,
-					[{<<"token">>, _val} | _attrs], Id,
-					_Token, Success) ->
+                                        [{<<"token">>, _val} | _attrs], Id,
+                                        _Token, Success) ->
     decode_teknorota_register_invoice_attrs(__TopXMLNS,
-					    _attrs, Id, _val, Success);
+                                            _attrs,
+                                            Id,
+                                            _val,
+                                            Success);
 decode_teknorota_register_invoice_attrs(__TopXMLNS,
-					[{<<"success">>, _val} | _attrs], Id,
-					Token, _Success) ->
+                                        [{<<"success">>, _val} | _attrs], Id,
+                                        Token, _Success) ->
     decode_teknorota_register_invoice_attrs(__TopXMLNS,
-					    _attrs, Id, Token, _val);
+                                            _attrs,
+                                            Id,
+                                            Token,
+                                            _val);
 decode_teknorota_register_invoice_attrs(__TopXMLNS,
-					[_ | _attrs], Id, Token, Success) ->
+                                        [_ | _attrs], Id, Token, Success) ->
     decode_teknorota_register_invoice_attrs(__TopXMLNS,
-					    _attrs, Id, Token, Success);
+                                            _attrs,
+                                            Id,
+                                            Token,
+                                            Success);
 decode_teknorota_register_invoice_attrs(__TopXMLNS, [],
-					Id, Token, Success) ->
+                                        Id, Token, Success) ->
     {decode_teknorota_register_invoice_attr_id(__TopXMLNS,
-					       Id),
+                                               Id),
      decode_teknorota_register_invoice_attr_token(__TopXMLNS,
-						  Token),
+                                                  Token),
      decode_teknorota_register_invoice_attr_success(__TopXMLNS,
-						    Success)}.
+                                                    Success)}.
 
 encode_teknorota_register_invoice({teknorota_register_invoice,
-				   Id, Token, Success},
-				  __TopXMLNS) ->
+                                   Id,
+                                   Token,
+                                   Success},
+                                  __TopXMLNS) ->
     __NewTopXMLNS =
-	xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
-				    [], __TopXMLNS),
+        xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
+                                    [],
+                                    __TopXMLNS),
     _els = [],
     _attrs =
-	encode_teknorota_register_invoice_attr_success(Success,
-						       encode_teknorota_register_invoice_attr_token(Token,
-												    encode_teknorota_register_invoice_attr_id(Id,
-																	      xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-																					 __TopXMLNS)))),
+        encode_teknorota_register_invoice_attr_success(Success,
+                                                       encode_teknorota_register_invoice_attr_token(Token,
+                                                                                                    encode_teknorota_register_invoice_attr_id(Id,
+                                                                                                                                              xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+                                                                                                                                                                         __TopXMLNS)))),
     {xmlel, <<"invoice">>, _attrs, _els}.
 
 decode_teknorota_register_invoice_attr_id(__TopXMLNS,
-					  undefined) ->
+                                          undefined) ->
     <<>>;
 decode_teknorota_register_invoice_attr_id(__TopXMLNS,
-					  _val) ->
+                                          _val) ->
     _val.
 
 encode_teknorota_register_invoice_attr_id(<<>>, _acc) ->
@@ -684,648 +920,784 @@ encode_teknorota_register_invoice_attr_id(_val, _acc) ->
     [{<<"id">>, _val} | _acc].
 
 decode_teknorota_register_invoice_attr_token(__TopXMLNS,
-					     undefined) ->
+                                             undefined) ->
     <<>>;
 decode_teknorota_register_invoice_attr_token(__TopXMLNS,
-					     _val) ->
+                                             _val) ->
     _val.
 
 encode_teknorota_register_invoice_attr_token(<<>>,
-					     _acc) ->
+                                             _acc) ->
     _acc;
 encode_teknorota_register_invoice_attr_token(_val,
-					     _acc) ->
+                                             _acc) ->
     [{<<"token">>, _val} | _acc].
 
 decode_teknorota_register_invoice_attr_success(__TopXMLNS,
-					       undefined) ->
+                                               undefined) ->
     <<>>;
 decode_teknorota_register_invoice_attr_success(__TopXMLNS,
-					       _val) ->
+                                               _val) ->
     _val.
 
 encode_teknorota_register_invoice_attr_success(<<>>,
-					       _acc) ->
+                                               _acc) ->
     _acc;
 encode_teknorota_register_invoice_attr_success(_val,
-					       _acc) ->
+                                               _acc) ->
     [{<<"success">>, _val} | _acc].
 
 decode_teknorota_register_virtual_complete(__TopXMLNS,
-					   __Opts,
-					   {xmlel, <<"virtual-complete">>,
-					    _attrs, _els}) ->
+                                           __Opts,
+                                           {xmlel,
+                                            <<"virtual-complete">>,
+                                            _attrs,
+                                            _els}) ->
     {User_id, Jid, Password} =
-	decode_teknorota_register_virtual_complete_attrs(__TopXMLNS,
-							 _attrs, undefined,
-							 undefined, undefined),
-    {teknorota_register_virtual_complete, User_id, Jid,
+        decode_teknorota_register_virtual_complete_attrs(__TopXMLNS,
+                                                         _attrs,
+                                                         undefined,
+                                                         undefined,
+                                                         undefined),
+    {teknorota_register_virtual_complete,
+     User_id,
+     Jid,
      Password}.
 
 decode_teknorota_register_virtual_complete_attrs(__TopXMLNS,
-						 [{<<"user-id">>, _val}
-						  | _attrs],
-						 _User_id, Jid, Password) ->
+                                                 [{<<"user-id">>, _val}
+                                                  | _attrs],
+                                                 _User_id, Jid, Password) ->
     decode_teknorota_register_virtual_complete_attrs(__TopXMLNS,
-						     _attrs, _val, Jid,
-						     Password);
+                                                     _attrs,
+                                                     _val,
+                                                     Jid,
+                                                     Password);
 decode_teknorota_register_virtual_complete_attrs(__TopXMLNS,
-						 [{<<"jid">>, _val} | _attrs],
-						 User_id, _Jid, Password) ->
+                                                 [{<<"jid">>, _val} | _attrs],
+                                                 User_id, _Jid, Password) ->
     decode_teknorota_register_virtual_complete_attrs(__TopXMLNS,
-						     _attrs, User_id, _val,
-						     Password);
+                                                     _attrs,
+                                                     User_id,
+                                                     _val,
+                                                     Password);
 decode_teknorota_register_virtual_complete_attrs(__TopXMLNS,
-						 [{<<"password">>, _val}
-						  | _attrs],
-						 User_id, Jid, _Password) ->
+                                                 [{<<"password">>, _val}
+                                                  | _attrs],
+                                                 User_id, Jid, _Password) ->
     decode_teknorota_register_virtual_complete_attrs(__TopXMLNS,
-						     _attrs, User_id, Jid,
-						     _val);
+                                                     _attrs,
+                                                     User_id,
+                                                     Jid,
+                                                     _val);
 decode_teknorota_register_virtual_complete_attrs(__TopXMLNS,
-						 [_ | _attrs], User_id, Jid,
-						 Password) ->
+                                                 [_ | _attrs], User_id, Jid,
+                                                 Password) ->
     decode_teknorota_register_virtual_complete_attrs(__TopXMLNS,
-						     _attrs, User_id, Jid,
-						     Password);
+                                                     _attrs,
+                                                     User_id,
+                                                     Jid,
+                                                     Password);
 decode_teknorota_register_virtual_complete_attrs(__TopXMLNS,
-						 [], User_id, Jid, Password) ->
+                                                 [], User_id, Jid, Password) ->
     {'decode_teknorota_register_virtual_complete_attr_user-id'(__TopXMLNS,
-							       User_id),
+                                                               User_id),
      decode_teknorota_register_virtual_complete_attr_jid(__TopXMLNS,
-							 Jid),
+                                                         Jid),
      decode_teknorota_register_virtual_complete_attr_password(__TopXMLNS,
-							      Password)}.
+                                                              Password)}.
 
 encode_teknorota_register_virtual_complete({teknorota_register_virtual_complete,
-					    User_id, Jid, Password},
-					   __TopXMLNS) ->
+                                            User_id,
+                                            Jid,
+                                            Password},
+                                           __TopXMLNS) ->
     __NewTopXMLNS =
-	xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
-				    [], __TopXMLNS),
+        xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
+                                    [],
+                                    __TopXMLNS),
     _els = [],
     _attrs =
-	encode_teknorota_register_virtual_complete_attr_password(Password,
-								 encode_teknorota_register_virtual_complete_attr_jid(Jid,
-														     'encode_teknorota_register_virtual_complete_attr_user-id'(User_id,
-																					       xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-																									  __TopXMLNS)))),
+        encode_teknorota_register_virtual_complete_attr_password(Password,
+                                                                 encode_teknorota_register_virtual_complete_attr_jid(Jid,
+                                                                                                                     'encode_teknorota_register_virtual_complete_attr_user-id'(User_id,
+                                                                                                                                                                               xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+                                                                                                                                                                                                          __TopXMLNS)))),
     {xmlel, <<"virtual-complete">>, _attrs, _els}.
 
 'decode_teknorota_register_virtual_complete_attr_user-id'(__TopXMLNS,
-							  undefined) ->
+                                                          undefined) ->
     <<>>;
 'decode_teknorota_register_virtual_complete_attr_user-id'(__TopXMLNS,
-							  _val) ->
+                                                          _val) ->
     _val.
 
 'encode_teknorota_register_virtual_complete_attr_user-id'(<<>>,
-							  _acc) ->
+                                                          _acc) ->
     _acc;
 'encode_teknorota_register_virtual_complete_attr_user-id'(_val,
-							  _acc) ->
+                                                          _acc) ->
     [{<<"user-id">>, _val} | _acc].
 
 decode_teknorota_register_virtual_complete_attr_jid(__TopXMLNS,
-						    undefined) ->
+                                                    undefined) ->
     <<>>;
 decode_teknorota_register_virtual_complete_attr_jid(__TopXMLNS,
-						    _val) ->
+                                                    _val) ->
     _val.
 
 encode_teknorota_register_virtual_complete_attr_jid(<<>>,
-						    _acc) ->
+                                                    _acc) ->
     _acc;
 encode_teknorota_register_virtual_complete_attr_jid(_val,
-						    _acc) ->
+                                                    _acc) ->
     [{<<"jid">>, _val} | _acc].
 
 decode_teknorota_register_virtual_complete_attr_password(__TopXMLNS,
-							 undefined) ->
+                                                         undefined) ->
     <<>>;
 decode_teknorota_register_virtual_complete_attr_password(__TopXMLNS,
-							 _val) ->
+                                                         _val) ->
     _val.
 
 encode_teknorota_register_virtual_complete_attr_password(<<>>,
-							 _acc) ->
+                                                         _acc) ->
     _acc;
 encode_teknorota_register_virtual_complete_attr_password(_val,
-							 _acc) ->
+                                                         _acc) ->
     [{<<"password">>, _val} | _acc].
 
 decode_teknorota_register_virtual_init(__TopXMLNS,
-				       __Opts,
-				       {xmlel, <<"virtual-init">>, _attrs,
-					_els}) ->
+                                       __Opts,
+                                       {xmlel,
+                                        <<"virtual-init">>,
+                                        _attrs,
+                                        _els}) ->
     User_id =
-	decode_teknorota_register_virtual_init_attrs(__TopXMLNS,
-						     _attrs, undefined),
+        decode_teknorota_register_virtual_init_attrs(__TopXMLNS,
+                                                     _attrs,
+                                                     undefined),
     {teknorota_register_virtual_init, User_id}.
 
 decode_teknorota_register_virtual_init_attrs(__TopXMLNS,
-					     [{<<"user-id">>, _val} | _attrs],
-					     _User_id) ->
+                                             [{<<"user-id">>, _val} | _attrs],
+                                             _User_id) ->
     decode_teknorota_register_virtual_init_attrs(__TopXMLNS,
-						 _attrs, _val);
+                                                 _attrs,
+                                                 _val);
 decode_teknorota_register_virtual_init_attrs(__TopXMLNS,
-					     [_ | _attrs], User_id) ->
+                                             [_ | _attrs], User_id) ->
     decode_teknorota_register_virtual_init_attrs(__TopXMLNS,
-						 _attrs, User_id);
+                                                 _attrs,
+                                                 User_id);
 decode_teknorota_register_virtual_init_attrs(__TopXMLNS,
-					     [], User_id) ->
+                                             [], User_id) ->
     'decode_teknorota_register_virtual_init_attr_user-id'(__TopXMLNS,
-							  User_id).
+                                                          User_id).
 
 encode_teknorota_register_virtual_init({teknorota_register_virtual_init,
-					User_id},
-				       __TopXMLNS) ->
+                                        User_id},
+                                       __TopXMLNS) ->
     __NewTopXMLNS =
-	xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
-				    [], __TopXMLNS),
+        xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
+                                    [],
+                                    __TopXMLNS),
     _els = [],
     _attrs =
-	'encode_teknorota_register_virtual_init_attr_user-id'(User_id,
-							      xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-											 __TopXMLNS)),
+        'encode_teknorota_register_virtual_init_attr_user-id'(User_id,
+                                                              xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+                                                                                         __TopXMLNS)),
     {xmlel, <<"virtual-init">>, _attrs, _els}.
 
 'decode_teknorota_register_virtual_init_attr_user-id'(__TopXMLNS,
-						      undefined) ->
+                                                      undefined) ->
     <<>>;
 'decode_teknorota_register_virtual_init_attr_user-id'(__TopXMLNS,
-						      _val) ->
+                                                      _val) ->
     _val.
 
 'encode_teknorota_register_virtual_init_attr_user-id'(<<>>,
-						      _acc) ->
+                                                      _acc) ->
     _acc;
 'encode_teknorota_register_virtual_init_attr_user-id'(_val,
-						      _acc) ->
+                                                      _acc) ->
     [{<<"user-id">>, _val} | _acc].
 
 decode_teknorota_register_check_invoice(__TopXMLNS,
-					__Opts,
-					{xmlel, <<"check-invoice">>, _attrs,
-					 _els}) ->
+                                        __Opts,
+                                        {xmlel,
+                                         <<"check-invoice">>,
+                                         _attrs,
+                                         _els}) ->
     {Id, User_id} =
-	decode_teknorota_register_check_invoice_attrs(__TopXMLNS,
-						      _attrs, undefined,
-						      undefined),
+        decode_teknorota_register_check_invoice_attrs(__TopXMLNS,
+                                                      _attrs,
+                                                      undefined,
+                                                      undefined),
     {teknorota_register_check_invoice, Id, User_id}.
 
 decode_teknorota_register_check_invoice_attrs(__TopXMLNS,
-					      [{<<"id">>, _val} | _attrs], _Id,
-					      User_id) ->
+                                              [{<<"id">>, _val} | _attrs], _Id,
+                                              User_id) ->
     decode_teknorota_register_check_invoice_attrs(__TopXMLNS,
-						  _attrs, _val, User_id);
+                                                  _attrs,
+                                                  _val,
+                                                  User_id);
 decode_teknorota_register_check_invoice_attrs(__TopXMLNS,
-					      [{<<"user-id">>, _val} | _attrs],
-					      Id, _User_id) ->
+                                              [{<<"user-id">>, _val} | _attrs],
+                                              Id, _User_id) ->
     decode_teknorota_register_check_invoice_attrs(__TopXMLNS,
-						  _attrs, Id, _val);
+                                                  _attrs,
+                                                  Id,
+                                                  _val);
 decode_teknorota_register_check_invoice_attrs(__TopXMLNS,
-					      [_ | _attrs], Id, User_id) ->
+                                              [_ | _attrs], Id, User_id) ->
     decode_teknorota_register_check_invoice_attrs(__TopXMLNS,
-						  _attrs, Id, User_id);
+                                                  _attrs,
+                                                  Id,
+                                                  User_id);
 decode_teknorota_register_check_invoice_attrs(__TopXMLNS,
-					      [], Id, User_id) ->
+                                              [], Id, User_id) ->
     {decode_teknorota_register_check_invoice_attr_id(__TopXMLNS,
-						     Id),
+                                                     Id),
      'decode_teknorota_register_check_invoice_attr_user-id'(__TopXMLNS,
-							    User_id)}.
+                                                            User_id)}.
 
 encode_teknorota_register_check_invoice({teknorota_register_check_invoice,
-					 Id, User_id},
-					__TopXMLNS) ->
+                                         Id,
+                                         User_id},
+                                        __TopXMLNS) ->
     __NewTopXMLNS =
-	xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
-				    [], __TopXMLNS),
+        xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
+                                    [],
+                                    __TopXMLNS),
     _els = [],
     _attrs =
-	'encode_teknorota_register_check_invoice_attr_user-id'(User_id,
-							       encode_teknorota_register_check_invoice_attr_id(Id,
-													       xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-																	  __TopXMLNS))),
+        'encode_teknorota_register_check_invoice_attr_user-id'(User_id,
+                                                               encode_teknorota_register_check_invoice_attr_id(Id,
+                                                                                                               xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+                                                                                                                                          __TopXMLNS))),
     {xmlel, <<"check-invoice">>, _attrs, _els}.
 
 decode_teknorota_register_check_invoice_attr_id(__TopXMLNS,
-						undefined) ->
+                                                undefined) ->
     <<>>;
 decode_teknorota_register_check_invoice_attr_id(__TopXMLNS,
-						_val) ->
+                                                _val) ->
     _val.
 
 encode_teknorota_register_check_invoice_attr_id(<<>>,
-						_acc) ->
+                                                _acc) ->
     _acc;
 encode_teknorota_register_check_invoice_attr_id(_val,
-						_acc) ->
+                                                _acc) ->
     [{<<"id">>, _val} | _acc].
 
 'decode_teknorota_register_check_invoice_attr_user-id'(__TopXMLNS,
-						       undefined) ->
+                                                       undefined) ->
     <<>>;
 'decode_teknorota_register_check_invoice_attr_user-id'(__TopXMLNS,
-						       _val) ->
+                                                       _val) ->
     _val.
 
 'encode_teknorota_register_check_invoice_attr_user-id'(<<>>,
-						       _acc) ->
+                                                       _acc) ->
     _acc;
 'encode_teknorota_register_check_invoice_attr_user-id'(_val,
-						       _acc) ->
+                                                       _acc) ->
     [{<<"user-id">>, _val} | _acc].
 
 decode_teknorota_register_pay_invoice(__TopXMLNS,
-				      __Opts,
-				      {xmlel, <<"pay-invoice">>, _attrs,
-				       _els}) ->
+                                      __Opts,
+                                      {xmlel,
+                                       <<"pay-invoice">>,
+                                       _attrs,
+                                       _els}) ->
     {Id, Token, Email, User_id} =
-	decode_teknorota_register_pay_invoice_attrs(__TopXMLNS,
-						    _attrs, undefined,
-						    undefined, undefined,
-						    undefined),
-    {teknorota_register_pay_invoice, Id, Token, Email,
+        decode_teknorota_register_pay_invoice_attrs(__TopXMLNS,
+                                                    _attrs,
+                                                    undefined,
+                                                    undefined,
+                                                    undefined,
+                                                    undefined),
+    {teknorota_register_pay_invoice,
+     Id,
+     Token,
+     Email,
      User_id}.
 
 decode_teknorota_register_pay_invoice_attrs(__TopXMLNS,
-					    [{<<"id">>, _val} | _attrs], _Id,
-					    Token, Email, User_id) ->
+                                            [{<<"id">>, _val} | _attrs], _Id,
+                                            Token, Email, User_id) ->
     decode_teknorota_register_pay_invoice_attrs(__TopXMLNS,
-						_attrs, _val, Token, Email,
-						User_id);
+                                                _attrs,
+                                                _val,
+                                                Token,
+                                                Email,
+                                                User_id);
 decode_teknorota_register_pay_invoice_attrs(__TopXMLNS,
-					    [{<<"token">>, _val} | _attrs], Id,
-					    _Token, Email, User_id) ->
+                                            [{<<"token">>, _val} | _attrs], Id,
+                                            _Token, Email, User_id) ->
     decode_teknorota_register_pay_invoice_attrs(__TopXMLNS,
-						_attrs, Id, _val, Email,
-						User_id);
+                                                _attrs,
+                                                Id,
+                                                _val,
+                                                Email,
+                                                User_id);
 decode_teknorota_register_pay_invoice_attrs(__TopXMLNS,
-					    [{<<"email">>, _val} | _attrs], Id,
-					    Token, _Email, User_id) ->
+                                            [{<<"email">>, _val} | _attrs], Id,
+                                            Token, _Email, User_id) ->
     decode_teknorota_register_pay_invoice_attrs(__TopXMLNS,
-						_attrs, Id, Token, _val,
-						User_id);
+                                                _attrs,
+                                                Id,
+                                                Token,
+                                                _val,
+                                                User_id);
 decode_teknorota_register_pay_invoice_attrs(__TopXMLNS,
-					    [{<<"user-id">>, _val} | _attrs],
-					    Id, Token, Email, _User_id) ->
+                                            [{<<"user-id">>, _val} | _attrs],
+                                            Id, Token, Email, _User_id) ->
     decode_teknorota_register_pay_invoice_attrs(__TopXMLNS,
-						_attrs, Id, Token, Email, _val);
+                                                _attrs,
+                                                Id,
+                                                Token,
+                                                Email,
+                                                _val);
 decode_teknorota_register_pay_invoice_attrs(__TopXMLNS,
-					    [_ | _attrs], Id, Token, Email,
-					    User_id) ->
+                                            [_ | _attrs], Id, Token, Email,
+                                            User_id) ->
     decode_teknorota_register_pay_invoice_attrs(__TopXMLNS,
-						_attrs, Id, Token, Email,
-						User_id);
+                                                _attrs,
+                                                Id,
+                                                Token,
+                                                Email,
+                                                User_id);
 decode_teknorota_register_pay_invoice_attrs(__TopXMLNS,
-					    [], Id, Token, Email, User_id) ->
+                                            [], Id, Token, Email, User_id) ->
     {decode_teknorota_register_pay_invoice_attr_id(__TopXMLNS,
-						   Id),
+                                                   Id),
      decode_teknorota_register_pay_invoice_attr_token(__TopXMLNS,
-						      Token),
+                                                      Token),
      decode_teknorota_register_pay_invoice_attr_email(__TopXMLNS,
-						      Email),
+                                                      Email),
      'decode_teknorota_register_pay_invoice_attr_user-id'(__TopXMLNS,
-							  User_id)}.
+                                                          User_id)}.
 
 encode_teknorota_register_pay_invoice({teknorota_register_pay_invoice,
-				       Id, Token, Email, User_id},
-				      __TopXMLNS) ->
+                                       Id,
+                                       Token,
+                                       Email,
+                                       User_id},
+                                      __TopXMLNS) ->
     __NewTopXMLNS =
-	xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
-				    [], __TopXMLNS),
+        xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
+                                    [],
+                                    __TopXMLNS),
     _els = [],
     _attrs =
-	'encode_teknorota_register_pay_invoice_attr_user-id'(User_id,
-							     encode_teknorota_register_pay_invoice_attr_email(Email,
-													      encode_teknorota_register_pay_invoice_attr_token(Token,
-																			       encode_teknorota_register_pay_invoice_attr_id(Id,
-																									     xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-																													__TopXMLNS))))),
+        'encode_teknorota_register_pay_invoice_attr_user-id'(User_id,
+                                                             encode_teknorota_register_pay_invoice_attr_email(Email,
+                                                                                                              encode_teknorota_register_pay_invoice_attr_token(Token,
+                                                                                                                                                               encode_teknorota_register_pay_invoice_attr_id(Id,
+                                                                                                                                                                                                             xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+                                                                                                                                                                                                                                        __TopXMLNS))))),
     {xmlel, <<"pay-invoice">>, _attrs, _els}.
 
 decode_teknorota_register_pay_invoice_attr_id(__TopXMLNS,
-					      undefined) ->
+                                              undefined) ->
     <<>>;
 decode_teknorota_register_pay_invoice_attr_id(__TopXMLNS,
-					      _val) ->
+                                              _val) ->
     _val.
 
 encode_teknorota_register_pay_invoice_attr_id(<<>>,
-					      _acc) ->
+                                              _acc) ->
     _acc;
 encode_teknorota_register_pay_invoice_attr_id(_val,
-					      _acc) ->
+                                              _acc) ->
     [{<<"id">>, _val} | _acc].
 
 decode_teknorota_register_pay_invoice_attr_token(__TopXMLNS,
-						 undefined) ->
+                                                 undefined) ->
     <<>>;
 decode_teknorota_register_pay_invoice_attr_token(__TopXMLNS,
-						 _val) ->
+                                                 _val) ->
     _val.
 
 encode_teknorota_register_pay_invoice_attr_token(<<>>,
-						 _acc) ->
+                                                 _acc) ->
     _acc;
 encode_teknorota_register_pay_invoice_attr_token(_val,
-						 _acc) ->
+                                                 _acc) ->
     [{<<"token">>, _val} | _acc].
 
 decode_teknorota_register_pay_invoice_attr_email(__TopXMLNS,
-						 undefined) ->
+                                                 undefined) ->
     <<>>;
 decode_teknorota_register_pay_invoice_attr_email(__TopXMLNS,
-						 _val) ->
+                                                 _val) ->
     _val.
 
 encode_teknorota_register_pay_invoice_attr_email(<<>>,
-						 _acc) ->
+                                                 _acc) ->
     _acc;
 encode_teknorota_register_pay_invoice_attr_email(_val,
-						 _acc) ->
+                                                 _acc) ->
     [{<<"email">>, _val} | _acc].
 
 'decode_teknorota_register_pay_invoice_attr_user-id'(__TopXMLNS,
-						     undefined) ->
+                                                     undefined) ->
     <<>>;
 'decode_teknorota_register_pay_invoice_attr_user-id'(__TopXMLNS,
-						     _val) ->
+                                                     _val) ->
     _val.
 
 'encode_teknorota_register_pay_invoice_attr_user-id'(<<>>,
-						     _acc) ->
+                                                     _acc) ->
     _acc;
 'encode_teknorota_register_pay_invoice_attr_user-id'(_val,
-						     _acc) ->
+                                                     _acc) ->
     [{<<"user-id">>, _val} | _acc].
 
 decode_teknorota_register_create_invoice(__TopXMLNS,
-					 __Opts,
-					 {xmlel, <<"create-invoice">>, _attrs,
-					  _els}) ->
+                                         __Opts,
+                                         {xmlel,
+                                          <<"create-invoice">>,
+                                          _attrs,
+                                          _els}) ->
     {Package_id, Payment_type, User_id} =
-	decode_teknorota_register_create_invoice_attrs(__TopXMLNS,
-						       _attrs, undefined,
-						       undefined, undefined),
-    {teknorota_register_create_invoice, Package_id,
-     Payment_type, User_id}.
+        decode_teknorota_register_create_invoice_attrs(__TopXMLNS,
+                                                       _attrs,
+                                                       undefined,
+                                                       undefined,
+                                                       undefined),
+    {teknorota_register_create_invoice,
+     Package_id,
+     Payment_type,
+     User_id}.
 
 decode_teknorota_register_create_invoice_attrs(__TopXMLNS,
-					       [{<<"package-id">>, _val}
-						| _attrs],
-					       _Package_id, Payment_type,
-					       User_id) ->
+                                               [{<<"package-id">>, _val}
+                                                | _attrs],
+                                               _Package_id, Payment_type,
+                                               User_id) ->
     decode_teknorota_register_create_invoice_attrs(__TopXMLNS,
-						   _attrs, _val, Payment_type,
-						   User_id);
+                                                   _attrs,
+                                                   _val,
+                                                   Payment_type,
+                                                   User_id);
 decode_teknorota_register_create_invoice_attrs(__TopXMLNS,
-					       [{<<"payment-type">>, _val}
-						| _attrs],
-					       Package_id, _Payment_type,
-					       User_id) ->
+                                               [{<<"payment-type">>, _val}
+                                                | _attrs],
+                                               Package_id, _Payment_type,
+                                               User_id) ->
     decode_teknorota_register_create_invoice_attrs(__TopXMLNS,
-						   _attrs, Package_id, _val,
-						   User_id);
+                                                   _attrs,
+                                                   Package_id,
+                                                   _val,
+                                                   User_id);
 decode_teknorota_register_create_invoice_attrs(__TopXMLNS,
-					       [{<<"user-id">>, _val} | _attrs],
-					       Package_id, Payment_type,
-					       _User_id) ->
+                                               [{<<"user-id">>, _val} | _attrs],
+                                               Package_id, Payment_type,
+                                               _User_id) ->
     decode_teknorota_register_create_invoice_attrs(__TopXMLNS,
-						   _attrs, Package_id,
-						   Payment_type, _val);
+                                                   _attrs,
+                                                   Package_id,
+                                                   Payment_type,
+                                                   _val);
 decode_teknorota_register_create_invoice_attrs(__TopXMLNS,
-					       [_ | _attrs], Package_id,
-					       Payment_type, User_id) ->
+                                               [_ | _attrs], Package_id,
+                                               Payment_type, User_id) ->
     decode_teknorota_register_create_invoice_attrs(__TopXMLNS,
-						   _attrs, Package_id,
-						   Payment_type, User_id);
+                                                   _attrs,
+                                                   Package_id,
+                                                   Payment_type,
+                                                   User_id);
 decode_teknorota_register_create_invoice_attrs(__TopXMLNS,
-					       [], Package_id, Payment_type,
-					       User_id) ->
+                                               [], Package_id, Payment_type,
+                                               User_id) ->
     {'decode_teknorota_register_create_invoice_attr_package-id'(__TopXMLNS,
-								Package_id),
+                                                                Package_id),
      'decode_teknorota_register_create_invoice_attr_payment-type'(__TopXMLNS,
-								  Payment_type),
+                                                                  Payment_type),
      'decode_teknorota_register_create_invoice_attr_user-id'(__TopXMLNS,
-							     User_id)}.
+                                                             User_id)}.
 
 encode_teknorota_register_create_invoice({teknorota_register_create_invoice,
-					  Package_id, Payment_type, User_id},
-					 __TopXMLNS) ->
+                                          Package_id,
+                                          Payment_type,
+                                          User_id},
+                                         __TopXMLNS) ->
     __NewTopXMLNS =
-	xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
-				    [], __TopXMLNS),
+        xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
+                                    [],
+                                    __TopXMLNS),
     _els = [],
     _attrs =
-	'encode_teknorota_register_create_invoice_attr_user-id'(User_id,
-								'encode_teknorota_register_create_invoice_attr_payment-type'(Payment_type,
-															     'encode_teknorota_register_create_invoice_attr_package-id'(Package_id,
-																							xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-																										   __TopXMLNS)))),
+        'encode_teknorota_register_create_invoice_attr_user-id'(User_id,
+                                                                'encode_teknorota_register_create_invoice_attr_payment-type'(Payment_type,
+                                                                                                                             'encode_teknorota_register_create_invoice_attr_package-id'(Package_id,
+                                                                                                                                                                                        xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+                                                                                                                                                                                                                   __TopXMLNS)))),
     {xmlel, <<"create-invoice">>, _attrs, _els}.
 
 'decode_teknorota_register_create_invoice_attr_package-id'(__TopXMLNS,
-							   undefined) ->
+                                                           undefined) ->
     <<>>;
 'decode_teknorota_register_create_invoice_attr_package-id'(__TopXMLNS,
-							   _val) ->
+                                                           _val) ->
     _val.
 
 'encode_teknorota_register_create_invoice_attr_package-id'(<<>>,
-							   _acc) ->
+                                                           _acc) ->
     _acc;
 'encode_teknorota_register_create_invoice_attr_package-id'(_val,
-							   _acc) ->
+                                                           _acc) ->
     [{<<"package-id">>, _val} | _acc].
 
 'decode_teknorota_register_create_invoice_attr_payment-type'(__TopXMLNS,
-							     undefined) ->
+                                                             undefined) ->
     <<>>;
 'decode_teknorota_register_create_invoice_attr_payment-type'(__TopXMLNS,
-							     _val) ->
+                                                             _val) ->
     _val.
 
 'encode_teknorota_register_create_invoice_attr_payment-type'(<<>>,
-							     _acc) ->
+                                                             _acc) ->
     _acc;
 'encode_teknorota_register_create_invoice_attr_payment-type'(_val,
-							     _acc) ->
+                                                             _acc) ->
     [{<<"payment-type">>, _val} | _acc].
 
 'decode_teknorota_register_create_invoice_attr_user-id'(__TopXMLNS,
-							undefined) ->
+                                                        undefined) ->
     <<>>;
 'decode_teknorota_register_create_invoice_attr_user-id'(__TopXMLNS,
-							_val) ->
+                                                        _val) ->
     _val.
 
 'encode_teknorota_register_create_invoice_attr_user-id'(<<>>,
-							_acc) ->
+                                                        _acc) ->
     _acc;
 'encode_teknorota_register_create_invoice_attr_user-id'(_val,
-							_acc) ->
+                                                        _acc) ->
     [{<<"user-id">>, _val} | _acc].
 
 decode_teknorota_register_packages(__TopXMLNS, __Opts,
-				   {xmlel, <<"packages">>, _attrs, _els}) ->
+                                   {xmlel, <<"packages">>, _attrs, _els}) ->
     Packages =
-	decode_teknorota_register_packages_els(__TopXMLNS,
-					       __Opts, _els, []),
+        decode_teknorota_register_packages_els(__TopXMLNS,
+                                               __Opts,
+                                               _els,
+                                               []),
     {teknorota_register_packages, Packages}.
 
 decode_teknorota_register_packages_els(__TopXMLNS,
-				       __Opts, [], Packages) ->
+                                       __Opts, [], Packages) ->
     lists:reverse(Packages);
 decode_teknorota_register_packages_els(__TopXMLNS,
-				       __Opts,
-				       [{xmlel, <<"package">>, _attrs, _} = _el
-					| _els],
-				       Packages) ->
-    case xmpp_codec:get_attr(<<"xmlns">>, _attrs,
-			     __TopXMLNS)
-	of
-      <<"teknorota:xmpp:register">> ->
-	  decode_teknorota_register_packages_els(__TopXMLNS,
-						 __Opts, _els,
-						 [decode_teknorota_register_package(<<"teknorota:xmpp:register">>,
-										    __Opts,
-										    _el)
-						  | Packages]);
-      _ ->
-	  decode_teknorota_register_packages_els(__TopXMLNS,
-						 __Opts, _els, Packages)
+                                       __Opts,
+                                       [{xmlel, <<"package">>, _attrs, _} = _el
+                                        | _els],
+                                       Packages) ->
+    case xmpp_codec:get_attr(<<"xmlns">>,
+                             _attrs,
+                             __TopXMLNS)
+        of
+        <<"teknorota:xmpp:register">> ->
+            decode_teknorota_register_packages_els(__TopXMLNS,
+                                                   __Opts,
+                                                   _els,
+                                                   [decode_teknorota_register_package(<<"teknorota:xmpp:register">>,
+                                                                                      __Opts,
+                                                                                      _el)
+                                                    | Packages]);
+        _ ->
+            decode_teknorota_register_packages_els(__TopXMLNS,
+                                                   __Opts,
+                                                   _els,
+                                                   Packages)
     end;
 decode_teknorota_register_packages_els(__TopXMLNS,
-				       __Opts, [_ | _els], Packages) ->
+                                       __Opts, [_ | _els], Packages) ->
     decode_teknorota_register_packages_els(__TopXMLNS,
-					   __Opts, _els, Packages).
+                                           __Opts,
+                                           _els,
+                                           Packages).
 
 encode_teknorota_register_packages({teknorota_register_packages,
-				    Packages},
-				   __TopXMLNS) ->
+                                    Packages},
+                                   __TopXMLNS) ->
     __NewTopXMLNS =
-	xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
-				    [], __TopXMLNS),
+        xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
+                                    [],
+                                    __TopXMLNS),
     _els =
-	lists:reverse('encode_teknorota_register_packages_$packages'(Packages,
-								     __NewTopXMLNS,
-								     [])),
+        lists:reverse('encode_teknorota_register_packages_$packages'(Packages,
+                                                                     __NewTopXMLNS,
+                                                                     [])),
     _attrs = xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-					__TopXMLNS),
+                                        __TopXMLNS),
     {xmlel, <<"packages">>, _attrs, _els}.
 
 'encode_teknorota_register_packages_$packages'([],
-					       __TopXMLNS, _acc) ->
+                                               __TopXMLNS, _acc) ->
     _acc;
 'encode_teknorota_register_packages_$packages'([Packages
-						| _els],
-					       __TopXMLNS, _acc) ->
+                                                | _els],
+                                               __TopXMLNS, _acc) ->
     'encode_teknorota_register_packages_$packages'(_els,
-						   __TopXMLNS,
-						   [encode_teknorota_register_package(Packages,
-										      __TopXMLNS)
-						    | _acc]).
+                                                   __TopXMLNS,
+                                                   [encode_teknorota_register_package(Packages,
+                                                                                      __TopXMLNS)
+                                                    | _acc]).
 
 decode_teknorota_register_package(__TopXMLNS, __Opts,
-				  {xmlel, <<"package">>, _attrs, _els}) ->
+                                  {xmlel, <<"package">>, _attrs, _els}) ->
     {Id, Name, Price, Price_virtual, Currency, Duration} =
-	decode_teknorota_register_package_attrs(__TopXMLNS,
-						_attrs, undefined, undefined,
-						undefined, undefined, undefined,
-						undefined),
-    {teknorota_register_package, Id, Name, Price,
-     Price_virtual, Currency, Duration}.
+        decode_teknorota_register_package_attrs(__TopXMLNS,
+                                                _attrs,
+                                                undefined,
+                                                undefined,
+                                                undefined,
+                                                undefined,
+                                                undefined,
+                                                undefined),
+    {teknorota_register_package,
+     Id,
+     Name,
+     Price,
+     Price_virtual,
+     Currency,
+     Duration}.
 
 decode_teknorota_register_package_attrs(__TopXMLNS,
-					[{<<"id">>, _val} | _attrs], _Id, Name,
-					Price, Price_virtual, Currency,
-					Duration) ->
+                                        [{<<"id">>, _val} | _attrs], _Id, Name,
+                                        Price, Price_virtual, Currency,
+                                        Duration) ->
     decode_teknorota_register_package_attrs(__TopXMLNS,
-					    _attrs, _val, Name, Price,
-					    Price_virtual, Currency, Duration);
+                                            _attrs,
+                                            _val,
+                                            Name,
+                                            Price,
+                                            Price_virtual,
+                                            Currency,
+                                            Duration);
 decode_teknorota_register_package_attrs(__TopXMLNS,
-					[{<<"name">>, _val} | _attrs], Id,
-					_Name, Price, Price_virtual, Currency,
-					Duration) ->
+                                        [{<<"name">>, _val} | _attrs], Id,
+                                        _Name, Price, Price_virtual, Currency,
+                                        Duration) ->
     decode_teknorota_register_package_attrs(__TopXMLNS,
-					    _attrs, Id, _val, Price,
-					    Price_virtual, Currency, Duration);
+                                            _attrs,
+                                            Id,
+                                            _val,
+                                            Price,
+                                            Price_virtual,
+                                            Currency,
+                                            Duration);
 decode_teknorota_register_package_attrs(__TopXMLNS,
-					[{<<"price">>, _val} | _attrs], Id,
-					Name, _Price, Price_virtual, Currency,
-					Duration) ->
+                                        [{<<"price">>, _val} | _attrs], Id,
+                                        Name, _Price, Price_virtual, Currency,
+                                        Duration) ->
     decode_teknorota_register_package_attrs(__TopXMLNS,
-					    _attrs, Id, Name, _val,
-					    Price_virtual, Currency, Duration);
+                                            _attrs,
+                                            Id,
+                                            Name,
+                                            _val,
+                                            Price_virtual,
+                                            Currency,
+                                            Duration);
 decode_teknorota_register_package_attrs(__TopXMLNS,
-					[{<<"price-virtual">>, _val} | _attrs],
-					Id, Name, Price, _Price_virtual,
-					Currency, Duration) ->
+                                        [{<<"price-virtual">>, _val} | _attrs],
+                                        Id, Name, Price, _Price_virtual,
+                                        Currency, Duration) ->
     decode_teknorota_register_package_attrs(__TopXMLNS,
-					    _attrs, Id, Name, Price, _val,
-					    Currency, Duration);
+                                            _attrs,
+                                            Id,
+                                            Name,
+                                            Price,
+                                            _val,
+                                            Currency,
+                                            Duration);
 decode_teknorota_register_package_attrs(__TopXMLNS,
-					[{<<"currency">>, _val} | _attrs], Id,
-					Name, Price, Price_virtual, _Currency,
-					Duration) ->
+                                        [{<<"currency">>, _val} | _attrs], Id,
+                                        Name, Price, Price_virtual, _Currency,
+                                        Duration) ->
     decode_teknorota_register_package_attrs(__TopXMLNS,
-					    _attrs, Id, Name, Price,
-					    Price_virtual, _val, Duration);
+                                            _attrs,
+                                            Id,
+                                            Name,
+                                            Price,
+                                            Price_virtual,
+                                            _val,
+                                            Duration);
 decode_teknorota_register_package_attrs(__TopXMLNS,
-					[{<<"duration">>, _val} | _attrs], Id,
-					Name, Price, Price_virtual, Currency,
-					_Duration) ->
+                                        [{<<"duration">>, _val} | _attrs], Id,
+                                        Name, Price, Price_virtual, Currency,
+                                        _Duration) ->
     decode_teknorota_register_package_attrs(__TopXMLNS,
-					    _attrs, Id, Name, Price,
-					    Price_virtual, Currency, _val);
+                                            _attrs,
+                                            Id,
+                                            Name,
+                                            Price,
+                                            Price_virtual,
+                                            Currency,
+                                            _val);
 decode_teknorota_register_package_attrs(__TopXMLNS,
-					[_ | _attrs], Id, Name, Price,
-					Price_virtual, Currency, Duration) ->
+                                        [_ | _attrs], Id, Name, Price,
+                                        Price_virtual, Currency, Duration) ->
     decode_teknorota_register_package_attrs(__TopXMLNS,
-					    _attrs, Id, Name, Price,
-					    Price_virtual, Currency, Duration);
+                                            _attrs,
+                                            Id,
+                                            Name,
+                                            Price,
+                                            Price_virtual,
+                                            Currency,
+                                            Duration);
 decode_teknorota_register_package_attrs(__TopXMLNS, [],
-					Id, Name, Price, Price_virtual,
-					Currency, Duration) ->
+                                        Id, Name, Price, Price_virtual,
+                                        Currency, Duration) ->
     {decode_teknorota_register_package_attr_id(__TopXMLNS,
-					       Id),
+                                               Id),
      decode_teknorota_register_package_attr_name(__TopXMLNS,
-						 Name),
+                                                 Name),
      decode_teknorota_register_package_attr_price(__TopXMLNS,
-						  Price),
+                                                  Price),
      'decode_teknorota_register_package_attr_price-virtual'(__TopXMLNS,
-							    Price_virtual),
+                                                            Price_virtual),
      decode_teknorota_register_package_attr_currency(__TopXMLNS,
-						     Currency),
+                                                     Currency),
      decode_teknorota_register_package_attr_duration(__TopXMLNS,
-						     Duration)}.
+                                                     Duration)}.
 
 encode_teknorota_register_package({teknorota_register_package,
-				   Id, Name, Price, Price_virtual, Currency,
-				   Duration},
-				  __TopXMLNS) ->
+                                   Id,
+                                   Name,
+                                   Price,
+                                   Price_virtual,
+                                   Currency,
+                                   Duration},
+                                  __TopXMLNS) ->
     __NewTopXMLNS =
-	xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
-				    [], __TopXMLNS),
+        xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
+                                    [],
+                                    __TopXMLNS),
     _els = [],
     _attrs =
-	encode_teknorota_register_package_attr_duration(Duration,
-							encode_teknorota_register_package_attr_currency(Currency,
-													'encode_teknorota_register_package_attr_price-virtual'(Price_virtual,
-																			       encode_teknorota_register_package_attr_price(Price,
-																									    encode_teknorota_register_package_attr_name(Name,
-																															encode_teknorota_register_package_attr_id(Id,
-																																				  xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-																																							     __TopXMLNS))))))),
+        encode_teknorota_register_package_attr_duration(Duration,
+                                                        encode_teknorota_register_package_attr_currency(Currency,
+                                                                                                        'encode_teknorota_register_package_attr_price-virtual'(Price_virtual,
+                                                                                                                                                               encode_teknorota_register_package_attr_price(Price,
+                                                                                                                                                                                                            encode_teknorota_register_package_attr_name(Name,
+                                                                                                                                                                                                                                                        encode_teknorota_register_package_attr_id(Id,
+                                                                                                                                                                                                                                                                                                  xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+                                                                                                                                                                                                                                                                                                                             __TopXMLNS))))))),
     {xmlel, <<"package">>, _attrs, _els}.
 
 decode_teknorota_register_package_attr_id(__TopXMLNS,
-					  undefined) ->
+                                          undefined) ->
     <<>>;
 decode_teknorota_register_package_attr_id(__TopXMLNS,
-					  _val) ->
+                                          _val) ->
     _val.
 
 encode_teknorota_register_package_attr_id(<<>>, _acc) ->
@@ -1334,394 +1706,473 @@ encode_teknorota_register_package_attr_id(_val, _acc) ->
     [{<<"id">>, _val} | _acc].
 
 decode_teknorota_register_package_attr_name(__TopXMLNS,
-					    undefined) ->
+                                            undefined) ->
     <<>>;
 decode_teknorota_register_package_attr_name(__TopXMLNS,
-					    _val) ->
+                                            _val) ->
     _val.
 
 encode_teknorota_register_package_attr_name(<<>>,
-					    _acc) ->
+                                            _acc) ->
     _acc;
 encode_teknorota_register_package_attr_name(_val,
-					    _acc) ->
+                                            _acc) ->
     [{<<"name">>, _val} | _acc].
 
 decode_teknorota_register_package_attr_price(__TopXMLNS,
-					     undefined) ->
+                                             undefined) ->
     <<>>;
 decode_teknorota_register_package_attr_price(__TopXMLNS,
-					     _val) ->
+                                             _val) ->
     _val.
 
 encode_teknorota_register_package_attr_price(<<>>,
-					     _acc) ->
+                                             _acc) ->
     _acc;
 encode_teknorota_register_package_attr_price(_val,
-					     _acc) ->
+                                             _acc) ->
     [{<<"price">>, _val} | _acc].
 
 'decode_teknorota_register_package_attr_price-virtual'(__TopXMLNS,
-						       undefined) ->
+                                                       undefined) ->
     <<>>;
 'decode_teknorota_register_package_attr_price-virtual'(__TopXMLNS,
-						       _val) ->
+                                                       _val) ->
     _val.
 
 'encode_teknorota_register_package_attr_price-virtual'(<<>>,
-						       _acc) ->
+                                                       _acc) ->
     _acc;
 'encode_teknorota_register_package_attr_price-virtual'(_val,
-						       _acc) ->
+                                                       _acc) ->
     [{<<"price-virtual">>, _val} | _acc].
 
 decode_teknorota_register_package_attr_currency(__TopXMLNS,
-						undefined) ->
+                                                undefined) ->
     <<>>;
 decode_teknorota_register_package_attr_currency(__TopXMLNS,
-						_val) ->
+                                                _val) ->
     _val.
 
 encode_teknorota_register_package_attr_currency(<<>>,
-						_acc) ->
+                                                _acc) ->
     _acc;
 encode_teknorota_register_package_attr_currency(_val,
-						_acc) ->
+                                                _acc) ->
     [{<<"currency">>, _val} | _acc].
 
 decode_teknorota_register_package_attr_duration(__TopXMLNS,
-						undefined) ->
+                                                undefined) ->
     <<>>;
 decode_teknorota_register_package_attr_duration(__TopXMLNS,
-						_val) ->
+                                                _val) ->
     _val.
 
 encode_teknorota_register_package_attr_duration(<<>>,
-						_acc) ->
+                                                _acc) ->
     _acc;
 encode_teknorota_register_package_attr_duration(_val,
-						_acc) ->
+                                                _acc) ->
     [{<<"duration">>, _val} | _acc].
 
 decode_teknorota_register_get_packages(__TopXMLNS,
-				       __Opts,
-				       {xmlel, <<"get-packages">>, _attrs,
-					_els}) ->
+                                       __Opts,
+                                       {xmlel,
+                                        <<"get-packages">>,
+                                        _attrs,
+                                        _els}) ->
     {teknorota_register_get_packages}.
 
 encode_teknorota_register_get_packages({teknorota_register_get_packages},
-				       __TopXMLNS) ->
+                                       __TopXMLNS) ->
     __NewTopXMLNS =
-	xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
-				    [], __TopXMLNS),
+        xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
+                                    [],
+                                    __TopXMLNS),
     _els = [],
     _attrs = xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-					__TopXMLNS),
+                                        __TopXMLNS),
     {xmlel, <<"get-packages">>, _attrs, _els}.
 
 decode_teknorota_register_verify_complete(__TopXMLNS,
-					  __Opts,
-					  {xmlel, <<"verify-complete">>, _attrs,
-					   _els}) ->
+                                          __Opts,
+                                          {xmlel,
+                                           <<"verify-complete">>,
+                                           _attrs,
+                                           _els}) ->
     {Id, Phone, Country, Code, Jid, Password} =
-	decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-							_attrs, undefined,
-							undefined, undefined,
-							undefined, undefined,
-							undefined),
-    {teknorota_register_verify_complete, Id, Phone, Country,
-     Code, Jid, Password}.
+        decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
+                                                        _attrs,
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        undefined,
+                                                        undefined),
+    {teknorota_register_verify_complete,
+     Id,
+     Phone,
+     Country,
+     Code,
+     Jid,
+     Password}.
 
 decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						[{<<"id">>, _val} | _attrs],
-						_Id, Phone, Country, Code, Jid,
-						Password) ->
+                                                [{<<"id">>, _val} | _attrs],
+                                                _Id, Phone, Country, Code, Jid,
+                                                Password) ->
     decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						    _attrs, _val, Phone,
-						    Country, Code, Jid,
-						    Password);
+                                                    _attrs,
+                                                    _val,
+                                                    Phone,
+                                                    Country,
+                                                    Code,
+                                                    Jid,
+                                                    Password);
 decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						[{<<"phone">>, _val} | _attrs],
-						Id, _Phone, Country, Code, Jid,
-						Password) ->
+                                                [{<<"phone">>, _val} | _attrs],
+                                                Id, _Phone, Country, Code, Jid,
+                                                Password) ->
     decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						    _attrs, Id, _val, Country,
-						    Code, Jid, Password);
+                                                    _attrs,
+                                                    Id,
+                                                    _val,
+                                                    Country,
+                                                    Code,
+                                                    Jid,
+                                                    Password);
 decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						[{<<"country">>, _val}
-						 | _attrs],
-						Id, Phone, _Country, Code, Jid,
-						Password) ->
+                                                [{<<"country">>, _val}
+                                                 | _attrs],
+                                                Id, Phone, _Country, Code, Jid,
+                                                Password) ->
     decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						    _attrs, Id, Phone, _val,
-						    Code, Jid, Password);
+                                                    _attrs,
+                                                    Id,
+                                                    Phone,
+                                                    _val,
+                                                    Code,
+                                                    Jid,
+                                                    Password);
 decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						[{<<"code">>, _val} | _attrs],
-						Id, Phone, Country, _Code, Jid,
-						Password) ->
+                                                [{<<"code">>, _val} | _attrs],
+                                                Id, Phone, Country, _Code, Jid,
+                                                Password) ->
     decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						    _attrs, Id, Phone, Country,
-						    _val, Jid, Password);
+                                                    _attrs,
+                                                    Id,
+                                                    Phone,
+                                                    Country,
+                                                    _val,
+                                                    Jid,
+                                                    Password);
 decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						[{<<"jid">>, _val} | _attrs],
-						Id, Phone, Country, Code, _Jid,
-						Password) ->
+                                                [{<<"jid">>, _val} | _attrs],
+                                                Id, Phone, Country, Code, _Jid,
+                                                Password) ->
     decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						    _attrs, Id, Phone, Country,
-						    Code, _val, Password);
+                                                    _attrs,
+                                                    Id,
+                                                    Phone,
+                                                    Country,
+                                                    Code,
+                                                    _val,
+                                                    Password);
 decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						[{<<"password">>, _val}
-						 | _attrs],
-						Id, Phone, Country, Code, Jid,
-						_Password) ->
+                                                [{<<"password">>, _val}
+                                                 | _attrs],
+                                                Id, Phone, Country, Code, Jid,
+                                                _Password) ->
     decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						    _attrs, Id, Phone, Country,
-						    Code, Jid, _val);
+                                                    _attrs,
+                                                    Id,
+                                                    Phone,
+                                                    Country,
+                                                    Code,
+                                                    Jid,
+                                                    _val);
 decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						[_ | _attrs], Id, Phone,
-						Country, Code, Jid, Password) ->
+                                                [_ | _attrs], Id, Phone,
+                                                Country, Code, Jid, Password) ->
     decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						    _attrs, Id, Phone, Country,
-						    Code, Jid, Password);
+                                                    _attrs,
+                                                    Id,
+                                                    Phone,
+                                                    Country,
+                                                    Code,
+                                                    Jid,
+                                                    Password);
 decode_teknorota_register_verify_complete_attrs(__TopXMLNS,
-						[], Id, Phone, Country, Code,
-						Jid, Password) ->
+                                                [], Id, Phone, Country, Code,
+                                                Jid, Password) ->
     {decode_teknorota_register_verify_complete_attr_id(__TopXMLNS,
-						       Id),
+                                                       Id),
      decode_teknorota_register_verify_complete_attr_phone(__TopXMLNS,
-							  Phone),
+                                                          Phone),
      decode_teknorota_register_verify_complete_attr_country(__TopXMLNS,
-							    Country),
+                                                            Country),
      decode_teknorota_register_verify_complete_attr_code(__TopXMLNS,
-							 Code),
+                                                         Code),
      decode_teknorota_register_verify_complete_attr_jid(__TopXMLNS,
-							Jid),
+                                                        Jid),
      decode_teknorota_register_verify_complete_attr_password(__TopXMLNS,
-							     Password)}.
+                                                             Password)}.
 
 encode_teknorota_register_verify_complete({teknorota_register_verify_complete,
-					   Id, Phone, Country, Code, Jid,
-					   Password},
-					  __TopXMLNS) ->
+                                           Id,
+                                           Phone,
+                                           Country,
+                                           Code,
+                                           Jid,
+                                           Password},
+                                          __TopXMLNS) ->
     __NewTopXMLNS =
-	xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
-				    [], __TopXMLNS),
+        xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
+                                    [],
+                                    __TopXMLNS),
     _els = [],
     _attrs =
-	encode_teknorota_register_verify_complete_attr_password(Password,
-								encode_teknorota_register_verify_complete_attr_jid(Jid,
-														   encode_teknorota_register_verify_complete_attr_code(Code,
-																				       encode_teknorota_register_verify_complete_attr_country(Country,
-																											      encode_teknorota_register_verify_complete_attr_phone(Phone,
-																																		   encode_teknorota_register_verify_complete_attr_id(Id,
-																																								     xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-																																												__TopXMLNS))))))),
+        encode_teknorota_register_verify_complete_attr_password(Password,
+                                                                encode_teknorota_register_verify_complete_attr_jid(Jid,
+                                                                                                                   encode_teknorota_register_verify_complete_attr_code(Code,
+                                                                                                                                                                       encode_teknorota_register_verify_complete_attr_country(Country,
+                                                                                                                                                                                                                              encode_teknorota_register_verify_complete_attr_phone(Phone,
+                                                                                                                                                                                                                                                                                   encode_teknorota_register_verify_complete_attr_id(Id,
+                                                                                                                                                                                                                                                                                                                                     xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+                                                                                                                                                                                                                                                                                                                                                                __TopXMLNS))))))),
     {xmlel, <<"verify-complete">>, _attrs, _els}.
 
 decode_teknorota_register_verify_complete_attr_id(__TopXMLNS,
-						  undefined) ->
+                                                  undefined) ->
     <<>>;
 decode_teknorota_register_verify_complete_attr_id(__TopXMLNS,
-						  _val) ->
+                                                  _val) ->
     _val.
 
 encode_teknorota_register_verify_complete_attr_id(<<>>,
-						  _acc) ->
+                                                  _acc) ->
     _acc;
 encode_teknorota_register_verify_complete_attr_id(_val,
-						  _acc) ->
+                                                  _acc) ->
     [{<<"id">>, _val} | _acc].
 
 decode_teknorota_register_verify_complete_attr_phone(__TopXMLNS,
-						     undefined) ->
+                                                     undefined) ->
     <<>>;
 decode_teknorota_register_verify_complete_attr_phone(__TopXMLNS,
-						     _val) ->
+                                                     _val) ->
     _val.
 
 encode_teknorota_register_verify_complete_attr_phone(<<>>,
-						     _acc) ->
+                                                     _acc) ->
     _acc;
 encode_teknorota_register_verify_complete_attr_phone(_val,
-						     _acc) ->
+                                                     _acc) ->
     [{<<"phone">>, _val} | _acc].
 
 decode_teknorota_register_verify_complete_attr_country(__TopXMLNS,
-						       undefined) ->
+                                                       undefined) ->
     <<>>;
 decode_teknorota_register_verify_complete_attr_country(__TopXMLNS,
-						       _val) ->
+                                                       _val) ->
     _val.
 
 encode_teknorota_register_verify_complete_attr_country(<<>>,
-						       _acc) ->
+                                                       _acc) ->
     _acc;
 encode_teknorota_register_verify_complete_attr_country(_val,
-						       _acc) ->
+                                                       _acc) ->
     [{<<"country">>, _val} | _acc].
 
 decode_teknorota_register_verify_complete_attr_code(__TopXMLNS,
-						    undefined) ->
+                                                    undefined) ->
     <<>>;
 decode_teknorota_register_verify_complete_attr_code(__TopXMLNS,
-						    _val) ->
+                                                    _val) ->
     _val.
 
 encode_teknorota_register_verify_complete_attr_code(<<>>,
-						    _acc) ->
+                                                    _acc) ->
     _acc;
 encode_teknorota_register_verify_complete_attr_code(_val,
-						    _acc) ->
+                                                    _acc) ->
     [{<<"code">>, _val} | _acc].
 
 decode_teknorota_register_verify_complete_attr_jid(__TopXMLNS,
-						   undefined) ->
+                                                   undefined) ->
     <<>>;
 decode_teknorota_register_verify_complete_attr_jid(__TopXMLNS,
-						   _val) ->
+                                                   _val) ->
     _val.
 
 encode_teknorota_register_verify_complete_attr_jid(<<>>,
-						   _acc) ->
+                                                   _acc) ->
     _acc;
 encode_teknorota_register_verify_complete_attr_jid(_val,
-						   _acc) ->
+                                                   _acc) ->
     [{<<"jid">>, _val} | _acc].
 
 decode_teknorota_register_verify_complete_attr_password(__TopXMLNS,
-							undefined) ->
+                                                        undefined) ->
     <<>>;
 decode_teknorota_register_verify_complete_attr_password(__TopXMLNS,
-							_val) ->
+                                                        _val) ->
     _val.
 
 encode_teknorota_register_verify_complete_attr_password(<<>>,
-							_acc) ->
+                                                        _acc) ->
     _acc;
 encode_teknorota_register_verify_complete_attr_password(_val,
-							_acc) ->
+                                                        _acc) ->
     [{<<"password">>, _val} | _acc].
 
 decode_teknorota_register_verify_init(__TopXMLNS,
-				      __Opts,
-				      {xmlel, <<"verify-init">>, _attrs,
-				       _els}) ->
+                                      __Opts,
+                                      {xmlel,
+                                       <<"verify-init">>,
+                                       _attrs,
+                                       _els}) ->
     {Id, Phone, Country, Type} =
-	decode_teknorota_register_verify_init_attrs(__TopXMLNS,
-						    _attrs, undefined,
-						    undefined, undefined,
-						    undefined),
-    {teknorota_register_verify_init, Id, Phone, Country,
+        decode_teknorota_register_verify_init_attrs(__TopXMLNS,
+                                                    _attrs,
+                                                    undefined,
+                                                    undefined,
+                                                    undefined,
+                                                    undefined),
+    {teknorota_register_verify_init,
+     Id,
+     Phone,
+     Country,
      Type}.
 
 decode_teknorota_register_verify_init_attrs(__TopXMLNS,
-					    [{<<"id">>, _val} | _attrs], _Id,
-					    Phone, Country, Type) ->
+                                            [{<<"id">>, _val} | _attrs], _Id,
+                                            Phone, Country, Type) ->
     decode_teknorota_register_verify_init_attrs(__TopXMLNS,
-						_attrs, _val, Phone, Country,
-						Type);
+                                                _attrs,
+                                                _val,
+                                                Phone,
+                                                Country,
+                                                Type);
 decode_teknorota_register_verify_init_attrs(__TopXMLNS,
-					    [{<<"phone">>, _val} | _attrs], Id,
-					    _Phone, Country, Type) ->
+                                            [{<<"phone">>, _val} | _attrs], Id,
+                                            _Phone, Country, Type) ->
     decode_teknorota_register_verify_init_attrs(__TopXMLNS,
-						_attrs, Id, _val, Country,
-						Type);
+                                                _attrs,
+                                                Id,
+                                                _val,
+                                                Country,
+                                                Type);
 decode_teknorota_register_verify_init_attrs(__TopXMLNS,
-					    [{<<"country">>, _val} | _attrs],
-					    Id, Phone, _Country, Type) ->
+                                            [{<<"country">>, _val} | _attrs],
+                                            Id, Phone, _Country, Type) ->
     decode_teknorota_register_verify_init_attrs(__TopXMLNS,
-						_attrs, Id, Phone, _val, Type);
+                                                _attrs,
+                                                Id,
+                                                Phone,
+                                                _val,
+                                                Type);
 decode_teknorota_register_verify_init_attrs(__TopXMLNS,
-					    [{<<"type">>, _val} | _attrs], Id,
-					    Phone, Country, _Type) ->
+                                            [{<<"type">>, _val} | _attrs], Id,
+                                            Phone, Country, _Type) ->
     decode_teknorota_register_verify_init_attrs(__TopXMLNS,
-						_attrs, Id, Phone, Country,
-						_val);
+                                                _attrs,
+                                                Id,
+                                                Phone,
+                                                Country,
+                                                _val);
 decode_teknorota_register_verify_init_attrs(__TopXMLNS,
-					    [_ | _attrs], Id, Phone, Country,
-					    Type) ->
+                                            [_ | _attrs], Id, Phone, Country,
+                                            Type) ->
     decode_teknorota_register_verify_init_attrs(__TopXMLNS,
-						_attrs, Id, Phone, Country,
-						Type);
+                                                _attrs,
+                                                Id,
+                                                Phone,
+                                                Country,
+                                                Type);
 decode_teknorota_register_verify_init_attrs(__TopXMLNS,
-					    [], Id, Phone, Country, Type) ->
+                                            [], Id, Phone, Country, Type) ->
     {decode_teknorota_register_verify_init_attr_id(__TopXMLNS,
-						   Id),
+                                                   Id),
      decode_teknorota_register_verify_init_attr_phone(__TopXMLNS,
-						      Phone),
+                                                      Phone),
      decode_teknorota_register_verify_init_attr_country(__TopXMLNS,
-							Country),
+                                                        Country),
      decode_teknorota_register_verify_init_attr_type(__TopXMLNS,
-						     Type)}.
+                                                     Type)}.
 
 encode_teknorota_register_verify_init({teknorota_register_verify_init,
-				       Id, Phone, Country, Type},
-				      __TopXMLNS) ->
+                                       Id,
+                                       Phone,
+                                       Country,
+                                       Type},
+                                      __TopXMLNS) ->
     __NewTopXMLNS =
-	xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
-				    [], __TopXMLNS),
+        xmpp_codec:choose_top_xmlns(<<"teknorota:xmpp:register">>,
+                                    [],
+                                    __TopXMLNS),
     _els = [],
     _attrs =
-	encode_teknorota_register_verify_init_attr_type(Type,
-							encode_teknorota_register_verify_init_attr_country(Country,
-													   encode_teknorota_register_verify_init_attr_phone(Phone,
-																			    encode_teknorota_register_verify_init_attr_id(Id,
-																									  xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
-																												     __TopXMLNS))))),
+        encode_teknorota_register_verify_init_attr_type(Type,
+                                                        encode_teknorota_register_verify_init_attr_country(Country,
+                                                                                                           encode_teknorota_register_verify_init_attr_phone(Phone,
+                                                                                                                                                            encode_teknorota_register_verify_init_attr_id(Id,
+                                                                                                                                                                                                          xmpp_codec:enc_xmlns_attrs(__NewTopXMLNS,
+                                                                                                                                                                                                                                     __TopXMLNS))))),
     {xmlel, <<"verify-init">>, _attrs, _els}.
 
 decode_teknorota_register_verify_init_attr_id(__TopXMLNS,
-					      undefined) ->
+                                              undefined) ->
     <<>>;
 decode_teknorota_register_verify_init_attr_id(__TopXMLNS,
-					      _val) ->
+                                              _val) ->
     _val.
 
 encode_teknorota_register_verify_init_attr_id(<<>>,
-					      _acc) ->
+                                              _acc) ->
     _acc;
 encode_teknorota_register_verify_init_attr_id(_val,
-					      _acc) ->
+                                              _acc) ->
     [{<<"id">>, _val} | _acc].
 
 decode_teknorota_register_verify_init_attr_phone(__TopXMLNS,
-						 undefined) ->
+                                                 undefined) ->
     <<>>;
 decode_teknorota_register_verify_init_attr_phone(__TopXMLNS,
-						 _val) ->
+                                                 _val) ->
     _val.
 
 encode_teknorota_register_verify_init_attr_phone(<<>>,
-						 _acc) ->
+                                                 _acc) ->
     _acc;
 encode_teknorota_register_verify_init_attr_phone(_val,
-						 _acc) ->
+                                                 _acc) ->
     [{<<"phone">>, _val} | _acc].
 
 decode_teknorota_register_verify_init_attr_country(__TopXMLNS,
-						   undefined) ->
+                                                   undefined) ->
     <<>>;
 decode_teknorota_register_verify_init_attr_country(__TopXMLNS,
-						   _val) ->
+                                                   _val) ->
     _val.
 
 encode_teknorota_register_verify_init_attr_country(<<>>,
-						   _acc) ->
+                                                   _acc) ->
     _acc;
 encode_teknorota_register_verify_init_attr_country(_val,
-						   _acc) ->
+                                                   _acc) ->
     [{<<"country">>, _val} | _acc].
 
 decode_teknorota_register_verify_init_attr_type(__TopXMLNS,
-						undefined) ->
+                                                undefined) ->
     <<>>;
 decode_teknorota_register_verify_init_attr_type(__TopXMLNS,
-						_val) ->
+                                                _val) ->
     _val.
 
 encode_teknorota_register_verify_init_attr_type(<<>>,
-						_acc) ->
+                                                _acc) ->
     _acc;
 encode_teknorota_register_verify_init_attr_type(_val,
-						_acc) ->
+                                                _acc) ->
     [{<<"type">>, _val} | _acc].

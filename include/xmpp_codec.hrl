@@ -150,9 +150,6 @@
                     data = <<>> :: binary()}).
 -type rsm_first() :: #rsm_first{}.
 
--record(mark_received, {id = <<>> :: binary()}).
--type mark_received() :: #mark_received{}.
-
 -record(teknorota_register_verify_init, {id = <<>> :: binary(),
                                          phone = <<>> :: binary(),
                                          country = <<>> :: binary(),
@@ -176,6 +173,9 @@
 -record(teknorota_fileshare_download, {id = <<>> :: binary(),
                                        data = <<>> :: binary()}).
 -type teknorota_fileshare_download() :: #teknorota_fileshare_download{}.
+
+-record(mark_received, {id = <<>> :: binary()}).
+-type mark_received() :: #mark_received{}.
 
 -record(carbons_enable, {}).
 -type carbons_enable() :: #carbons_enable{}.
@@ -517,11 +517,11 @@
                error :: 'undefined' | #stat_error{}}).
 -type stat() :: #stat{}.
 
--record(addresses, {list = [] :: [#address{}]}).
--type addresses() :: #addresses{}.
-
 -record(teknorota_subscription_get_packages, {}).
 -type teknorota_subscription_get_packages() :: #teknorota_subscription_get_packages{}.
+
+-record(addresses, {list = [] :: [#address{}]}).
+-type addresses() :: #addresses{}.
 
 -record(teknorota_groupchat_group_updated, {id = <<>> :: binary()}).
 -type teknorota_groupchat_group_updated() :: #teknorota_groupchat_group_updated{}.
@@ -607,24 +607,21 @@
                        jid :: jid:jid()}).
 -type ps_subscribe() :: #ps_subscribe{}.
 
--record(mix_presence, {xmlns = <<>> :: binary(),
-                       jid :: undefined | jid:jid(),
-                       nick = <<>> :: binary()}).
--type mix_presence() :: #mix_presence{}.
-
 -record(teknorota_register_invoice, {id = <<>> :: binary(),
                                      token = <<>> :: binary(),
                                      success = <<>> :: binary()}).
 -type teknorota_register_invoice() :: #teknorota_register_invoice{}.
+
+-record(mix_presence, {xmlns = <<>> :: binary(),
+                       jid :: undefined | jid:jid(),
+                       nick = <<>> :: binary()}).
+-type mix_presence() :: #mix_presence{}.
 
 -record(idle, {since :: erlang:timestamp()}).
 -type idle() :: #idle{}.
 
 -record(muc_unique, {name = <<>> :: binary()}).
 -type muc_unique() :: #muc_unique{}.
-
--record(markable, {}).
--type markable() :: #markable{}.
 
 -record(teknorota_subscription_package, {id = <<>> :: binary(),
                                          name = <<>> :: binary(),
@@ -636,6 +633,9 @@
 
 -record(teknorota_subscription_packages, {packages = [] :: [#teknorota_subscription_package{}]}).
 -type teknorota_subscription_packages() :: #teknorota_subscription_packages{}.
+
+-record(markable, {}).
+-type markable() :: #markable{}.
 
 -record(sasl_response, {text = <<>> :: binary()}).
 -type sasl_response() :: #sasl_response{}.
@@ -664,13 +664,13 @@
 -record(feature_csi, {}).
 -type feature_csi() :: #feature_csi{}.
 
--record(teknorota_groupchat_group_el, {id = <<>> :: binary(),
-                                       lastupdated = <<>> :: binary()}).
--type teknorota_groupchat_group_el() :: #teknorota_groupchat_group_el{}.
-
 -record(teknorota_profile_last_seen_el, {jid = <<>> :: binary(),
                                          cdata = <<>> :: binary()}).
 -type teknorota_profile_last_seen_el() :: #teknorota_profile_last_seen_el{}.
+
+-record(teknorota_groupchat_group_el, {id = <<>> :: binary(),
+                                       lastupdated = <<>> :: binary()}).
+-type teknorota_groupchat_group_el() :: #teknorota_groupchat_group_el{}.
 
 -record(report, {reason :: 'abuse' | 'spam' | 'undefined',
                  text = [] :: [#text{}]}).
@@ -691,21 +691,8 @@
                      node = <<>> :: binary()}).
 -type disco_item() :: #disco_item{}.
 
--record(disco_item, {jid :: jid:jid(),
-                     name = <<>> :: binary(),
-                     node = <<>> :: binary()}).
--type disco_item() :: #disco_item{}.
-
 -record(compression, {methods = [] :: [binary()]}).
 -type compression() :: #compression{}.
-
--record(muc_subscription, {jid :: undefined | jid:jid(),
-                           nick = <<>> :: binary(),
-                           events = [] :: [binary()]}).
--type muc_subscription() :: #muc_subscription{}.
-
--record(muc_subscriptions, {list = [] :: [#muc_subscription{}]}).
--type muc_subscriptions() :: #muc_subscriptions{}.
 
 -record(x509_cert_chain, {name = <<>> :: binary(),
                           certs = [] :: [binary()]}).
@@ -722,6 +709,14 @@
 -record(teknorota_subscription, {'end' = <<>> :: binary(),
                                  remaining = <<>> :: binary()}).
 -type teknorota_subscription() :: #teknorota_subscription{}.
+
+-record(muc_subscription, {jid :: undefined | jid:jid(),
+                           nick = <<>> :: binary(),
+                           events = [] :: [binary()]}).
+-type muc_subscription() :: #muc_subscription{}.
+
+-record(muc_subscriptions, {list = [] :: [#muc_subscription{}]}).
+-type muc_subscriptions() :: #muc_subscriptions{}.
 
 -record(avatar_info, {bytes :: non_neg_integer(),
                       id = <<>> :: binary(),
@@ -880,15 +875,15 @@
                      items = [] :: [#ps_item{}]}).
 -type ps_retract() :: #ps_retract{}.
 
+-record(teknorota_groupchat_group_keys_updated, {id = <<>> :: binary()}).
+-type teknorota_groupchat_group_keys_updated() :: #teknorota_groupchat_group_keys_updated{}.
+
 -record(muc_hat, {title = <<>> :: binary(),
                   uri = <<>> :: binary()}).
 -type muc_hat() :: #muc_hat{}.
 
 -record(muc_hats, {hats = [] :: [#muc_hat{}]}).
 -type muc_hats() :: #muc_hats{}.
-
--record(teknorota_groupchat_group_keys_updated, {id = <<>> :: binary()}).
--type teknorota_groupchat_group_keys_updated() :: #teknorota_groupchat_group_keys_updated{}.
 
 -record(vcard_geo, {lat :: 'undefined' | binary(),
                     lon :: 'undefined' | binary()}).
@@ -1468,6 +1463,12 @@
                    xmlns = <<>> :: binary()}).
 -type mix_join() :: #mix_join{}.
 
+-record(inbox_fin, {total :: 'undefined' | non_neg_integer(),
+                    unread :: 'undefined' | non_neg_integer(),
+                    all_unread :: 'undefined' | non_neg_integer(),
+                    rsm :: 'undefined' | #rsm_set{}}).
+-type inbox_fin() :: #inbox_fin{}.
+
 -record(privacy_item, {order :: non_neg_integer(),
                        action :: 'allow' | 'deny',
                        type :: 'group' | 'jid' | 'subscription' | 'undefined',
@@ -1515,7 +1516,8 @@
 -type stream_error() :: #stream_error{}.
 
 -record(mix_client_join, {channel :: undefined | jid:jid(),
-                          join :: #mix_join{}}).
+                          join :: #mix_join{},
+                          xmlns = <<>> :: binary()}).
 -type mix_client_join() :: #mix_client_join{}.
 
 -record(time, {tzo :: 'undefined' | {integer(),integer()},
@@ -1559,90 +1561,67 @@
                      sub_els = [] :: [xmpp_element() | fxml:xmlel()]}).
 -type vcard_temp() :: #vcard_temp{}.
 
--type xmpp_element() :: teknorota_subscription_pay_invoice() |
-                        sm_resumed() |
-                        privacy_query() |
-                        jingle_ft_range() |
-                        teknorota_subscription_info() |
+-type xmpp_element() :: address() |
+                        addresses() |
+                        adhoc_actions() |
+                        adhoc_command() |
+                        adhoc_note() |
                         avatar_data() |
-                        disco_item() |
-                        rsm_set() |
-                        x509_revoke() |
-                        carbons_received() |
-                        origin_id() |
-                        xevent() |
-                        idle() |
-                        teknorota_register_verify_complete() |
-                        nick() |
-                        shim() |
-                        upload_request() |
-                        message_thread() |
-                        sasl_success() |
-                        teknorota_profile_set_success() |
-                        forwarded() |
+                        avatar_info() |
                         avatar_meta() |
-                        teknorota_push_register() |
-                        teknorota_register_package() |
-                        stat() |
-                        disco_info() |
-                        vcard_label() |
-                        media_uri() |
-                        push_notification() |
-                        teknorota_groupchat_groups_list() |
+                        avatar_pointer() |
+                        bind() |
+                        block() |
                         block_item() |
-                        teknorota_profile_hash() |
-                        sm_resume() |
-                        jingle_ft_checksum() |
-                        teknorota_groupchat_new_group() |
-                        ps_event() |
-                        teknorota_subscription_create_invoice() |
-                        teknorota_subscription() |
-                        feature_register() |
-                        oob_x() |
-                        upload_request_0() |
-                        privilege() |
-                        muc_destroy() |
-                        feature_sm() |
-                        teknorota_register_invoice() |
-                        handshake() |
-                        muc_subscriptions() |
-                        teknorota_register_verify_init() |
-                        teknorota_fileshare_download() |
-                        db_verify() |
-                        jingle_ft_received() |
-                        stat_error() |
-                        expire() |
-                        bytestreams() |
-                        muc_actor() |
-                        hash_used() |
-                        mix_leave() |
-                        teknorota_register_pay_invoice() |
-                        mam_archived() |
-                        teknorota_fileshare_upload() |
-                        vcard_tel() |
+                        block_list() |
                         bob_data() |
-                        ibb_open() |
-                        jingle_ft_file() |
-                        jingle_error() |
-                        ps_retract() |
-                        legacy_auth() |
-                        gone() |
-                        media() |
-                        teknorota_groupchat_update_group() |
-                        sm_failed() |
-                        identity() |
-                        pubsub() |
-                        xdata_field() |
-                        x509_register() |
-                        teknorota_profile_query() |
-                        vcard_org() |
-                        muc_item() |
-                        teknorota_groupchat_participant() |
+                        bookmark_conference() |
+                        bookmark_storage() |
+                        bookmark_url() |
+                        bytestreams() |
+                        caps() |
+                        carbons_disable() |
+                        carbons_enable() |
+                        carbons_private() |
+                        carbons_received() |
+                        carbons_sent() |
+                        chatstate() |
+                        compress() |
+                        compress_failure() |
                         compressed() |
-                        teknorota_profile_get_existing() |
-                        teknorota_register_virtual_complete() |
-                        jingle_reason() |
+                        compression() |
+                        credentials() |
+                        csi() |
+                        db_feature() |
+                        db_result() |
+                        db_verify() |
+                        delay() |
+                        delegated() |
+                        delegation() |
                         delegation_query() |
+                        disco_info() |
+                        disco_item() |
+                        disco_items() |
+                        expire() |
+                        feature_csi() |
+                        feature_register() |
+                        feature_sm() |
+                        forwarded() |
+                        gone() |
+                        handshake() |
+                        hash() |
+                        hash_used() |
+                        hint() |
+                        ibb_close() |
+                        ibb_data() |
+                        ibb_open() |
+                        identity() |
+                        idle() |
+                        inbox_entry() |
+                        inbox_fin() |
+                        inbox_query() |
+                        iq() |
+                        jidprep() |
                         jingle() |
                         jingle_content() |
                         jingle_error() |
@@ -1651,43 +1630,7 @@
                         jingle_ft_error() |
                         jingle_ft_file() |
                         jingle_ft_range() |
-                        teknorota_subscription_package() |
-                        teknorota_groupchat_group_el() |
-                        muc_decline() |
-                        search_item() |
-                        streamhost() |
-                        muc_invite() |
-                        teknorota_profile_name() |
-                        mix() |
-                        mix_join() |
-                        delegation() |
-                        csi() |
-                        ping() |
-                        ps_unsubscribe() |
-                        teknorota_profile_get_updated() |
-                        ps_error() |
-                        teknorota_register_check_invoice() |
-                        teknorota_groupchat_leave_group() |
-                        search() |
-                        compress_failure() |
-                        carbons_disable() |
-                        jingle_content() |
-                        feature_csi() |
-                        teknorota_register_create_invoice() |
-                        x509_csr() |
-                        teknorota_profile_avatar() |
-                        sasl_failure() |
-                        vcard_photo() |
-                        mix_destroy() |
-                        version() |
-                        vcard_geo() |
-                        roster_query() |
-                        receipt_request() |
-                        mix_create() |
-                        muc() |
-                        db_feature() |
-                        x509_request() |
-                        x509_challenge() |
+                        jingle_ft_received() |
                         jingle_ibb_transport() |
                         jingle_reason() |
                         jingle_s5b_candidate() |
@@ -1698,160 +1641,220 @@
                         mam_archived() |
                         mam_fin() |
                         mam_prefs() |
-                        adhoc_actions() |
-                        mix_client_leave() |
-                        bookmark_url() |
-                        time() |
-                        stats() |
-                        teknorota_groupchat_update_group_keys() |
-                        stanza_id() |
-                        muc_subscribe() |
-                        bookmark_storage() |
-                        hint() |
-                        teknorota_push_registered() |
-                        sic() |
-                        x509_challenge_failed() |
-                        x509_cert_chain() |
-                        caps() |
-                        teknorota_groupchat_left_group() |
-                        teknorota_profile_status() |
-                        jingle_ibb_transport() |
-                        addresses() |
-                        mix_participant() |
-                        vcard_key() |
-                        muc_admin() |
-                        upload_slot() |
-                        ps_affiliation() |
-                        ps_subscription() |
-                        thumbnail() |
-                        block_list() |
-                        push_enable() |
-                        teknorota_register_virtual_init() |
-                        privacy_list() |
-                        ps_publish() |
                         mam_query() |
-                        bind() |
-                        legacy_auth_feature() |
-                        bookmark_conference() |
-                        teknorota_subscription_get_invoices() |
-                        ibb_close() |
-                        presence() |
-                        muc_subscription() |
-                        vcard_adr() |
-                        stanza_error() |
-                        teknorota_groupchat_group_key_el() |
-                        vcard_sound() |
-                        xcaptcha() |
-                        mix_client_join() |
-                        sm_enabled() |
-                        carbons_sent() |
-                        teknorota_push_unregister() |
-                        teknorota_push_unregistered() |
-                        sasl_mechanisms() |
-                        teknorota_groupchat_group_info() |
-                        jingle_ft_description() |
-                        teknorota_subscription_check_invoice() |
-                        teknorota_subscription_invoice() |
-                        rosterver_feature() |
-                        teknorota_register_packages() |
-                        teknorota_push_query() |
-                        offline_item() |
-                        upload_retry() |
-                        report() |
-                        adhoc_command() |
-                        roster_item() |
-                        teknorota_subscription_get_packages() |
-                        xdata_option() |
-                        last() |
-                        muc_history() |
-                        starttls() |
-                        ibb_data() |
-                        disco_items() |
-                        block() |
-                        unblock() |
-                        teknorota_profile_key() |
-                        push_disable() |
-                        'see-other-host'() |
-                        redirect() |
-                        teknorota_groupchat_group_key() |
-                        teknorota_groupchat_group_updated() |
-                        pubsub_owner() |
-                        upload_file_too_large() |
-                        vcard_logo() |
-                        teknorota_profile_get_last_seen() |
-                        rsm_first() |
-                        xmpp_session() |
-                        hash() |
-                        vcard_xupdate() |
-                        teknorota_profile_user() |
-                        jingle_s5b_transport() |
-                        message() |
-                        teknorota_groupchat_get_groups_list() |
-                        teknorota_groupchat_group_update() |
-                        private() |
-                        ps_item() |
-                        carbons_private() |
-                        teknorota_register_get_packages() |
-                        carbons_enable() |
-                        muc_unique() |
-                        x_conference() |
-                        text() |
-                        stream_error() |
-                        delegated() |
-                        avatar_info() |
-                        chatstate() |
-                        sm_enable() |
-                        teknorota_profile_el() |
-                        privacy_item() |
-                        mix_setnick() |
-                        register() |
-                        address() |
-                        sm_r() |
                         mam_result() |
-                        teknorota_groupchat_group_created() |
-                        muc_unsubscribe() |
-                        jingle_ft_error() |
-                        sm_a() |
-                        privilege_perm() |
-                        teknorota_fileshare_query() |
-                        muc_user() |
-                        ps_subscribe() |
-                        compression() |
-                        teknorota_groupchat_query() |
-                        compress() |
-                        ps_options() |
-                        starttls_failure() |
-                        xdata() |
-                        teknorota_subscription_invoices() |
-                        sasl_abort() |
-                        jingle_s5b_candidate() |
-                        vcard_name() |
-                        teknorota_fileshare_upconfirm() |
-                        sasl_challenge() |
-                        upload_slot_0() |
-                        mam_fin() |
-                        adhoc_note() |
+                        mark_acknowledged() |
+                        mark_displayed() |
+                        mark_received() |
+                        markable() |
+                        media() |
+                        media_uri() |
+                        message() |
+                        message_thread() |
+                        mix() |
+                        mix_client_join() |
+                        mix_client_leave() |
+                        mix_create() |
+                        mix_destroy() |
+                        mix_join() |
+                        mix_leave() |
+                        mix_participant() |
+                        mix_presence() |
+                        mix_roster_annotate() |
+                        mix_roster_channel() |
+                        mix_setnick() |
+                        mix_update_subscription() |
+                        muc() |
+                        muc_actor() |
+                        muc_admin() |
+                        muc_decline() |
+                        muc_destroy() |
+                        muc_hat() |
+                        muc_hats() |
+                        muc_history() |
+                        muc_invite() |
+                        muc_item() |
                         muc_owner() |
+                        muc_subscribe() |
+                        muc_subscription() |
+                        muc_subscriptions() |
+                        muc_unique() |
+                        muc_unsubscribe() |
+                        muc_user() |
+                        nick() |
                         offline() |
-                        vcard_temp() |
+                        offline_item() |
+                        oob_x() |
+                        origin_id() |
+                        ping() |
+                        presence() |
+                        privacy_item() |
+                        privacy_list() |
+                        privacy_query() |
+                        private() |
+                        privilege() |
+                        privilege_perm() |
+                        ps_affiliation() |
+                        ps_error() |
+                        ps_event() |
+                        ps_item() |
+                        ps_items() |
+                        ps_options() |
+                        ps_publish() |
+                        ps_retract() |
+                        ps_subscribe() |
+                        ps_subscription() |
+                        ps_unsubscribe() |
+                        pubsub() |
+                        pubsub_owner() |
+                        push_disable() |
+                        push_enable() |
+                        push_notification() |
+                        receipt_request() |
+                        receipt_response() |
+                        redirect() |
+                        register() |
+                        report() |
+                        roster_item() |
+                        roster_query() |
+                        rosterver_feature() |
+                        rsm_first() |
+                        rsm_set() |
+                        sasl_abort() |
+                        sasl_auth() |
+                        sasl_challenge() |
+                        sasl_failure() |
+                        sasl_mechanisms() |
+                        sasl_response() |
+                        sasl_success() |
+                        search() |
+                        search_item() |
+                        'see-other-host'() |
+                        service() |
+                        services() |
+                        shim() |
+                        sic() |
+                        sm_a() |
+                        sm_enable() |
+                        sm_enabled() |
+                        sm_failed() |
+                        sm_r() |
+                        sm_resume() |
+                        sm_resumed() |
+                        stanza_error() |
+                        stanza_id() |
+                        starttls() |
+                        starttls_failure() |
+                        starttls_proceed() |
+                        stat() |
+                        stat_error() |
+                        stats() |
+                        stream_error() |
+                        stream_features() |
+                        stream_start() |
+                        streamhost() |
+                        teknorota_fileshare_download() |
+                        teknorota_fileshare_query() |
+                        teknorota_fileshare_upconfirm() |
+                        teknorota_fileshare_upload() |
+                        teknorota_groupchat_get_groups_list() |
+                        teknorota_groupchat_group_created() |
+                        teknorota_groupchat_group_el() |
+                        teknorota_groupchat_group_info() |
+                        teknorota_groupchat_group_key() |
+                        teknorota_groupchat_group_key_el() |
+                        teknorota_groupchat_group_keys_updated() |
+                        teknorota_groupchat_group_update() |
+                        teknorota_groupchat_group_updated() |
+                        teknorota_groupchat_groups_list() |
+                        teknorota_groupchat_leave_group() |
+                        teknorota_groupchat_left_group() |
+                        teknorota_groupchat_new_group() |
+                        teknorota_groupchat_participant() |
+                        teknorota_groupchat_query() |
+                        teknorota_groupchat_update_group() |
+                        teknorota_groupchat_update_group_keys() |
+                        teknorota_profile_avatar() |
+                        teknorota_profile_el() |
+                        teknorota_profile_get() |
+                        teknorota_profile_get_existing() |
+                        teknorota_profile_get_last_seen() |
+                        teknorota_profile_get_updated() |
+                        teknorota_profile_hash() |
+                        teknorota_profile_key() |
                         teknorota_profile_last_seen_el() |
                         teknorota_profile_lastupdated() |
-                        teknorota_register_query() |
-                        receipt_response() |
-                        sasl_auth() |
-                        teknorota_subscription_packages() |
-                        starttls_proceed() |
-                        stream_start() |
-                        x509_ca_list() |
-                        sasl_response() |
-                        iq() |
-                        delay() |
-                        db_result() |
-                        vcard_email() |
-                        teknorota_subscription_query() |
-                        teknorota_profile_get() |
+                        teknorota_profile_name() |
+                        teknorota_profile_query() |
                         teknorota_profile_set() |
-                        teknorota_groupchat_group_keys_updated() |
-                        ps_items() |
-                        stream_features() |
-                        avatar_pointer().
+                        teknorota_profile_set_success() |
+                        teknorota_profile_status() |
+                        teknorota_profile_user() |
+                        teknorota_push_query() |
+                        teknorota_push_register() |
+                        teknorota_push_registered() |
+                        teknorota_push_unregister() |
+                        teknorota_push_unregistered() |
+                        teknorota_register_check_invoice() |
+                        teknorota_register_create_invoice() |
+                        teknorota_register_get_packages() |
+                        teknorota_register_invoice() |
+                        teknorota_register_package() |
+                        teknorota_register_packages() |
+                        teknorota_register_pay_invoice() |
+                        teknorota_register_query() |
+                        teknorota_register_verify_complete() |
+                        teknorota_register_verify_init() |
+                        teknorota_register_virtual_complete() |
+                        teknorota_register_virtual_init() |
+                        teknorota_subscription() |
+                        teknorota_subscription_check_invoice() |
+                        teknorota_subscription_create_invoice() |
+                        teknorota_subscription_get_invoices() |
+                        teknorota_subscription_get_packages() |
+                        teknorota_subscription_info() |
+                        teknorota_subscription_invoice() |
+                        teknorota_subscription_invoices() |
+                        teknorota_subscription_package() |
+                        teknorota_subscription_packages() |
+                        teknorota_subscription_pay_invoice() |
+                        teknorota_subscription_query() |
+                        text() |
+                        thumbnail() |
+                        time() |
+                        unblock() |
+                        upload_file_too_large() |
+                        upload_request() |
+                        upload_request_0() |
+                        upload_retry() |
+                        upload_slot() |
+                        upload_slot_0() |
+                        vcard_adr() |
+                        vcard_email() |
+                        vcard_geo() |
+                        vcard_key() |
+                        vcard_label() |
+                        vcard_logo() |
+                        vcard_name() |
+                        vcard_org() |
+                        vcard_photo() |
+                        vcard_sound() |
+                        vcard_tel() |
+                        vcard_temp() |
+                        vcard_xupdate() |
+                        version() |
+                        x509_ca_list() |
+                        x509_cert_chain() |
+                        x509_challenge() |
+                        x509_challenge_failed() |
+                        x509_csr() |
+                        x509_register() |
+                        x509_request() |
+                        x509_revoke() |
+                        x_conference() |
+                        xcaptcha() |
+                        xdata() |
+                        xdata_field() |
+                        xdata_option() |
+                        xevent() |
+                        xmpp_session().
